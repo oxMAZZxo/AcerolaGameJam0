@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
+[RequireComponent(typeof(CharacterController2D))]
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController2D characterController2D;
