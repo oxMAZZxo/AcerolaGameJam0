@@ -305,7 +305,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4.99
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -413,37 +413,6 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &921646741
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 921646742}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &921646742
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 921646741}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.670049, y: -1.4172043, z: -0.16847996}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -744,6 +713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea59aab07c13a1941badfff7ef2ea7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 20
   arrowPrefab: {fileID: 5522817078754733996, guid: 514fdbba7eed2e744b5d439373d6db2d, type: 3}
   combat: {fileID: 5429510027577463939, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   firepoint: {fileID: 328329159}
@@ -866,7 +836,7 @@ Transform:
   m_GameObject: {fileID: 1376537948}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.7, y: -1.12, z: 0}
+  m_LocalPosition: {x: 8.88, y: -1.12, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -887,10 +857,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  atackDamage: 10
+  attackInterval: 2
+  jumpForce: {x: 300, y: 400}
+  pushBackForce: {x: 200, y: 300}
   drawGizmos: 1
-  acceptanceRadius: 8
+  acceptanceRadius: 15
   stoppingDistance: 3.32
-  moveSpeed: 10
+  moveSpeed: 18
 --- !u!70 &1376537952
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1862,4 +1836,3 @@ SceneRoots:
   - {fileID: 225202603}
   - {fileID: 1082449670}
   - {fileID: 1376537950}
-  - {fileID: 921646742}

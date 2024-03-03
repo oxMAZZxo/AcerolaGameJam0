@@ -8,8 +8,16 @@ using UnityEngine.AI;
 [RequireComponent(typeof(CharacterController2D))]
 public class Troll : MonoBehaviour
 {   
+    [Header("Combat")]
     [SerializeField,Range(1f,100f)]private int maxHealth = 1;
+    [SerializeField,Range(1f,100f)]private int atackDamage = 1;
+    [SerializeField,Range(1f,100f)]private int attackInterval = 1;
     private float currentHealth;
+    [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 jumpForce;
+    [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
+    private float attackTimer;
+    private Action attack;
+    private Rigidbody2D rb;
 
     [Header("AI")]
     [SerializeField]private bool drawGizmos = true;
@@ -19,14 +27,13 @@ public class Troll : MonoBehaviour
     private CharacterController2D characterController;
     private bool playerIsOnTheRight;
     private EnemyState state;
-
-    
     
     void Start()
     {
         currentHealth = maxHealth;
         state = EnemyState.Tracking;
         characterController = GetComponent<CharacterController2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -41,7 +48,7 @@ public class Troll : MonoBehaviour
                 {
                     state = EnemyState.Tracking;
                     characterController.Move(0,false,false);
-                    return;
+                    break;
                 } 
                 Move();
             break;
@@ -49,9 +56,14 @@ public class Troll : MonoBehaviour
                 if(MathF.Abs(GetDistanceFromPlayer()) > stoppingDistance)
                 {
                     state = EnemyState.Moving;
-                    return;
+                    break;
                 } 
-                Attack();
+                attackTimer += Time.fixedDeltaTime;
+                if(attackTimer >= attackInterval)
+                {
+                    attack.Invoke();
+                    attackTimer = 0;
+                }
             break;
         } 
     }
@@ -91,9 +103,30 @@ public class Troll : MonoBehaviour
 
     private float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
 
-    private void Attack()
+    private void OnAttack()
     {
-        
+        Debug.Log("Attacking");
+        Vector2 attackDirection = jumpForce;
+        if(!playerIsOnTheRight)
+        {
+            attackDirection.x = -jumpForce.x;
+        }
+        rb.AddForce(attackDirection,ForceMode2D.Force);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.CompareTag("Player"))
+        {
+            Debug.Log("Touched Player");
+            PlayerCombat.Instance.TakeDamage(atackDamage);
+            Vector2 pushBack = pushBackForce;
+            if(playerIsOnTheRight)
+            {
+                pushBack.x = -pushBackForce.x;
+            }
+            rb.AddForce(pushBack,ForceMode2D.Force);
+        }
     }
 
     public void TakeDamage(float damage)
@@ -108,6 +141,16 @@ public class Troll : MonoBehaviour
     public void Death()
     {
         Destroy(gameObject);
+    }
+
+    void OnEnable()
+    {
+        attack += OnAttack;
+    }
+
+    void OnDisable()
+    {
+        attack -= OnAttack;
     }
 
     void OnDrawGizmos()

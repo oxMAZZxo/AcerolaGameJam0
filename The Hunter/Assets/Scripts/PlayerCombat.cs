@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 public class PlayerCombat : MonoBehaviour
 {
     public static PlayerCombat Instance;
+    [SerializeField,Range(1f,100f)]private int maxHealth = 1;
     [SerializeField]private GameObject arrowPrefab;
     [SerializeField]private InputActionReference combat;
     [SerializeField]private Transform firepoint;
@@ -21,6 +22,8 @@ public class PlayerCombat : MonoBehaviour
     private float currentShootForce;
     private float currentDamageDealt;
     private bool combatHold;
+    private float currentHealth;
+    private Animator animator;
     private PlayerMovement playerMovement;
     
     void Awake()
@@ -39,6 +42,8 @@ public class PlayerCombat : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         currentShootForce = minShootForce;
         currentDamageDealt = minDamageDealt;
+        currentHealth = maxHealth;
+        animator = GetComponent<Animator>();
     }
 
     private IEnumerator BowCharge()
@@ -87,6 +92,21 @@ public class PlayerCombat : MonoBehaviour
         currentShootForce = minShootForce;
     }
 
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        animator.SetTrigger("hurt");
+        if(currentHealth <= 0)
+        {
+            Death();
+        }
+    }
+
+    private void Death()
+    {
+        Debug.Log("Player has died");
+    }
+    
     void OnEnable()
     {
         combat.action.Enable();
