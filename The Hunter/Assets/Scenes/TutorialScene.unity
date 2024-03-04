@@ -235,10 +235,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 376336928327403076, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
     - target: {fileID: 1056343871694008947, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 98.66
@@ -279,25 +275,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1140738391100912327, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
-      propertyPath: moveSpeed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1458474852843672841, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
       propertyPath: m_Name
       value: Bunny
-      objectReference: {fileID: 0}
-    - target: {fileID: 1458474852843672841, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
-      propertyPath: m_Layer
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1458474852843672841, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
-      propertyPath: m_TagString
-      value: Bunny
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710554480389212846, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
-      propertyPath: m_Layer
-      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

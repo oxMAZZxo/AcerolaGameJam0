@@ -26,6 +26,7 @@ public class Bunny : MonoBehaviour
         animator = GetComponent<Animator>();
         state = NPCState.Idle;
         rb = GetComponent<Rigidbody2D>();
+        myCollider = GetComponent<CapsuleCollider2D>();
         Physics2D.IgnoreLayerCollision(3,11,true);
     }
 

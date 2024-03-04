@@ -98,6 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawn: 0
-  rabbit: {fileID: 0}
-  spawnInterval: 5
-  spawnCount: 6
+  rabbit: {fileID: 1458474852843672841, guid: f207c66ae5ecdf345aca5101a05594f9, type: 3}
+  spawnInterval: 15
+  spawnCount: 10

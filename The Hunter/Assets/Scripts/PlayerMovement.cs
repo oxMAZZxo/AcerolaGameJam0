@@ -83,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 dash = dashSpeed * -1;
             }
+            animator.SetTrigger("Dash");
             characterController2D.Move(dash,false,isJumping);
         }
     }
