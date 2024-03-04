@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -19,13 +20,16 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField,Range(1,50f)]private float minDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float maxDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float damageIncrement = 1f;
+    [SerializeField]private StatusBar healthBar;
+    [SerializeField]private StatusBar bowChargeBar;
     private float currentShootForce;
     private float currentDamageDealt;
     private bool combatHold;
-    private float currentHealth;
+    private int currentHealth;
     private Animator animator;
     private PlayerMovement playerMovement;
-    
+    private GameObject currentArrowObj;
+
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -43,6 +47,10 @@ public class PlayerCombat : MonoBehaviour
         currentShootForce = minShootForce;
         currentDamageDealt = minDamageDealt;
         currentHealth = maxHealth;
+        healthBar.SetMaxValue(maxHealth);
+        bowChargeBar.SetMaxValue(Convert.ToInt32(maxShootForce));
+        bowChargeBar.SetMinValue(Convert.ToInt32(minShootForce));
+        bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
         animator = GetComponent<Animator>();
     }
 
@@ -60,41 +68,53 @@ public class PlayerCombat : MonoBehaviour
             {
                 currentDamageDealt = maxDamageDealt;
             }
+            bowChargeBar.SetCurrentValue(Convert.ToInt32(currentShootForce));
             yield return new WaitForSeconds(0);
         }
     }
 
     void OnCombatHold(InputAction.CallbackContext input)
     {
+        playerMovement.enabled = false;
         combatHold = true;
         StartCoroutine(BowCharge());
+        currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
+        currentArrowObj.GetComponent<Rigidbody2D>().gravityScale = 0;
+        currentArrowObj.GetComponent<Arrow>().Shoot(false);
+        animator.SetBool("chargeBow",true);
     }
 
     void OnCombatRelease(InputAction.CallbackContext input)
     {
+        playerMovement.enabled = true;   
         combatHold = false;
+        animator.SetBool("chargeBow",false);
         Shoot();
     }
 
     void Shoot()
     {
-        Rigidbody2D currentarrowRB = Instantiate(arrowPrefab,firepoint.position,quaternion.identity).GetComponent<Rigidbody2D>();
-        Arrow currentArrow = currentarrowRB.gameObject.GetComponent<Arrow>();
+        Rigidbody2D currentArrowRB = currentArrowObj.GetComponent<Rigidbody2D>();
+        Arrow currentArrow = currentArrowObj.gameObject.GetComponent<Arrow>();
         currentArrow.SetDamage(currentDamageDealt);
         if(playerMovement.IsLookingRight())
         {
-            currentarrowRB.AddForce(transform.right * currentShootForce,ForceMode2D.Force);
+            currentArrowRB.AddForce(transform.right * currentShootForce,ForceMode2D.Force);
         }else
         {
-            currentarrowRB.AddForce(-transform.right * currentShootForce,ForceMode2D.Force);
+            currentArrowRB.AddForce(-transform.right * currentShootForce,ForceMode2D.Force);
         }
+        currentArrowObj.GetComponent<Arrow>().Shoot(true);
+        currentArrowRB.gravityScale = 0.7f;
         currentDamageDealt = minDamageDealt;
         currentShootForce = minShootForce;
+        bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
+        healthBar.SetCurrentValue(currentHealth);
         animator.SetTrigger("hurt");
         if(currentHealth <= 0)
         {
@@ -121,4 +141,6 @@ public class PlayerCombat : MonoBehaviour
         combat.action.canceled -= OnCombatRelease;
     }
     public Vector2 GetPosition(){return transform.position;}
+
+    public Transform GetFirepoint() {return firepoint;}
 }

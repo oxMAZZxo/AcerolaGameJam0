@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController2D))]
+[RequireComponent(typeof(CharacterController2D),typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController2D characterController2D;
@@ -30,8 +30,7 @@ public class PlayerMovement : MonoBehaviour
     {
         float direction = movement.action.ReadValue<float>() * moveSpeed * Time.fixedDeltaTime;
 
-        if(rb.velocity.y != 0){inAir = true;}else{inAir = false;}
-        
+        if(Mathf.Abs(rb.velocity.y) > 1.85f){inAir = true;}else{inAir = false;}
         
         if(inAir) {animator.SetFloat("speed",0); }else {animator.SetFloat("speed",Mathf.Abs(direction)); }
         animator.SetBool("inAir",inAir);
@@ -94,6 +93,9 @@ public class PlayerMovement : MonoBehaviour
         movement.action.performed -= OnMove;
         jump.action.performed -= OnJump;
         dash.action.performed -= OnDash;
+        characterController2D.Move(0,false,false);
+        animator.SetFloat("speed",0);
+        rb.velocity = new Vector2(0,0);
     }
 
     public bool IsLookingRight() {return lookingRight;}

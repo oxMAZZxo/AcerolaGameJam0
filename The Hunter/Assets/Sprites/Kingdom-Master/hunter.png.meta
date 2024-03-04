@@ -312,7 +312,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: hunter_charge
+      name: hunter_chargeWalk1
       rect:
         serializedVersion: 2
         x: 288
@@ -427,7 +427,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      hunter_charge: -1806011363
+      hunter_chargeWalk1: -1806011363
+      hunter_chargeWalk2: -985032046
+      hunter_chargeWalk3: -2053595573
+      hunter_chargeWalk4: -67066745
+      hunter_chargeWalk5: -1293051202
+      hunter_chargeWalk6: 1586155218
       hunter_idle: -1243618810
       hunter_pickupCoin1: 1096038738
       hunter_pickupCoin2: 811939039

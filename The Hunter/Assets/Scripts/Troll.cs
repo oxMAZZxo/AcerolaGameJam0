@@ -5,19 +5,20 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(CharacterController2D))]
+[RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
 public class Troll : MonoBehaviour
 {   
     [Header("Combat")]
-    [SerializeField,Range(1f,100f)]private int maxHealth = 1;
+    [SerializeField,Range(1f,500f)]private int maxHealth = 1;
     [SerializeField,Range(1f,100f)]private int atackDamage = 1;
-    [SerializeField,Range(1f,100f)]private int attackInterval = 1;
+    [SerializeField,Range(0.1f,10f)]private float attackInterval = 1f;
     private float currentHealth;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 jumpForce;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
     private float attackTimer;
     private Action attack;
     private Rigidbody2D rb;
+    private Animator animator;
 
     [Header("AI")]
     [SerializeField]private bool drawGizmos = true;
@@ -25,7 +26,6 @@ public class Troll : MonoBehaviour
     [SerializeField,Range(1f,10f)]private float stoppingDistance = 1f;
     [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
     private CharacterController2D characterController;
-    private bool playerIsOnTheRight;
     private EnemyState state;
     
     void Start()
@@ -34,6 +34,8 @@ public class Troll : MonoBehaviour
         state = EnemyState.Tracking;
         characterController = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
+        attackTimer = attackInterval;
+        animator = GetComponent<Animator>();
     }
 
     void FixedUpdate()
@@ -42,6 +44,7 @@ public class Troll : MonoBehaviour
         {
             case EnemyState.Tracking:
                 Track();
+                animator?.SetFloat("speed", 0);
             break;
             case EnemyState.Moving:
                 if(MathF.Abs(GetDistanceFromPlayer()) > acceptanceRadius)
@@ -58,6 +61,7 @@ public class Troll : MonoBehaviour
                     state = EnemyState.Moving;
                     break;
                 } 
+                animator?.SetFloat("speed", 0);
                 attackTimer += Time.fixedDeltaTime;
                 if(attackTimer >= attackInterval)
                 {
@@ -73,13 +77,6 @@ public class Troll : MonoBehaviour
         float distance = GetDistanceFromPlayer();
         if(Mathf.Abs(distance) <= acceptanceRadius)
         {
-            if(distance < 0)
-            {   
-                playerIsOnTheRight = false;
-            }else
-            {   
-                playerIsOnTheRight = true;
-            }
             state = EnemyState.Moving;
         }
     }
@@ -93,21 +90,31 @@ public class Troll : MonoBehaviour
             return;
         }
         float direction = 1;
-        if(!playerIsOnTheRight)
+        if(!IsPlayerOnTheRight())
         {
             direction = -1f;
         }
         float movement = moveSpeed * direction * Time.fixedDeltaTime;
         characterController.Move(movement,false,false);  
+        animator.SetFloat("speed", Mathf.Abs(movement));
+    }
+
+    private bool IsPlayerOnTheRight()
+    {
+        float distance = GetDistanceFromPlayer();
+        if(distance < 0)
+        {   
+            return false;
+        }
+        return true;
     }
 
     private float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
 
     private void OnAttack()
     {
-        Debug.Log("Attacking");
         Vector2 attackDirection = jumpForce;
-        if(!playerIsOnTheRight)
+        if(!IsPlayerOnTheRight())
         {
             attackDirection.x = -jumpForce.x;
         }
@@ -118,10 +125,9 @@ public class Troll : MonoBehaviour
     {
         if(collision.collider.CompareTag("Player"))
         {
-            Debug.Log("Touched Player");
             PlayerCombat.Instance.TakeDamage(atackDamage);
             Vector2 pushBack = pushBackForce;
-            if(playerIsOnTheRight)
+            if(IsPlayerOnTheRight())
             {
                 pushBack.x = -pushBackForce.x;
             }
@@ -132,6 +138,7 @@ public class Troll : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        animator.SetTrigger("hurt");
         if(currentHealth <= 0.1)
         {
             Death();
