@@ -27,7 +27,6 @@ public class PlayerCombat : MonoBehaviour
     private bool combatHold;
     private int currentHealth;
     private Animator animator;
-    private PlayerMovement playerMovement;
     private GameObject currentArrowObj;
 
     void Awake()
@@ -43,7 +42,6 @@ public class PlayerCombat : MonoBehaviour
 
     void Start()
     {
-        playerMovement = GetComponent<PlayerMovement>();
         currentShootForce = minShootForce;
         currentDamageDealt = minDamageDealt;
         currentHealth = maxHealth;
@@ -77,7 +75,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnCombatHold(InputAction.CallbackContext input)
     {
-        playerMovement.enabled = false;
+        PlayerMovement.Instance.enabled = false;
         combatHold = true;
         StartCoroutine(BowCharge());
         currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
@@ -88,7 +86,7 @@ public class PlayerCombat : MonoBehaviour
 
     void OnCombatRelease(InputAction.CallbackContext input)
     {
-        playerMovement.enabled = true;   
+        PlayerMovement.Instance.enabled = true;   
         combatHold = false;
         animator.SetBool("chargeBow",false);
         Shoot();
@@ -99,7 +97,7 @@ public class PlayerCombat : MonoBehaviour
         Rigidbody2D currentArrowRB = currentArrowObj.GetComponent<Rigidbody2D>();
         Arrow currentArrow = currentArrowObj.gameObject.GetComponent<Arrow>();
         currentArrow.SetDamage(currentDamageDealt);
-        if(playerMovement.IsLookingRight())
+        if(PlayerMovement.Instance.IsLookingRight())
         {
             currentArrowRB.AddForce(transform.right * currentShootForce,ForceMode2D.Force);
         }else

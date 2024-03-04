@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController2D),typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
 {
+    public static PlayerMovement Instance;
     private CharacterController2D characterController2D;
     private Animator animator;
     private Rigidbody2D rb;
@@ -17,6 +18,17 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping;
     private bool inAir;
     private bool lookingRight;
+
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }else
+        {
+            Instance = this;
+        }
+    }
 
     void Start()
     {
@@ -95,7 +107,11 @@ public class PlayerMovement : MonoBehaviour
         dash.action.performed -= OnDash;
         characterController2D.Move(0,false,false);
         animator.SetFloat("speed",0);
-        rb.velocity = new Vector2(0,0);
+        if(!inAir)
+        {
+
+        rb.velocity = new Vector2(0,rb.velocity.y);
+        }
     }
 
     public bool IsLookingRight() {return lookingRight;}

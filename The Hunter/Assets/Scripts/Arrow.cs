@@ -17,6 +17,10 @@ public class Arrow : MonoBehaviour
         {
             collision.gameObject.GetComponent<Troll>().TakeDamage(damageToDeal);
         }
+        if(collision.collider.CompareTag("Bunny"))
+        {
+            collision.gameObject.GetComponent<Bunny>().TakeDamage(damageToDeal);
+        }
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0;
         myCollider.enabled = false;
