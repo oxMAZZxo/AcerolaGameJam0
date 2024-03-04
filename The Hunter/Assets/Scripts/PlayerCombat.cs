@@ -47,10 +47,12 @@ public class PlayerCombat : MonoBehaviour
         currentShootForce = minShootForce;
         currentDamageDealt = minDamageDealt;
         currentHealth = maxHealth;
+
         healthBar.SetMaxValue(maxHealth);
         bowChargeBar.SetMaxValue(Convert.ToInt32(maxShootForce));
         bowChargeBar.SetMinValue(Convert.ToInt32(minShootForce));
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
+        
         animator = GetComponent<Animator>();
     }
 

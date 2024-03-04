@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Arrow
   - Enemy
+  - NPC
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Ground
   - Arrow
   - Enemy
-  - 
-  - 
+  - NPC
+  - CameraBoundary
   - 
   - 
   - 
@@ -44,9 +45,30 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Player
-    uniqueID: 3601451445
+  - name: Background
+    uniqueID: 2505388657
+    locked: 0
+  - name: Environment
+    uniqueID: 4130130363
+    locked: 0
+  - name: NPC
+    uniqueID: 465887533
+    locked: 0
+  - name: Arrow
+    uniqueID: 1320449657
     locked: 0
   - name: Enemies
     uniqueID: 1708420383
+    locked: 0
+  - name: Player
+    uniqueID: 3601451445
+    locked: 0
+  - name: Farmland
+    uniqueID: 2972399033
+    locked: 0
+  - name: Ground
+    uniqueID: 2005792911
+    locked: 0
+  - name: Water
+    uniqueID: 1484272265
     locked: 0
