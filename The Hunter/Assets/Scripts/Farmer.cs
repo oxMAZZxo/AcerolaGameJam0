@@ -26,11 +26,11 @@ public class Farmer : MonoBehaviour
             animator.SetBool("farm",false);
             switch(Random.Range(1,2))
             {
-                case 1:
+                case 2:
                     animator.SetBool("idle1",true);
                     animator.SetBool("idle3",false);
                 break;
-                case 2:
+                case 1:
                     animator.SetBool("idle1",false);
                     animator.SetBool("idle3",true);
                 break;
