@@ -107,6 +107,8 @@ public class Bunny : MonoBehaviour
         if(!drawGizmos) {return;}
         Gizmos.DrawWireSphere(transform.position,acceptanceRadius);
     }
+
+    public bool IsDead(){return dead;}
 }
 
 public enum NPCState

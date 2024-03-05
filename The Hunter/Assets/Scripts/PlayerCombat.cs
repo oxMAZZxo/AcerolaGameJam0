@@ -44,9 +44,10 @@ public class PlayerCombat : MonoBehaviour
     {
         currentShootForce = minShootForce;
         currentDamageDealt = minDamageDealt;
-        currentHealth = maxHealth;
+        currentHealth = 50;
 
         healthBar.SetMaxValue(maxHealth);
+        healthBar.SetCurrentValue(currentHealth);
         bowChargeBar.SetMaxValue(Convert.ToInt32(maxShootForce));
         bowChargeBar.SetMinValue(Convert.ToInt32(minShootForce));
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
@@ -120,6 +121,12 @@ public class PlayerCombat : MonoBehaviour
         {
             Death();
         }
+    }
+
+    public void AddHealth(int amount)
+    {
+        currentHealth += amount;
+        healthBar.SetCurrentValue(currentHealth);
     }
 
     private void Death()
