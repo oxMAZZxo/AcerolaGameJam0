@@ -7,15 +7,15 @@ using UnityEngine;
 public class Bunny : MonoBehaviour
 {
     [Header("AI")]
-    [SerializeField]private bool drawGizmos = true;
-    [SerializeField,Range(1f,50f)]private float acceptanceRadius = 1f;
+    [SerializeField]protected bool drawGizmos = true;
+    [SerializeField,Range(1f,50f)]protected float acceptanceRadius = 1f;
     [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
-    private CharacterController2D characterController;
-    private NPCState state;
+    protected CharacterController2D characterController;
+    protected NPCState state;
     private Animator animator;
     private float currentHealth;
     private Rigidbody2D rb;
-    private bool dead;
+    protected bool dead;
     private CapsuleCollider2D myCollider;
 
     void Start()
@@ -50,7 +50,7 @@ public class Bunny : MonoBehaviour
         }
     }
 
-    private void Track()
+    protected void Track()
     {
         float distance = GetDistanceFromPlayer();
         if(Mathf.Abs(distance) <= acceptanceRadius)
@@ -59,7 +59,7 @@ public class Bunny : MonoBehaviour
         }
     }
 
-    private void Move()
+    protected void Move()
     {
         float direction = 1;
         if(IsPlayerOnTheRight())
@@ -71,7 +71,7 @@ public class Bunny : MonoBehaviour
         animator.SetFloat("speed",direction);
     } 
     
-    private float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
+    protected float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
 
     private bool IsPlayerOnTheRight()
     {
