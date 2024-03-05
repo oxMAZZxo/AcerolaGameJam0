@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TutorialCampfire : MonoBehaviour
+public class TutorialCampfire : Campfire
 {
     [SerializeField]private TutorialManager tutorialManager;
 
@@ -12,6 +12,8 @@ public class TutorialCampfire : MonoBehaviour
         if(collider.CompareTag("Player"))
         {
             tutorialManager.SetState(TutorialState.Cook);
+            inRange = true;
+            animator.SetBool("inRange",inRange);
         }
     }
 }

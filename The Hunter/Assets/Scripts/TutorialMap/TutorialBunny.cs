@@ -8,6 +8,13 @@ public class TutorialBunny : Bunny
     [SerializeField,Range(1,100)]private int triggerDistance;
     [SerializeField]private TutorialManager tutorialManager;
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.CompareTag("Arrow"))
+        {
+            tutorialManager.SetState(TutorialState.PickUp);
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D collider)
     {

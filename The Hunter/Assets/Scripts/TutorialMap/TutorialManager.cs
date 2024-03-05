@@ -15,6 +15,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private PolygonCollider2D wildAreaBoundary;
     [SerializeField]private CinemachineConfiner2D cinemachineConfiner;
     [SerializeField]private TextMeshProUGUI tutorialText;
+    [SerializeField]private Farmer farmer;
+    [SerializeField]private Transform farmerDeathTransform;
+    [SerializeField]private GameObject troll;
     private bool isInMain;
     private TutorialState state;
 
@@ -49,10 +52,10 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = "Pick up the bunny";
             break;
             case TutorialState.GoBack:
-                tutorialText.text = "Go back to cook the catch!";
+                tutorialText.text = "Go back to the campfire to cook the catch!";
             break;
             case TutorialState.DefendYourself:
-            
+                tutorialText.text = "Defend yourself";
             break;
             case TutorialState.Cook:
                 tutorialText.text = "Press Q when standing on a campfire to cook the catch.";
@@ -80,6 +83,10 @@ public class TutorialManager : MonoBehaviour
         }else
         {
             Main();
+            state = TutorialState.DefendYourself;
+            farmer.SetDeath(true);
+            farmer.transform.position = farmerDeathTransform.position;
+            troll.SetActive(true);
         }
     }
 

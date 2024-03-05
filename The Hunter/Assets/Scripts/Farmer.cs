@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Farmer : MonoBehaviour
@@ -7,6 +8,7 @@ public class Farmer : MonoBehaviour
     private Animator animator;
     [SerializeField,Range(0,100)]private int minIdleChance = 1;
     [SerializeField,Range(0,100)]private int maxIdleChance = 1;
+    private bool isDead;
 
     void Start()
     {
@@ -15,6 +17,7 @@ public class Farmer : MonoBehaviour
 
     public void CalculateNextAnimation()
     {
+        if(isDead) {return;}
         int rnd = Random.Range(minIdleChance,maxIdleChance);
         if(rnd > (maxIdleChance - 10))
         {
@@ -36,5 +39,12 @@ public class Farmer : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void SetDeath(bool newValue)
+    {
+        isDead = newValue;
+        animator.SetBool("isDead",newValue);
+        animator.SetTrigger("dead");
     }
 }
