@@ -1,0 +1,17 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
+
+public class TutorialCampfire : MonoBehaviour
+{
+    [SerializeField]private TutorialManager tutorialManager;
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.CompareTag("Player"))
+        {
+            tutorialManager.SetState(TutorialState.Cook);
+        }
+    }
+}

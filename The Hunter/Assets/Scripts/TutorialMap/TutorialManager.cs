@@ -52,7 +52,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = "Go back to cook the catch!";
             break;
             case TutorialState.DefendYourself:
-
+            
             break;
             case TutorialState.Cook:
                 tutorialText.text = "Press Q when standing on a campfire to cook the catch.";
