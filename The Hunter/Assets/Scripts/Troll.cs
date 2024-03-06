@@ -36,6 +36,7 @@ public class Troll : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(PlayerCombat.Instance.IsDead()) { return;}
         switch(state)
         {
             case EnemyState.Tracking:

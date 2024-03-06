@@ -1,8 +1,10 @@
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 public class TutorialPlayerCombat : PlayerCombat
 {
+    [SerializeField]private TutorialManager tutorialManager;
     void Start()
     {
         currentShootForce = minShootForce;
@@ -20,6 +22,8 @@ public class TutorialPlayerCombat : PlayerCombat
 
     protected override void Death()
     {
-        Debug.Log("Tutorial Player Combat");
+        base.Death();
+        tutorialManager.SetState(TutorialState.Ressurection);
+        tutorialManager.GetTutorialPanelAnimator().gameObject.SetActive(true);
     }
 }

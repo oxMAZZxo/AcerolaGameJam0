@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,6 +29,7 @@ public class PlayerCombat : MonoBehaviour
     protected int currentHealth;
     protected Animator animator;
     private GameObject currentArrowObj;
+    private bool dead;
 
     void Awake()
     {
@@ -131,6 +133,7 @@ public class PlayerCombat : MonoBehaviour
 
     protected virtual void Death()
     {
+        dead = true;
         Debug.Log("Player has died");
     }
     
@@ -150,4 +153,6 @@ public class PlayerCombat : MonoBehaviour
     public Vector2 GetPosition(){return transform.position;}
 
     public Transform GetFirepoint() {return firepoint;}
+
+    public bool IsDead(){return dead;}
 }

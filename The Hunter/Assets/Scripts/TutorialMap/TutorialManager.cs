@@ -23,8 +23,12 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private Transform farmerDeathTransform;
     [SerializeField]private GameObject troll;
     [SerializeField,Range(1,10)]private int cameraTransitionTime = 1;
+    [SerializeField]private Animator tutorialPanel;
     private bool isInMain;
+    [SerializeField,Multiline]private string divineWords;
+    [SerializeField]private TextMeshProUGUI divineText;
     private TutorialState state;
+    [SerializeField]private GameObject bowCharge;
 
     void Awake()
     {
@@ -130,9 +134,24 @@ public class TutorialManager : MonoBehaviour
         tutorialCamera.Priority = 0;
     }
 
+    public IEnumerator DisplayDivineWords()
+    {
+        
+        for(int currentLetter = 0; currentLetter < divineWords.Length; currentLetter ++)
+        {
+            divineText.text += divineWords[currentLetter];
+            yield return new WaitForSeconds(0.1f);
+        }
+        yield return new WaitForSeconds(3f);
+        bowCharge.SetActive(true);
+        tutorialPanel.SetTrigger("Out");
+    }
+
     public void SetState(TutorialState newState) {state = newState;}
 
     public TutorialState GetState() {return state;}
+
+    public Animator GetTutorialPanelAnimator() {return tutorialPanel;}
 }
 
 public enum TutorialState{
