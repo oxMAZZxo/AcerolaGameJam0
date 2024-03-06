@@ -6,12 +6,16 @@ using UnityEngine;
 public class Farmer : MonoBehaviour
 {
     private Animator animator;
+    private Rigidbody2D rb;
+    private CapsuleCollider2D myCollider;
     [SerializeField,Range(0,100)]private int minIdleChance = 1;
     [SerializeField,Range(0,100)]private int maxIdleChance = 1;
     private bool isDead;
 
     void Start()
     {
+        myCollider = GetComponent<CapsuleCollider2D>();
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
     }
 
@@ -46,5 +50,7 @@ public class Farmer : MonoBehaviour
         isDead = newValue;
         animator.SetBool("isDead",newValue);
         animator.SetTrigger("dead");
+        rb.gravityScale = 0;
+        myCollider.isTrigger = true;
     }
 }

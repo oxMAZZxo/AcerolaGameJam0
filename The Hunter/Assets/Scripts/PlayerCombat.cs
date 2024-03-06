@@ -10,23 +10,23 @@ using UnityEngine.InputSystem;
 public class PlayerCombat : MonoBehaviour
 {
     public static PlayerCombat Instance;
-    [SerializeField,Range(1f,100f)]private int maxHealth = 1;
+    [SerializeField,Range(1f,100f)]protected int maxHealth = 1;
     [SerializeField]private GameObject arrowPrefab;
     [SerializeField]private InputActionReference combat;
     [SerializeField]private Transform firepoint;
-    [SerializeField,Range(1f,1000f)]private float minShootForce = 100f;
-    [SerializeField,Range(40f,10000f)]private float maxShootForce = 1000f;
+    [SerializeField,Range(1f,1000f)]protected float minShootForce = 100f;
+    [SerializeField,Range(40f,10000f)]protected float maxShootForce = 1000f;
     [SerializeField,Range(1f,1000f)]private float forceIncrementation = 100f;
-    [SerializeField,Range(1,50f)]private float minDamageDealt = 1f;
+    [SerializeField,Range(1,50f)]protected float minDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float maxDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float damageIncrement = 1f;
-    [SerializeField]private StatusBar healthBar;
-    [SerializeField]private StatusBar bowChargeBar;
-    private float currentShootForce;
-    private float currentDamageDealt;
+    [SerializeField]protected StatusBar healthBar;
+    [SerializeField]protected StatusBar bowChargeBar;
+    protected float currentShootForce;
+    protected float currentDamageDealt;
     private bool combatHold;
-    private int currentHealth;
-    private Animator animator;
+    protected int currentHealth;
+    protected Animator animator;
     private GameObject currentArrowObj;
 
     void Awake()
@@ -129,7 +129,7 @@ public class PlayerCombat : MonoBehaviour
         healthBar.SetCurrentValue(currentHealth);
     }
 
-    private void Death()
+    protected virtual void Death()
     {
         Debug.Log("Player has died");
     }

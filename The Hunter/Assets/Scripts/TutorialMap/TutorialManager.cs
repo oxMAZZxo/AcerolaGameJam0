@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -11,13 +12,17 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private Transform mainArea;
     [SerializeField]private Transform theWild;
     [SerializeField]private GameObject transitionPanel;
+    [SerializeField]private GameObject cameraTransitionPanel;
     [SerializeField]private PolygonCollider2D mainAreaBoundary;
     [SerializeField]private PolygonCollider2D wildAreaBoundary;
-    [SerializeField]private CinemachineConfiner2D cinemachineConfiner;
+    [SerializeField]private CinemachineVirtualCamera mainCamera;
+    [SerializeField]private CinemachineVirtualCamera tutorialCamera;
+    private CinemachineConfiner2D cinemachineConfiner;
     [SerializeField]private TextMeshProUGUI tutorialText;
     [SerializeField]private Farmer farmer;
     [SerializeField]private Transform farmerDeathTransform;
     [SerializeField]private GameObject troll;
+    [SerializeField,Range(1,10)]private int cameraTransitionTime = 1;
     private bool isInMain;
     private TutorialState state;
 
@@ -36,6 +41,7 @@ public class TutorialManager : MonoBehaviour
     {
         isInMain = true;
         state = TutorialState.Hunting;
+        cinemachineConfiner = mainCamera.gameObject.GetComponent<CinemachineConfiner2D>();
     }
 
     void FixedUpdate()
@@ -57,6 +63,8 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.DefendYourself:
                 tutorialText.text = "Defend yourself";
             break;
+            case TutorialState.Ressurection:
+
             case TutorialState.Cook:
                 tutorialText.text = "Press Q when standing on a campfire to cook the catch.";
             break;
@@ -87,6 +95,7 @@ public class TutorialManager : MonoBehaviour
             farmer.SetDeath(true);
             farmer.transform.position = farmerDeathTransform.position;
             troll.SetActive(true);
+            StartCoroutine(CameraTransitions());
         }
     }
 
@@ -111,12 +120,19 @@ public class TutorialManager : MonoBehaviour
         wildAreaBoundary.enabled = false;
     }
 
-    public void Hunting()
+    IEnumerator CameraTransitions()
     {
-
+        mainCamera.Priority = 0;
+        tutorialCamera.Priority = 1;
+        yield return new WaitForSeconds(cameraTransitionTime);
+        cameraTransitionPanel.SetActive(true);
+        mainCamera.Priority = 1;
+        tutorialCamera.Priority = 0;
     }
 
     public void SetState(TutorialState newState) {state = newState;}
+
+    public TutorialState GetState() {return state;}
 }
 
 public enum TutorialState{
@@ -127,6 +143,7 @@ public enum TutorialState{
     DefendYourself,
     Death,
     Ressurection,
+    FinishedRessurection,
     Cook,
     Eat,
 }
