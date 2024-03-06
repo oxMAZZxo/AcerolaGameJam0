@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialTroll : MonoBehaviour
+public class TutorialTroll : Troll
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Death()
     {
-        
+        TutorialManager.Instance.SetState(TutorialState.GoBack);
+        base.Death();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DecreaseStats(int currentHealth,int damage)
     {
-        
+        base.currentHealth = currentHealth;
+        base.atackDamage = damage;
     }
 }

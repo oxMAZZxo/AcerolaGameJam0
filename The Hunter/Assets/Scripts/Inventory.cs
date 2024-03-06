@@ -8,6 +8,7 @@ using UnityEditor.Rendering;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory Instance;
     [SerializeField,Range(1,40)]private int maxItems = 1;
     [SerializeField]private InputActionReference eatInput;
     [SerializeField]private InputActionReference cookInput;
@@ -18,6 +19,17 @@ public class Inventory : MonoBehaviour
     private int noOfRawBunnies;
     private bool onCampfire;
     
+    void Awake()
+    {
+        if(Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }else
+        {
+            Instance = this;
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collider)
     {
         if(collider.CompareTag("Campfire"))

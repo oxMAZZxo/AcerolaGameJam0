@@ -6,9 +6,9 @@ public class Troll : MonoBehaviour
 {   
     [Header("Combat")]
     [SerializeField,Range(1f,500f)]private int maxHealth = 1;
-    [SerializeField,Range(1f,100f)]private int atackDamage = 1;
+    [SerializeField,Range(1f,100f)]protected int atackDamage = 1;
     [SerializeField,Range(0.1f,10f)]private float attackInterval = 1f;
-    private float currentHealth;
+    protected float currentHealth;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 jumpForce;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
     private float attackTimer;
@@ -142,7 +142,7 @@ public class Troll : MonoBehaviour
         }
     }
 
-    public void Death()
+    protected virtual void Death()
     {
         Destroy(gameObject);
     }

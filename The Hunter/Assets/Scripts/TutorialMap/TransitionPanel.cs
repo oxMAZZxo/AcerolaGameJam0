@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TransitionPanel : MonoBehaviour
-{
-
-    [SerializeField]private TutorialManager tutorialManager;
-    
+{ 
     public void StartDivineText()
     {
-        StartCoroutine(tutorialManager.DisplayDivineWords());
+        StartCoroutine(TutorialManager.Instance.DisplayDivineWords());
+    }
+
+    public void ResetPlayer()
+    {
+        TutorialManager.Instance.RessurectPlayer();
     }
 
     public void In()

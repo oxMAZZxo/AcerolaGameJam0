@@ -6,21 +6,24 @@ using UnityEngine;
 public class TutorialBunny : Bunny
 {
     [SerializeField,Range(1,100)]private int triggerDistance;
-    [SerializeField]private TutorialManager tutorialManager;
+    private static bool pickUpTriggered;
+    private static bool goBackTriggered;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("Arrow"))
+        if(collision.collider.CompareTag("Arrow") && !pickUpTriggered)
         {
-            tutorialManager.SetState(TutorialState.PickUp);
+            pickUpTriggered = true;
+            TutorialManager.Instance.SetState(TutorialState.PickUp);
         }
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("Player"))
+        if(collider.CompareTag("Player") && !goBackTriggered)
         {
-            tutorialManager.SetState(TutorialState.GoBack);
+            goBackTriggered = true;
+            TutorialManager.Instance.SetState(TutorialState.GoBack);
         }
     }
 
@@ -30,15 +33,16 @@ public class TutorialBunny : Bunny
         switch(state)
         {
             case NPCState.Idle:
+            IdleMovement();
             Track();
             break;
             case NPCState.Moving:
-            tutorialManager.SetState(TutorialState.ShootBunny);
             Move();
             if(Mathf.Abs(GetDistanceFromPlayer()) >= acceptanceRadius)
             {
                 state = NPCState.Idle;
                 characterController.Move(0,false,false);
+                animator.SetFloat("speed", 0);
                 return;
             }
             break;

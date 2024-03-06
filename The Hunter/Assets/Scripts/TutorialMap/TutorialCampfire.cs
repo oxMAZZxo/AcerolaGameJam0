@@ -11,7 +11,7 @@ public class TutorialCampfire : Campfire
     {
         if(collider.CompareTag("Player"))
         {
-            if(tutorialManager.GetState() == TutorialState.FinishedRessurection)
+            if(tutorialManager.GetState() == TutorialState.GoBack)
             {
                 tutorialManager.SetState(TutorialState.Cook);
 

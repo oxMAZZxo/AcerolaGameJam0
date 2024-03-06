@@ -1,6 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
@@ -9,14 +8,19 @@ public class Bunny : MonoBehaviour
     [Header("AI")]
     [SerializeField]protected bool drawGizmos = true;
     [SerializeField,Range(1f,50f)]protected float acceptanceRadius = 1f;
-    [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
+    [SerializeField,Range(1f,100f)]protected float moveSpeed = 1f;
+    [Header("Idle Movement")]
+    [SerializeField,Range(1,10)]protected int maxDistanceToMove = 1;
+    [SerializeField,Range(1,100)]protected int idleMovementChance = 1;
+    [SerializeField,Range(1,30)]protected int waitUntilNextMovementTime = 1;
     protected CharacterController2D characterController;
     protected NPCState state;
-    private Animator animator;
+    protected Animator animator;
     private float currentHealth;
     private Rigidbody2D rb;
     protected bool dead;
     private CapsuleCollider2D myCollider;
+    private bool moving;
 
     void Start()
     {
@@ -36,6 +40,7 @@ public class Bunny : MonoBehaviour
         switch(state)
         {
             case NPCState.Idle:
+            IdleMovement();
             Track();
             break;
             case NPCState.Moving:
@@ -44,10 +49,47 @@ public class Bunny : MonoBehaviour
             {
                 state = NPCState.Idle;
                 characterController.Move(0,false,false);
+                animator.SetFloat("speed", 0);
                 return;
             }
             break;
         }
+    }
+
+    protected void IdleMovement()
+    {
+        int shouldMove = UnityEngine.Random.Range(1,100);
+        if(moving || shouldMove < idleMovementChance){return;}
+        int direction = UnityEngine.Random.Range(-1,2);
+        if(direction != 0)
+        {   
+            moving = true;
+            int distance = UnityEngine.Random.Range(1,maxDistanceToMove);
+            distance *= direction;
+            float movement = moveSpeed * direction * Time.fixedDeltaTime;
+            StartCoroutine(Movement(distance,movement, direction));
+        }
+    }
+
+    protected IEnumerator Movement(int distance, float movement, int direction)
+    {
+        float originalPos = transform.position.x;
+        float desiredPos = originalPos + distance;
+        bool stop = false;
+        while(stop == false)
+        {
+            
+            characterController.Move(movement,false,false);
+            animator.SetFloat("speed", Mathf.Abs(movement));
+            if(direction > 0 && transform.position.x > desiredPos || direction < 0 && transform.position.x < desiredPos)
+            {
+                stop = true;
+                animator.SetFloat("speed", 0);
+            }            
+            yield return new WaitForFixedUpdate();
+        }
+        yield return new WaitForSeconds(waitUntilNextMovementTime);
+        moving = false;
     }
 
     protected void Track()
@@ -56,11 +98,14 @@ public class Bunny : MonoBehaviour
         if(Mathf.Abs(distance) <= acceptanceRadius)
         {
             state = NPCState.Moving;
+            StopAllCoroutines();
+            moving = false;
         }
     }
 
     protected void Move()
     {
+
         float direction = 1;
         if(IsPlayerOnTheRight())
         {
@@ -68,7 +113,7 @@ public class Bunny : MonoBehaviour
         }
         float movement = direction * moveSpeed * Time.fixedDeltaTime;
         characterController.Move(movement,false,false);
-        animator.SetFloat("speed",direction);
+        animator.SetFloat("speed",Mathf.Abs(direction));
     } 
     
     protected float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}

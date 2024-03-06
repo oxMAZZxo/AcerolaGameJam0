@@ -135,6 +135,25 @@ public class PlayerCombat : MonoBehaviour
     {
         dead = true;
         Debug.Log("Player has died");
+        animator.SetTrigger("death");
+        animator.SetBool("isDead",true);
+        PlayerMovement.Instance.enabled = false;
+        enabled = false;
+    }
+
+    public void Ressurect(int maxHealth, int maxShootForce, int minShootForce, int maxDamageDealt, int minDamageDealt)
+    {
+        enabled = true;
+        this.maxHealth = maxHealth;
+        this.maxShootForce = maxShootForce;
+        this.minShootForce = minShootForce;
+        this.maxDamageDealt = maxDamageDealt;
+        this.minDamageDealt = minDamageDealt;
+        currentHealth = maxHealth;
+        healthBar.SetMaxValue(maxHealth);
+        PlayerMovement.Instance.enabled = true;
+        animator.SetBool("isDead",false);
+        dead = false;
     }
     
     void OnEnable()

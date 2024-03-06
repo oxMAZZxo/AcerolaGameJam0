@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
 using Unity.IO.LowLevel.Unsafe;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
@@ -29,6 +31,14 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private TextMeshProUGUI divineText;
     private TutorialState state;
     [SerializeField]private GameObject bowCharge;
+    [SerializeField]private TutorialTroll tutorialTroll;
+    [SerializeField,Range(1,50f)]private int playerMinDamageDealt = 1;
+    [SerializeField,Range(1,200f)]private int playerMaxDamageDealt = 1;
+    [SerializeField,Range(1f,1000f)]private int playerMinShootForce = 100;
+    [SerializeField,Range(40f,10000f)]private int playerMaxShootForce = 1000;
+    [SerializeField,Range(1f,100f)]private int playerMaxHealth = 1;
+    [SerializeField]private Color killColour;
+    [SerializeField]private GameObject canvas;
 
     void Awake()
     {
@@ -44,7 +54,7 @@ public class TutorialManager : MonoBehaviour
     void Start()
     {
         isInMain = true;
-        state = TutorialState.Hunting;
+        state = TutorialState.NotStarted;
         cinemachineConfiner = mainCamera.gameObject.GetComponent<CinemachineConfiner2D>();
     }
 
@@ -68,7 +78,12 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = "Defend yourself";
             break;
             case TutorialState.Ressurection:
-
+                tutorialText.text = "";
+            break;
+            case TutorialState.FinishedRessurection:
+                tutorialText.text = "Kill the trol!";
+                tutorialText.color = killColour;
+            break;
             case TutorialState.Cook:
                 tutorialText.text = "Press Q when standing on a campfire to cook the catch.";
             break;
@@ -128,7 +143,9 @@ public class TutorialManager : MonoBehaviour
     {
         mainCamera.Priority = 0;
         tutorialCamera.Priority = 1;
+        canvas.SetActive(false);
         yield return new WaitForSeconds(cameraTransitionTime);
+        canvas.SetActive(true);
         cameraTransitionPanel.SetActive(true);
         mainCamera.Priority = 1;
         tutorialCamera.Priority = 0;
@@ -152,15 +169,22 @@ public class TutorialManager : MonoBehaviour
     public TutorialState GetState() {return state;}
 
     public Animator GetTutorialPanelAnimator() {return tutorialPanel;}
+
+    public void RessurectPlayer()
+    {
+        SetState(TutorialState.FinishedRessurection);
+        tutorialTroll.DecreaseStats(20,10);
+        PlayerCombat.Instance.Ressurect(playerMaxHealth,playerMaxShootForce,playerMinShootForce,playerMaxDamageDealt,playerMinDamageDealt);
+    }
 }
 
 public enum TutorialState{
+    NotStarted,
     Hunting,
     ShootBunny,
     PickUp,
     GoBack,
     DefendYourself,
-    Death,
     Ressurection,
     FinishedRessurection,
     Cook,
