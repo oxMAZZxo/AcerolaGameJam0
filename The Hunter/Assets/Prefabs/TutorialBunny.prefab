@@ -214,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f8de1cd99e12949bba798443d8849b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aliveTime: 100
   drawGizmos: 1
   acceptanceRadius: 8
   moveSpeed: 8

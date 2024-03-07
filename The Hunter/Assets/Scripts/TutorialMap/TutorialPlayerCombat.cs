@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 public class TutorialPlayerCombat : PlayerCombat
 {
     [SerializeField]private TutorialManager tutorialManager;
+
     void Start()
     {
         currentShootForce = minShootForce;
@@ -25,5 +26,10 @@ public class TutorialPlayerCombat : PlayerCombat
         base.Death();
         tutorialManager.SetState(TutorialState.Ressurection);
         tutorialManager.GetTutorialPanelAnimator().gameObject.SetActive(true);
+    }
+
+    public void SetArrow(GameObject arrow)
+    {
+        arrowPrefab = arrow;
     }
 }

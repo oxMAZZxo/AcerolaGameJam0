@@ -39,6 +39,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private Color regularColour;
     [SerializeField]private GameObject playerHUD;
     [SerializeField]private Trigger treeline;
+    [SerializeField]private GameObject glowingArrow;
+    [SerializeField]private TutorialPlayerCombat playerCombat;
     bool eatShown;
     bool dashShown;
 
@@ -116,7 +118,7 @@ public class TutorialManager : MonoBehaviour
         if(state == TutorialState.Dash && !dashShown)
         {
             dashShown = true;
-            StartCoroutine(CountDownToNextState(TutorialState.GoBackToWild,3f));
+            StartCoroutine(CountDownToNextState(TutorialState.GoBackToWild,10f));
             treeline.Reset();
         }
     }
@@ -219,8 +221,9 @@ public class TutorialManager : MonoBehaviour
     public void RessurectPlayer()
     {
         SetState(TutorialState.FinishedRessurection);
-        tutorialTroll.DecreaseStats(20,10);
+        tutorialTroll.DecreaseStats(5,1);
         PlayerCombat.Instance.Ressurect(playerMaxHealth,playerMaxShootForce,playerMinShootForce,playerMaxDamageDealt,playerMinDamageDealt);
+        playerCombat.SetArrow(glowingArrow);
     }
 }
 

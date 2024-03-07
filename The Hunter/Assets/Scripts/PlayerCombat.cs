@@ -12,7 +12,7 @@ public class PlayerCombat : MonoBehaviour
 {
     public static PlayerCombat Instance;
     [SerializeField,Range(1f,100f)]protected int maxHealth = 1;
-    [SerializeField]private GameObject arrowPrefab;
+    [SerializeField]protected GameObject arrowPrefab;
     [SerializeField]private InputActionReference combat;
     [SerializeField]private Transform firepoint;
     [SerializeField,Range(1f,1000f)]protected float minShootForce = 100f;

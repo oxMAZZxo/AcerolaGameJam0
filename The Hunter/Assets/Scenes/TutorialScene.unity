@@ -222,6 +222,7 @@ GameObject:
   - component: {fileID: 81550634}
   - component: {fileID: 81550636}
   - component: {fileID: 81550635}
+  - component: {fileID: 81550637}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -345,6 +346,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 81550633}
   m_CullTransparentMesh: 1
+--- !u!95 &81550637
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 81550633}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9b606343b3c748842ae8a55d0c4c03aa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &85727728 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3151919365542978274, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
+  m_PrefabInstance: {fileID: 873046634}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &127995754 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 161106294614552522, guid: 13070b23e5bfdc348849eba19c4917f7, type: 3}
@@ -1623,13 +1650,29 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3151919365542978274, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 873046638}
   m_SourcePrefab: {fileID: 100100000, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
 --- !u!4 &873046635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8676723956873633535, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
   m_PrefabInstance: {fileID: 873046634}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &873046638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 85727728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3ebcecbbb1e484eb4903649626e0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &893842458
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,7 +2048,9 @@ MonoBehaviour:
   spawn: 1
   rabbit: {fileID: 862796476168668990, guid: d1cc97022ed33f246b5806ccfca2e7df, type: 3}
   spawnInterval: 14
-  spawnCount: 4
+  spawnCount: 5
+  spawnPosition: {fileID: 1345090489}
+  timeUntilNextBatch: 70
 --- !u!212 &1123076166
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2068,17 +2113,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8676723956873633535, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
   m_PrefabInstance: {fileID: 4797662801799630419}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1185631636 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6690517409060529053, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
-  m_PrefabInstance: {fileID: 4797662801799630419}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab3ebcecbbb1e484eb4903649626e0a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1213470609
 GameObject:
   m_ObjectHideFlags: 0
@@ -2144,7 +2178,9 @@ MonoBehaviour:
   killColour: {r: 0.5849056, g: 0, b: 0, a: 1}
   regularColour: {r: 0, g: 0, b: 0, a: 1}
   playerHUD: {fileID: 2787509287923947732}
-  treeline: {fileID: 1185631636}
+  treeline: {fileID: 2094359141}
+  glowingArrow: {fileID: 5522817078754733996, guid: c85ea73bca350c24a8234da229c3b0a1, type: 3}
+  playerCombat: {fileID: 8943209547784901497}
 --- !u!4 &1213470611
 Transform:
   m_ObjectHideFlags: 0
@@ -2284,6 +2320,37 @@ Transform:
   - {fileID: 454108396}
   - {fileID: 955138553}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1345090488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1345090489}
+  m_Layer: 0
+  m_Name: SpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1345090489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1345090488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.875, y: -0.87500006, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4476829755106562909}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1350754605 stripped
 Transform:
@@ -2752,6 +2819,8 @@ MonoBehaviour:
   rabbit: {fileID: 862796476168668990, guid: d1cc97022ed33f246b5806ccfca2e7df, type: 3}
   spawnInterval: 14
   spawnCount: 4
+  spawnPosition: {fileID: 1345090489}
+  timeUntilNextBatch: 1
 --- !u!212 &1502007247
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6416,6 +6485,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 9.65}
   m_EdgeRadius: 0
+--- !u!1 &2094359138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3151919365542978274, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
+  m_PrefabInstance: {fileID: 4797662801799630419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2094359141
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094359138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab3ebcecbbb1e484eb4903649626e0a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 0
 --- !u!1 &2126923686
 GameObject:
   m_ObjectHideFlags: 0
@@ -7523,6 +7610,8 @@ MonoBehaviour:
   rabbit: {fileID: 862796476168668990, guid: d1cc97022ed33f246b5806ccfca2e7df, type: 3}
   spawnInterval: 14
   spawnCount: 4
+  spawnPosition: {fileID: 1345090489}
+  timeUntilNextBatch: 1
 --- !u!114 &3541259187962398994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7779,7 +7868,8 @@ Transform:
   m_LocalPosition: {x: 89.553024, y: -1.13, z: 0.010443326}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 1345090489}
   m_Father: {fileID: 2139993901}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &4708227482539651839
@@ -7908,7 +7998,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3151919365542978274, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2094359141}
   m_SourcePrefab: {fileID: 100100000, guid: 9ff2206fe8ba2da4e8e4d72001bbf2e9, type: 3}
 --- !u!224 &4823817160035023749
 RectTransform:
@@ -9415,6 +9508,8 @@ MonoBehaviour:
   minDamageDealt: 5
   maxDamageDealt: 10
   damageIncrement: 35
+  maxArrowGlowIntensity: 2
+  glowIntensityIncrement: 1
   healthBar: {fileID: 8058879866079776945}
   bowChargeBar: {fileID: 4719513811152650985}
   ressurectionParticle: {fileID: 2505938946842275602, guid: 1e80fee5cd569734cb56c394ed10b8c1, type: 3}
