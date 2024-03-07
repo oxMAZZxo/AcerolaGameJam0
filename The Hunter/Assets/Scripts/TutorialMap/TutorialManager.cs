@@ -100,7 +100,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.color = regularColour;
             break;
             case TutorialState.Dash:
-                tutorialText.text = "Press the Left Shift button to Dash";
+                tutorialText.text = "Press the Left Shift button to Dash. " + Environment.NewLine + " Holding down the left mouse button will charge your arrow shot and do more damage";
                 tutorialText.color = regularColour;
             break;
             case TutorialState.GoBackToWild:
@@ -111,7 +111,7 @@ public class TutorialManager : MonoBehaviour
         if(state == TutorialState.Eat && !eatShown)
         {
             eatShown = true;
-            StartCoroutine(CountDownToNextState(TutorialState.Dash,3f));
+            StartCoroutine(CountDownToNextState(TutorialState.Dash,6f));
         }
         if(state == TutorialState.Dash && !dashShown)
         {

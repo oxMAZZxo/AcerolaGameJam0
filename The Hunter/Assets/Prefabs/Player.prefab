@@ -174,7 +174,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -693515851
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -1243618810, guid: 25e30efdfe3b53d4aaf6f3950c8de33e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  arrowPrefab: {fileID: 5522817078754733996, guid: 514fdbba7eed2e744b5d439373d6db2d, type: 3}
+  arrowPrefab: {fileID: 5522817078754733996, guid: c85ea73bca350c24a8234da229c3b0a1, type: 3}
   combat: {fileID: 5429510027577463939, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   firepoint: {fileID: 2570074069710803889}
   minShootForce: 400
@@ -339,6 +339,7 @@ MonoBehaviour:
   damageIncrement: 35
   healthBar: {fileID: 0}
   bowChargeBar: {fileID: 0}
+  ressurectionParticle: {fileID: 2505938946842275602, guid: 1e80fee5cd569734cb56c394ed10b8c1, type: 3}
 --- !u!114 &7335211149970574237
 MonoBehaviour:
   m_ObjectHideFlags: 0

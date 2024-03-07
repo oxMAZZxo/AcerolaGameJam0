@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
 public class Bunny : MonoBehaviour
 {
+    [SerializeField,Range(1,100)]private int aliveTime = 1;
     [Header("AI")]
     [SerializeField]protected bool drawGizmos = true;
     [SerializeField,Range(1f,50f)]protected float acceptanceRadius = 1f;
@@ -32,6 +33,7 @@ public class Bunny : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<CapsuleCollider2D>();
         Physics2D.IgnoreLayerCollision(3,11,true);
+        Invoke("Die", aliveTime);
     }
 
     void FixedUpdate()
@@ -139,6 +141,7 @@ public class Bunny : MonoBehaviour
 
     private void Die()
     {
+        StopAllCoroutines();
         dead = true;
         rb.velocity = Vector2.zero;
         animator.SetBool("dead",true);

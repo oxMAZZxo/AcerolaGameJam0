@@ -21,6 +21,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField,Range(1,50f)]protected float minDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float maxDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float damageIncrement = 1f;
+    [SerializeField,Range(0,2)]private float maxArrowGlowIntensity = 1;
+    [SerializeField,Range(0,1f)]private float glowIntensityIncrement = 0.1f;
     [SerializeField]protected StatusBar healthBar;
     [SerializeField]protected StatusBar bowChargeBar;
     [SerializeField]private GameObject ressurectionParticle;
@@ -31,6 +33,7 @@ public class PlayerCombat : MonoBehaviour
     protected Animator animator;
     private GameObject currentArrowObj;
     private bool dead;
+    private float currentIntensity;
 
     void Awake()
     {
@@ -47,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
     {
         currentShootForce = minShootForce;
         currentDamageDealt = minDamageDealt;
-        currentHealth = 50;
+        currentHealth = maxHealth;
 
         healthBar.SetMaxValue(maxHealth);
         healthBar.SetCurrentValue(currentHealth);
@@ -64,6 +67,7 @@ public class PlayerCombat : MonoBehaviour
         {
             currentShootForce += forceIncrementation * Time.deltaTime;
             currentDamageDealt += damageIncrement * Time.deltaTime;
+            currentIntensity += glowIntensityIncrement * Time.deltaTime;
             if(currentShootForce >= maxShootForce)
             {
                 currentShootForce = maxShootForce;
@@ -72,6 +76,11 @@ public class PlayerCombat : MonoBehaviour
             {
                 currentDamageDealt = maxDamageDealt;
             }
+            if(currentIntensity >= maxArrowGlowIntensity)
+            {
+                currentIntensity = maxArrowGlowIntensity;
+            }
+            currentArrowObj.GetComponent<Arrow>().SetLightIntensity(currentIntensity);
             bowChargeBar.SetCurrentValue(Convert.ToInt32(currentShootForce));
             yield return new WaitForSeconds(0);
         }
@@ -81,10 +90,10 @@ public class PlayerCombat : MonoBehaviour
     {
         PlayerMovement.Instance.enabled = false;
         combatHold = true;
-        StartCoroutine(BowCharge());
         currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
         currentArrowObj.GetComponent<Rigidbody2D>().gravityScale = 0;
         currentArrowObj.GetComponent<Arrow>().Shoot(false);
+        StartCoroutine(BowCharge());
         animator.SetBool("chargeBow",true);
     }
 
@@ -113,6 +122,7 @@ public class PlayerCombat : MonoBehaviour
         currentDamageDealt = minDamageDealt;
         currentShootForce = minShootForce;
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
+        currentIntensity = 0;
     }
 
     public void TakeDamage(int damage)

@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Arrow : MonoBehaviour
 {
+    public bool isGlowing;
+    [SerializeField]private Light2D light2D;
     private Rigidbody2D rb;
     private BoxCollider2D myCollider;
     private float damageToDeal;
@@ -37,13 +40,6 @@ public class Arrow : MonoBehaviour
     {
         if(shot) {return;}
         transform.position = PlayerCombat.Instance.GetFirepoint().position;
-        // if(PlayerCombat.Instance.transform.localScale.x < 0)
-        // {
-        //     transform.localScale *= -1;
-        // }else
-        // {
-        //     transform.localScale *= 1;
-        // }
     }
 
     public void SetDamage(float newValue){damageToDeal = newValue;}
@@ -56,5 +52,11 @@ public class Arrow : MonoBehaviour
             myCollider = GetComponent<BoxCollider2D>();
         }
         myCollider.enabled = newValue;
+    }
+
+    public void SetLightIntensity(float newValue)
+    {
+        if(!isGlowing) {return;}
+        light2D.intensity = newValue;
     }
 }
