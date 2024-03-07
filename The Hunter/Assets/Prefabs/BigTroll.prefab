@@ -196,7 +196,10 @@ MonoBehaviour:
   maxHealth: 150
   drawGizmos: 1
   triggerDistance: 27
+  deathParticle: {fileID: 1541305557723645721, guid: d1b430ddb9dbe564c90b080d6d494ed6, type: 3}
+  deathParticleSpawn: {fileID: 0}
   moveSpeed: 23
+  aliveTime: 100
   stoppingDistance: 3.64
   atackDamage: 30
   attackInterval: 1.5

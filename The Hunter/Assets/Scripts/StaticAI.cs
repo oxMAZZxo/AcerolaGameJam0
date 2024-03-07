@@ -15,7 +15,7 @@ public abstract class StaticAI : MonoBehaviour
     protected Rigidbody2D rb;
     protected bool dead;
     protected Animator animator;
-    [SerializeField]private GameObject deathParticle;
+    [SerializeField,Tooltip("OPTIONAL")]private GameObject deathParticle;
     [SerializeField,Tooltip("OPTIONAL")]protected Transform deathParticleSpawn;
     
     public virtual void TakeDamage(float damage){}

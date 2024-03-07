@@ -257,8 +257,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 35
   drawGizmos: 1
-  triggerDistance: 25
+  triggerDistance: 21
+  deathParticle: {fileID: 1541305557723645721, guid: d1b430ddb9dbe564c90b080d6d494ed6, type: 3}
+  deathParticleSpawn: {fileID: 0}
   moveSpeed: 18
+  aliveTime: 80
   stoppingDistance: 2.21
   atackDamage: 10
   attackInterval: 1

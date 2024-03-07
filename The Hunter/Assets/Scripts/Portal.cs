@@ -7,11 +7,12 @@ public class Portal : StaticAI
 {
     [Header("Spawning")]
     [SerializeField]private bool shouldSpawn;
-    [SerializeField]private Transform spawn;
+    [SerializeField]private Transform[] spawnTransforms;
     [SerializeField]private Troll regularTrollPrefab;
     [SerializeField]private Troll bigTrollPrefab;
     [SerializeField,Range(1,100)]private int bigTrollChance = 1;
     [SerializeField,Range(1,5)]private float spawnInterval = 1;
+    [SerializeField,Range(0,0.1f)]private float spawnIntervalDecreaseRate = 0f;
     [SerializeField]private List<Troll> trolls = new List<Troll>();
     [SerializeField,Range(1,100)]private int chanceToSpawnMultiple = 1;
     [SerializeField,Range(1,100)]private int multiple = 1;
@@ -82,7 +83,7 @@ public class Portal : StaticAI
             Spawn(trollToSpawn,amount);
            
             yield return new WaitForSeconds(currentSpawnInterval);
-            currentSpawnInterval -= Time.deltaTime;
+            currentSpawnInterval -= spawnIntervalDecreaseRate;
             Debug.Log(currentSpawnInterval);
         }
     }
@@ -91,7 +92,8 @@ public class Portal : StaticAI
     {
         for(int i = 0; i < amount; i++)
         {
-            Troll currentTroll = Instantiate(troll,spawn.position,quaternion.identity).GetComponent<Troll>();
+            int spawnIndex = UnityEngine.Random.Range(0, spawnTransforms.Length);
+            Troll currentTroll = Instantiate(troll,spawnTransforms[spawnIndex].position,quaternion.identity).GetComponent<Troll>();
             trolls.Add(currentTroll);
         }
         
