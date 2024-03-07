@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TutorialBunny : Bunny
 {
-    [SerializeField,Range(1,100)]private int triggerDistance;
+    [SerializeField,Range(1,100)]private int tutorialTriggerDistance;
     private static bool pickUpTriggered;
     private static bool goBackTriggered;
     private static bool shootBunnyTriggered;
@@ -31,7 +31,7 @@ public class TutorialBunny : Bunny
     void FixedUpdate()
     {
         if(dead) { return;}
-        if(Mathf.Abs(GetDistanceFromPlayer()) < triggerDistance && !shootBunnyTriggered)
+        if(Mathf.Abs(GetDistanceFromPlayer()) < tutorialTriggerDistance && !shootBunnyTriggered)
         {
             shootBunnyTriggered = true;
             TutorialManager.Instance.SetState(TutorialState.ShootBunny);
@@ -44,7 +44,7 @@ public class TutorialBunny : Bunny
             break;
             case NPCState.Moving:
             Move();
-            if(Mathf.Abs(GetDistanceFromPlayer()) >= acceptanceRadius)
+            if(Mathf.Abs(GetDistanceFromPlayer()) >= triggerDistance)
             {
                 state = NPCState.Idle;
                 characterController.Move(0,false,false);
@@ -58,7 +58,7 @@ public class TutorialBunny : Bunny
     void OnDrawGizmos()
     {
         if(!drawGizmos) {return;}
-        Gizmos.DrawWireSphere(transform.position,acceptanceRadius);
         Gizmos.DrawWireSphere(transform.position,triggerDistance);
+        Gizmos.DrawWireSphere(transform.position,tutorialTriggerDistance);
     }
 }

@@ -140,7 +140,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1708420383
-  m_SortingLayer: 2
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: -2089686290, guid: 49f37af3f2091b746977be7ce772582d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -256,14 +256,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
+  drawGizmos: 1
+  triggerDistance: 13
+  moveSpeed: 18
   atackDamage: 10
   attackInterval: 1
   jumpForce: {x: 300, y: 400}
   pushBackForce: {x: 250, y: 300}
-  drawGizmos: 1
-  acceptanceRadius: 15
-  stoppingDistance: 3.32
-  moveSpeed: 18
+  stoppingDistance: 2.21
 --- !u!95 &52609604910804367
 Animator:
   serializedVersion: 5

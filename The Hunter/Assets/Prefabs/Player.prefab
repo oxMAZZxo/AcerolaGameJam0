@@ -337,6 +337,9 @@ MonoBehaviour:
   minDamageDealt: 20
   maxDamageDealt: 150
   damageIncrement: 35
+  maxArrowGlowIntensity: 2
+  minArrowGlowIntensity: 0.2
+  glowIntensityIncrement: 0.6
   healthBar: {fileID: 0}
   bowChargeBar: {fileID: 0}
   ressurectionParticle: {fileID: 2505938946842275602, guid: 1e80fee5cd569734cb56c394ed10b8c1, type: 3}

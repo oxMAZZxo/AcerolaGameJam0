@@ -1,33 +1,23 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
-public class Troll : MonoBehaviour
+public class Troll : AI
 {   
+    [SerializeField,Range(1f,10f)]private float stoppingDistance = 1f;
     [Header("Combat")]
-    [SerializeField,Range(1f,500f)]private int maxHealth = 1;
     [SerializeField,Range(1f,100f)]protected int atackDamage = 1;
     [SerializeField,Range(0.1f,10f)]private float attackInterval = 1f;
-    protected float currentHealth;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 jumpForce;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
     private float attackTimer;
     private Action attack;
-    private Rigidbody2D rb;
-    private Animator animator;
 
-    [Header("AI")]
-    [SerializeField]private bool drawGizmos = true;
-    [SerializeField,Range(1f,50f)]private float acceptanceRadius = 1f;
-    [SerializeField,Range(1f,10f)]private float stoppingDistance = 1f;
-    [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
-    private CharacterController2D characterController;
-    private EnemyState state;
-    
     void Start()
     {
         currentHealth = maxHealth;
-        state = EnemyState.Tracking;
+        state = NPCState.Tracking;
         characterController = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
         attackTimer = attackInterval;
@@ -39,23 +29,23 @@ public class Troll : MonoBehaviour
         if(PlayerCombat.Instance.IsDead()) { return;}
         switch(state)
         {
-            case EnemyState.Tracking:
+            case NPCState.Tracking:
                 Track();
                 animator?.SetFloat("speed", 0);
             break;
-            case EnemyState.Moving:
-                if(MathF.Abs(GetDistanceFromPlayer()) > acceptanceRadius)
+            case NPCState.Moving:
+                if(MathF.Abs(GetDistanceFromPlayer()) > triggerDistance)
                 {
-                    state = EnemyState.Tracking;
+                    state = NPCState.Tracking;
                     characterController.Move(0,false,false);
                     break;
                 } 
                 Move();
             break;
-            case EnemyState.Attacking:
+            case NPCState.Attacking:
                 if(MathF.Abs(GetDistanceFromPlayer()) > stoppingDistance)
                 {
-                    state = EnemyState.Moving;
+                    state = NPCState.Moving;
                     break;
                 } 
                 animator?.SetFloat("speed", 0);
@@ -69,12 +59,12 @@ public class Troll : MonoBehaviour
         } 
     }
 
-    private void Track()
+    protected override void Track()
     {
         float distance = GetDistanceFromPlayer();
-        if(Mathf.Abs(distance) <= acceptanceRadius)
+        if(Mathf.Abs(distance) <= triggerDistance)
         {
-            state = EnemyState.Moving;
+            state = NPCState.Moving;
         }
     }
 
@@ -82,7 +72,7 @@ public class Troll : MonoBehaviour
     {
         if(Mathf.Abs(GetDistanceFromPlayer()) <= stoppingDistance)
         {
-            state = EnemyState.Attacking;
+            state = NPCState.Attacking;
             characterController.Move(0,false,false);
             return;
         }
@@ -95,18 +85,6 @@ public class Troll : MonoBehaviour
         characterController.Move(movement,false,false);  
         animator.SetFloat("speed", Mathf.Abs(movement));
     }
-
-    private bool IsPlayerOnTheRight()
-    {
-        float distance = GetDistanceFromPlayer();
-        if(distance < 0)
-        {   
-            return false;
-        }
-        return true;
-    }
-
-    private float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
 
     private void OnAttack()
     {
@@ -132,17 +110,17 @@ public class Troll : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         currentHealth -= damage;
         animator.SetTrigger("hurt");
         if(currentHealth <= 0.1)
         {
-            Death();
+            Die();
         }
     }
 
-    protected virtual void Death()
+    protected override void Die()
     {
         Destroy(gameObject);
     }
@@ -160,15 +138,8 @@ public class Troll : MonoBehaviour
     void OnDrawGizmos()
     {
         if(!drawGizmos) {return;}
-        Gizmos.DrawWireSphere(transform.position,acceptanceRadius);
+        Gizmos.DrawWireSphere(transform.position,triggerDistance);
         Gizmos.DrawWireSphere(transform.position,stoppingDistance);
     }
 }
 
-
-public enum EnemyState
-{
-    Tracking,
-    Moving,
-    Attacking
-}

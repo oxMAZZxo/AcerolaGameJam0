@@ -3,23 +3,14 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
-public class Bunny : MonoBehaviour
+public class Bunny : AI
 {
     [SerializeField,Range(1,100)]private int aliveTime = 1;
-    [Header("AI")]
-    [SerializeField]protected bool drawGizmos = true;
-    [SerializeField,Range(1f,50f)]protected float acceptanceRadius = 1f;
-    [SerializeField,Range(1f,100f)]protected float moveSpeed = 1f;
+
     [Header("Idle Movement")]
     [SerializeField,Range(1,10)]protected int maxDistanceToMove = 1;
     [SerializeField,Range(1,100)]protected int idleMovementChance = 1;
     [SerializeField,Range(1,30)]protected int waitUntilNextMovementTime = 1;
-    protected CharacterController2D characterController;
-    protected NPCState state;
-    protected Animator animator;
-    private float currentHealth;
-    private Rigidbody2D rb;
-    protected bool dead;
     private CapsuleCollider2D myCollider;
     private bool moving;
 
@@ -47,7 +38,7 @@ public class Bunny : MonoBehaviour
             break;
             case NPCState.Moving:
             Move();
-            if(Mathf.Abs(GetDistanceFromPlayer()) >= acceptanceRadius)
+            if(Mathf.Abs(GetDistanceFromPlayer()) >= triggerDistance)
             {
                 state = NPCState.Idle;
                 characterController.Move(0,false,false);
@@ -94,10 +85,10 @@ public class Bunny : MonoBehaviour
         moving = false;
     }
 
-    protected void Track()
+    protected override void Track()
     {
         float distance = GetDistanceFromPlayer();
-        if(Mathf.Abs(distance) <= acceptanceRadius)
+        if(Mathf.Abs(distance) <= triggerDistance)
         {
             state = NPCState.Moving;
             StopAllCoroutines();
@@ -118,19 +109,7 @@ public class Bunny : MonoBehaviour
         animator.SetFloat("speed",Mathf.Abs(direction));
     } 
     
-    protected float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
-
-    private bool IsPlayerOnTheRight()
-    {
-        float distance = GetDistanceFromPlayer();
-        if(distance < 0)
-        {   
-            return false;
-        }
-        return true;
-    }
-
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if(currentHealth < 1)
@@ -139,7 +118,7 @@ public class Bunny : MonoBehaviour
         }
     }
 
-    private void Die()
+    protected override void Die()
     {
         StopAllCoroutines();
         dead = true;
@@ -153,14 +132,8 @@ public class Bunny : MonoBehaviour
     void OnDrawGizmos()
     {
         if(!drawGizmos) {return;}
-        Gizmos.DrawWireSphere(transform.position,acceptanceRadius);
+        Gizmos.DrawWireSphere(transform.position,triggerDistance);
     }
 
     public bool IsDead(){return dead;}
-}
-
-public enum NPCState
-{
-    Idle,
-    Moving
 }

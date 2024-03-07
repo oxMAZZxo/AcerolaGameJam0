@@ -22,7 +22,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField,Range(1,200f)]private float maxDamageDealt = 1f;
     [SerializeField,Range(1,200f)]private float damageIncrement = 1f;
     [SerializeField,Range(0,2)]private float maxArrowGlowIntensity = 1;
-    [SerializeField,Range(0,1f)]private float glowIntensityIncrement = 0.1f;
+    [SerializeField,Range(0.01f,0.5f)]private float minArrowGlowIntensity = 1f;
+    [SerializeField,Range(0.1f,2f)]private float glowIntensityIncrement = 0.1f;
     [SerializeField]protected StatusBar healthBar;
     [SerializeField]protected StatusBar bowChargeBar;
     [SerializeField]private GameObject ressurectionParticle;
@@ -57,7 +58,7 @@ public class PlayerCombat : MonoBehaviour
         bowChargeBar.SetMaxValue(Convert.ToInt32(maxShootForce));
         bowChargeBar.SetMinValue(Convert.ToInt32(minShootForce));
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
-        
+        currentIntensity = minArrowGlowIntensity;
         animator = GetComponent<Animator>();
     }
 
@@ -122,7 +123,7 @@ public class PlayerCombat : MonoBehaviour
         currentDamageDealt = minDamageDealt;
         currentShootForce = minShootForce;
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
-        currentIntensity = 0;
+        currentIntensity = minArrowGlowIntensity;
     }
 
     public void TakeDamage(int damage)

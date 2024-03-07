@@ -214,14 +214,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f8de1cd99e12949bba798443d8849b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aliveTime: 100
+  maxHealth: 1
   drawGizmos: 1
-  acceptanceRadius: 8
+  triggerDistance: 10
   moveSpeed: 8
+  aliveTime: 100
   maxDistanceToMove: 5
   idleMovementChance: 95
   waitUntilNextMovementTime: 5
-  triggerDistance: 15
+  tutorialTriggerDistance: 20
 --- !u!1 &1089733159262160282
 GameObject:
   m_ObjectHideFlags: 0

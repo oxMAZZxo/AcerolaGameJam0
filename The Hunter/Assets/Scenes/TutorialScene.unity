@@ -9443,14 +9443,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 500
+  drawGizmos: 1
+  triggerDistance: 24
+  moveSpeed: 21
+  stoppingDistance: 2.12
   atackDamage: 100
   attackInterval: 1
-  jumpForce: {x: 300, y: 400}
+  jumpForce: {x: 350, y: 400}
   pushBackForce: {x: 250, y: 300}
-  drawGizmos: 1
-  acceptanceRadius: 23
-  stoppingDistance: 3.3
-  moveSpeed: 21
 --- !u!70 &8943209547784901496
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

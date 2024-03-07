@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class TutorialTroll : Troll
 {
-    protected override void Death()
+    protected override void Die()
     {
         TutorialManager.Instance.SetState(TutorialState.GoBack);
-        base.Death();
+        base.Die();
     }
 
     public void DecreaseStats(int currentHealth,int damage)

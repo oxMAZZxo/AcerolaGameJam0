@@ -245,10 +245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91b9dfefc26575b4d88d574245db30c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aliveTime: 50
+  maxHealth: 1
   drawGizmos: 1
-  acceptanceRadius: 8
+  triggerDistance: 10
   moveSpeed: 10
+  aliveTime: 50
   maxDistanceToMove: 3
   idleMovementChance: 95
   waitUntilNextMovementTime: 5
