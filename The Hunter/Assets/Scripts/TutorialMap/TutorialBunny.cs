@@ -8,6 +8,7 @@ public class TutorialBunny : Bunny
     [SerializeField,Range(1,100)]private int triggerDistance;
     private static bool pickUpTriggered;
     private static bool goBackTriggered;
+    private static bool shootBunnyTriggered;
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -30,6 +31,11 @@ public class TutorialBunny : Bunny
     void FixedUpdate()
     {
         if(dead) { return;}
+        if(Mathf.Abs(GetDistanceFromPlayer()) < triggerDistance && !shootBunnyTriggered)
+        {
+            shootBunnyTriggered = true;
+            TutorialManager.Instance.SetState(TutorialState.ShootBunny);
+        }
         switch(state)
         {
             case NPCState.Idle:

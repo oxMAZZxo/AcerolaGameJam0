@@ -21,7 +21,7 @@ public class Trigger : MonoBehaviour
         {
             triggered = true;
             TutorialManager.Instance.OnTreeline();
-            //myCollider.isTrigger = false;
+            myCollider.isTrigger = false;
         }
 
         if(collider.CompareTag("Player") && !triggered && type == TriggerType.StartTutorial)
@@ -31,6 +31,12 @@ public class Trigger : MonoBehaviour
             Destroy(gameObject);
         }
     } 
+
+    public void Reset()
+    {
+        triggered = false;
+        myCollider.isTrigger = true;
+    }
 }
 
 public enum TriggerType

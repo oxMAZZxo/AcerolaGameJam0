@@ -68,6 +68,9 @@ TagManager:
   - name: Player
     uniqueID: 3601451445
     locked: 0
+  - name: ParticleEffect
+    uniqueID: 2934768807
+    locked: 0
   - name: Treeline
     uniqueID: 958863161
     locked: 0

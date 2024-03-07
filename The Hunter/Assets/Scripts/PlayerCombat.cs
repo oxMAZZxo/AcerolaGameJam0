@@ -23,6 +23,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField,Range(1,200f)]private float damageIncrement = 1f;
     [SerializeField]protected StatusBar healthBar;
     [SerializeField]protected StatusBar bowChargeBar;
+    [SerializeField]private GameObject ressurectionParticle;
     protected float currentShootForce;
     protected float currentDamageDealt;
     private bool combatHold;
@@ -153,6 +154,7 @@ public class PlayerCombat : MonoBehaviour
         healthBar.SetMaxValue(maxHealth);
         PlayerMovement.Instance.enabled = true;
         animator.SetBool("isDead",false);
+        Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
     }
     

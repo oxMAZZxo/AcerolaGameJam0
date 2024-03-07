@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using TMPro;
-using Unity.IO.LowLevel.Unsafe;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -38,7 +36,11 @@ public class TutorialManager : MonoBehaviour
     [SerializeField,Range(40f,10000f)]private int playerMaxShootForce = 1000;
     [SerializeField,Range(1f,100f)]private int playerMaxHealth = 1;
     [SerializeField]private Color killColour;
-    [SerializeField]private GameObject canvas;
+    [SerializeField]private Color regularColour;
+    [SerializeField]private GameObject playerHUD;
+    [SerializeField]private Trigger treeline;
+    bool eatShown;
+    bool dashShown;
 
     void Awake()
     {
@@ -64,18 +66,23 @@ public class TutorialManager : MonoBehaviour
         {
             case TutorialState.Hunting:
                 tutorialText.text = "You need to hunt for food!";
+                tutorialText.color = regularColour;
             break;
             case TutorialState.ShootBunny:
                 tutorialText.text = "Use the Left Mouse button to shoot an arrow at the bunny.";
+                tutorialText.color = regularColour;
             break;
             case TutorialState.PickUp:
                 tutorialText.text = "Pick up the bunny";
+                tutorialText.color = regularColour;
             break;
             case TutorialState.GoBack:
                 tutorialText.text = "Go back to the campfire to cook the catch!";
+                tutorialText.color = regularColour;
             break;
             case TutorialState.DefendYourself:
                 tutorialText.text = "Defend yourself";
+                tutorialText.color = killColour;
             break;
             case TutorialState.Ressurection:
                 tutorialText.text = "";
@@ -86,11 +93,31 @@ public class TutorialManager : MonoBehaviour
             break;
             case TutorialState.Cook:
                 tutorialText.text = "Press Q when standing on a campfire to cook the catch.";
+                tutorialText.color = regularColour;
             break;
             case TutorialState.Eat:
-                tutorialText.text = "Press E to eat food.";
+                tutorialText.text = "Press E to eat food when you need to replenish your health.";
+                tutorialText.color = regularColour;
             break;
-            
+            case TutorialState.Dash:
+                tutorialText.text = "Press the Left Shift button to Dash";
+                tutorialText.color = regularColour;
+            break;
+            case TutorialState.GoBackToWild:
+                tutorialText.text = "Now go back to the wild to embark on a journey to KILL all trolls";
+                tutorialText.color = killColour;
+            break;
+        }
+        if(state == TutorialState.Eat && !eatShown)
+        {
+            eatShown = true;
+            StartCoroutine(CountDownToNextState(TutorialState.Dash,3f));
+        }
+        if(state == TutorialState.Dash && !dashShown)
+        {
+            dashShown = true;
+            StartCoroutine(CountDownToNextState(TutorialState.GoBackToWild,3f));
+            treeline.Reset();
         }
     }
 
@@ -127,9 +154,15 @@ public class TutorialManager : MonoBehaviour
 
     public void TheWild()
     {
-        PlayerCombat.Instance.transform.position = theWild.position;
-        isInMain = false;
-        cinemachineConfiner.m_BoundingShape2D = wildAreaBoundary;
+        if(state == TutorialState.GoBackToWild)
+        {
+            SceneManager.LoadScene("MainMap");
+        }else
+        {
+            PlayerCombat.Instance.transform.position = theWild.position;
+            isInMain = false;
+            cinemachineConfiner.m_BoundingShape2D = wildAreaBoundary;
+        }
     }
 
     public void EnablePlayer()
@@ -137,15 +170,15 @@ public class TutorialManager : MonoBehaviour
         PlayerCombat.Instance.enabled = true;
         PlayerMovement.Instance.enabled = true;
         wildAreaBoundary.enabled = false;
+        playerHUD.SetActive(true);
     }
 
     IEnumerator CameraTransitions()
     {
         mainCamera.Priority = 0;
         tutorialCamera.Priority = 1;
-        canvas.SetActive(false);
+        playerHUD.SetActive(false);
         yield return new WaitForSeconds(cameraTransitionTime);
-        canvas.SetActive(true);
         cameraTransitionPanel.SetActive(true);
         mainCamera.Priority = 1;
         tutorialCamera.Priority = 0;
@@ -153,17 +186,30 @@ public class TutorialManager : MonoBehaviour
 
     public IEnumerator DisplayDivineWords()
     {
-        
+        int previousCharacterValue = 0;
         for(int currentLetter = 0; currentLetter < divineWords.Length; currentLetter ++)
         {
             divineText.text += divineWords[currentLetter];
-            yield return new WaitForSeconds(0.1f);
+            int characterValue = (int)divineText.text[currentLetter];
+            if(characterValue == 10 && characterValue != previousCharacterValue)
+            {
+                yield return new WaitForSeconds(0.4f);
+            }else
+            {
+                yield return new WaitForSeconds(0.05f);
+            }
+            previousCharacterValue = characterValue;
         }
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
         bowCharge.SetActive(true);
         tutorialPanel.SetTrigger("Out");
     }
 
+    IEnumerator CountDownToNextState(TutorialState newState,float time)
+    {
+        yield return new WaitForSeconds(time);
+        SetState(newState);
+    }
     public void SetState(TutorialState newState) {state = newState;}
 
     public TutorialState GetState() {return state;}
@@ -189,4 +235,6 @@ public enum TutorialState{
     FinishedRessurection,
     Cook,
     Eat,
+    Dash,
+    GoBackToWild
 }
