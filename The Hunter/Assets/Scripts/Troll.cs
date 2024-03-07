@@ -16,12 +16,14 @@ public class Troll : AI
 
     void Start()
     {
+        if(deathParticleSpawn == null) { deathParticleSpawn = transform;}
         currentHealth = maxHealth;
-        state = NPCState.Tracking;
+        state = AIState.Tracking;
         characterController = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
         attackTimer = attackInterval;
         animator = GetComponent<Animator>();
+        Invoke("Die",aliveTime);
     }
 
     void FixedUpdate()
@@ -29,23 +31,23 @@ public class Troll : AI
         if(PlayerCombat.Instance.IsDead()) { return;}
         switch(state)
         {
-            case NPCState.Tracking:
+            case AIState.Tracking:
                 Track();
                 animator?.SetFloat("speed", 0);
             break;
-            case NPCState.Moving:
+            case AIState.Moving:
                 if(MathF.Abs(GetDistanceFromPlayer()) > triggerDistance)
                 {
-                    state = NPCState.Tracking;
+                    state = AIState.Tracking;
                     characterController.Move(0,false,false);
                     break;
                 } 
                 Move();
             break;
-            case NPCState.Attacking:
+            case AIState.Attacking:
                 if(MathF.Abs(GetDistanceFromPlayer()) > stoppingDistance)
                 {
-                    state = NPCState.Moving;
+                    state = AIState.Moving;
                     break;
                 } 
                 animator?.SetFloat("speed", 0);
@@ -64,7 +66,7 @@ public class Troll : AI
         float distance = GetDistanceFromPlayer();
         if(Mathf.Abs(distance) <= triggerDistance)
         {
-            state = NPCState.Moving;
+            state = AIState.Moving;
         }
     }
 
@@ -72,7 +74,7 @@ public class Troll : AI
     {
         if(Mathf.Abs(GetDistanceFromPlayer()) <= stoppingDistance)
         {
-            state = NPCState.Attacking;
+            state = AIState.Attacking;
             characterController.Move(0,false,false);
             return;
         }
@@ -122,7 +124,7 @@ public class Troll : AI
 
     protected override void Die()
     {
-        Destroy(gameObject);
+        base.Die();
     }
 
     void OnEnable()

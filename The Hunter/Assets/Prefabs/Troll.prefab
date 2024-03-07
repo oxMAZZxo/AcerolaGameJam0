@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 52609604910804367}
   m_Layer: 8
   m_Name: Troll
-  m_TagString: Enemy
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -255,15 +255,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a848bd14ba953e342a07862d67b195d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 20
+  maxHealth: 35
   drawGizmos: 1
-  triggerDistance: 13
+  triggerDistance: 25
   moveSpeed: 18
+  stoppingDistance: 2.21
   atackDamage: 10
   attackInterval: 1
   jumpForce: {x: 300, y: 400}
   pushBackForce: {x: 250, y: 300}
-  stoppingDistance: 2.21
 --- !u!95 &52609604910804367
 Animator:
   serializedVersion: 5

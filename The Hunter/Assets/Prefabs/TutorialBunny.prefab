@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 660629682889429063}
   m_Layer: 11
   m_Name: TutorialBunny
-  m_TagString: Bunny
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

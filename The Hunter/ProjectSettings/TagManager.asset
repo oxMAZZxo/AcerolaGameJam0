@@ -10,6 +10,7 @@ TagManager:
   - NPC
   - Bunny
   - Campfire
+  - AI
   layers:
   - Default
   - TransparentFX

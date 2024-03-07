@@ -16,13 +16,9 @@ public class Arrow : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(!shot){return;}
-        if(collision.collider.CompareTag("Enemy"))
+        if(collision.collider.CompareTag("AI"))
         {
-            collision.gameObject.GetComponent<Troll>().TakeDamage(damageToDeal);
-        }
-        if(collision.collider.CompareTag("Bunny"))
-        {
-            collision.gameObject.GetComponent<Bunny>().TakeDamage(damageToDeal);
+            collision.collider.GetComponent<StaticAI>().TakeDamage(damageToDeal);
         }
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0;

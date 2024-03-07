@@ -5,8 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
 public class Bunny : AI
 {
-    [SerializeField,Range(1,100)]private int aliveTime = 1;
-
     [Header("Idle Movement")]
     [SerializeField,Range(1,10)]protected int maxDistanceToMove = 1;
     [SerializeField,Range(1,100)]protected int idleMovementChance = 1;
@@ -20,7 +18,7 @@ public class Bunny : AI
         currentHealth = 5;
         characterController = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
-        state = NPCState.Idle;
+        state = AIState.Idle;
         rb = GetComponent<Rigidbody2D>();
         myCollider = GetComponent<CapsuleCollider2D>();
         Physics2D.IgnoreLayerCollision(3,11,true);
@@ -32,15 +30,15 @@ public class Bunny : AI
         if(dead) { return;}
         switch(state)
         {
-            case NPCState.Idle:
+            case AIState.Idle:
             IdleMovement();
             Track();
             break;
-            case NPCState.Moving:
+            case AIState.Moving:
             Move();
             if(Mathf.Abs(GetDistanceFromPlayer()) >= triggerDistance)
             {
-                state = NPCState.Idle;
+                state = AIState.Idle;
                 characterController.Move(0,false,false);
                 animator.SetFloat("speed", 0);
                 return;
@@ -90,7 +88,7 @@ public class Bunny : AI
         float distance = GetDistanceFromPlayer();
         if(Mathf.Abs(distance) <= triggerDistance)
         {
-            state = NPCState.Moving;
+            state = AIState.Moving;
             StopAllCoroutines();
             moving = false;
         }
@@ -120,20 +118,12 @@ public class Bunny : AI
 
     protected override void Die()
     {
-        StopAllCoroutines();
         dead = true;
+        StopAllCoroutines();
         rb.velocity = Vector2.zero;
         animator.SetBool("dead",true);
         rb.gravityScale = 0;
         myCollider.isTrigger = true;
         Physics2D.IgnoreLayerCollision(3,11,false);
     }
-
-    void OnDrawGizmos()
-    {
-        if(!drawGizmos) {return;}
-        Gizmos.DrawWireSphere(transform.position,triggerDistance);
-    }
-
-    public bool IsDead(){return dead;}
 }

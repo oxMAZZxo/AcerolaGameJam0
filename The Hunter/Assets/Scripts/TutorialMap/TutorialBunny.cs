@@ -38,15 +38,15 @@ public class TutorialBunny : Bunny
         }
         switch(state)
         {
-            case NPCState.Idle:
+            case AIState.Idle:
             IdleMovement();
             Track();
             break;
-            case NPCState.Moving:
+            case AIState.Moving:
             Move();
             if(Mathf.Abs(GetDistanceFromPlayer()) >= triggerDistance)
             {
-                state = NPCState.Idle;
+                state = AIState.Idle;
                 characterController.Move(0,false,false);
                 animator.SetFloat("speed", 0);
                 return;

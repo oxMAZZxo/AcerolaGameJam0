@@ -36,7 +36,7 @@ public class Inventory : MonoBehaviour
         {
             onCampfire = true;
         }
-        if(collider.CompareTag("Bunny") && collider.GetComponent<Bunny>().IsDead())
+        if(collider.CompareTag("AI") && collider.GetComponent<Bunny>().IsDead())
         {
             AmendItems(1,Collectible.RawBunny);
             Destroy(collider.gameObject);
