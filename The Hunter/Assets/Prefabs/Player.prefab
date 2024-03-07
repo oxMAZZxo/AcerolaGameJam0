@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  dashSpeed: 100
+  dashSpeed: 500
   movement: {fileID: 6109648249941984633, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   jump: {fileID: 4335027320697578727, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   dash: {fileID: -5582294816007813132, guid: e06562a22c4656242a4c0b509e942fae, type: 3}

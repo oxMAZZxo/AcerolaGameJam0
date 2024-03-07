@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private Rigidbody2D rb;
     [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
-    [SerializeField,Range(1f,200f)]private float dashSpeed = 1f;
+    [SerializeField,Range(1f,1000f)]private float dashSpeed = 1f;
     [SerializeField]private InputActionReference movement;
     [SerializeField]private InputActionReference jump;
     [SerializeField]private InputActionReference dash;
