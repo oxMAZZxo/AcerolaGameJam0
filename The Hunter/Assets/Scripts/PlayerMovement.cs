@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping;
     private bool inAir;
     private bool lookingRight;
+    private bool isDashing;
 
     void Awake()
     {
@@ -32,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        isDashing = false;
         lookingRight = true;
         characterController2D = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
@@ -47,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         if(inAir) {animator.SetFloat("speed",0); }else {animator.SetFloat("speed",Mathf.Abs(direction)); }
         animator.SetBool("inAir",inAir);
 
-        characterController2D.Move(direction,false,isJumping);
+        if(!isDashing) {characterController2D.Move(direction,false,isJumping);}
         isJumping = false;
     }
 
@@ -78,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(input.performed)
         {
+            isDashing = true;
             float dash = dashSpeed * 1; 
             if(!lookingRight)
             {
@@ -85,6 +89,7 @@ public class PlayerMovement : MonoBehaviour
             }
             animator.SetTrigger("Dash");
             characterController2D.Move(dash,false,isJumping);
+            isDashing = false;
         }
     }
 

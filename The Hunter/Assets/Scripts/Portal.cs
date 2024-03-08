@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Portal : StaticAI
 {
+    [SerializeField]private Location location;
     [Header("Spawning")]
     [SerializeField]private bool shouldSpawn;
     [SerializeField]private Transform[] spawnTransforms;
@@ -13,17 +15,15 @@ public class Portal : StaticAI
     [SerializeField,Range(1,100)]private int bigTrollChance = 1;
     [SerializeField,Range(1,5)]private float spawnInterval = 1;
     [SerializeField,Range(0,0.1f)]private float spawnIntervalDecreaseRate = 0f;
-    [SerializeField]private List<Troll> trolls = new List<Troll>();
     [SerializeField,Range(1,100)]private int chanceToSpawnMultiple = 1;
     [SerializeField,Range(1,100)]private int multiple = 1;
-
+    private bool stopSpawning;
     private bool spawning;
 
     void Start()
     {
         if(deathParticleSpawn == null) { deathParticleSpawn = transform;}
         state = AIState.Tracking;
-        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
     }
@@ -37,10 +37,12 @@ public class Portal : StaticAI
             break;
             case AIState.Spawning:
                 if(!spawning && shouldSpawn){StartCoroutine(SpawnTrolls());}
-                if(Mathf.Abs(GetDistanceFromPlayer()) >= triggerDistance) 
+                if(Mathf.Abs(GetDistanceFromPlayer()) > triggerDistance) 
                 {
-                    StopAllCoroutines();
+                    state = AIState.Tracking;
                     spawning =  false;
+                    stopSpawning = true;
+                    StopAllCoroutines();
                     return;
                 }
             break;
@@ -49,7 +51,8 @@ public class Portal : StaticAI
 
     protected override void Track()
     {
-        if(Mathf.Abs(GetDistanceFromPlayer()) <= triggerDistance)
+        float distanceFromPlayer = Mathf.Abs(GetDistanceFromPlayer());
+        if(distanceFromPlayer <= triggerDistance && location == GameManager.Instance.GetPlayerLocation())
         {
             state = AIState.Spawning;
         }
@@ -57,6 +60,7 @@ public class Portal : StaticAI
 
     private IEnumerator SpawnTrolls()
     {   
+        stopSpawning = false;
         spawning = true;
         int amount;
         Troll trollToSpawn;
@@ -64,7 +68,7 @@ public class Portal : StaticAI
         while(spawning)
         {
 
-            if(UnityEngine.Random.Range(0,100) >= bigTrollChance)
+            if(UnityEngine.Random.Range(0,101) >= bigTrollChance)
             {
                 trollToSpawn = bigTrollPrefab;
             }else
@@ -72,7 +76,7 @@ public class Portal : StaticAI
                 trollToSpawn = regularTrollPrefab;
             }
 
-            if(UnityEngine.Random.Range(0,100) > chanceToSpawnMultiple)
+            if(UnityEngine.Random.Range(0,101) > chanceToSpawnMultiple)
             {
                 amount = multiple;
             }else
@@ -84,17 +88,17 @@ public class Portal : StaticAI
            
             yield return new WaitForSeconds(currentSpawnInterval);
             currentSpawnInterval -= spawnIntervalDecreaseRate;
-            Debug.Log(currentSpawnInterval);
         }
     }
 
     private void Spawn(Troll troll, int amount)
     {
+        Debug.Log("Spawning " + amount + " " + troll.gameObject.name);
         for(int i = 0; i < amount; i++)
         {
+            if(stopSpawning){return;}
             int spawnIndex = UnityEngine.Random.Range(0, spawnTransforms.Length);
             Troll currentTroll = Instantiate(troll,spawnTransforms[spawnIndex].position,quaternion.identity).GetComponent<Troll>();
-            trolls.Add(currentTroll);
         }
         
     }
@@ -114,5 +118,4 @@ public class Portal : StaticAI
         StopAllCoroutines();
         base.Die();
     }
-
 }

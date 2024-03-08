@@ -18,6 +18,7 @@ public class Inventory : MonoBehaviour
     private int noOfCookedBunnies;
     private int noOfRawBunnies;
     private bool onCampfire;
+    public Cave currentCave;
     
     void Awake()
     {
@@ -36,10 +37,14 @@ public class Inventory : MonoBehaviour
         {
             onCampfire = true;
         }
-        if(collider.CompareTag("AI") && collider.GetComponent<Bunny>().IsDead())
+        if(collider.CompareTag("AI") && collider.GetComponent<Bunny>() && collider.GetComponent<Bunny>().IsDead())
         {
             AmendItems(1,Collectible.RawBunny);
-            Destroy(collider.gameObject);
+            Destroy(collider.gameObject); 
+        }
+        if(collider.CompareTag("Cave"))
+        {
+            currentCave = collider.GetComponent<Cave>();
         }
     }
 
@@ -48,6 +53,10 @@ public class Inventory : MonoBehaviour
         if(collider.CompareTag("Campfire"))
         {
             onCampfire = false;
+        }
+        if(collider.CompareTag("Cave"))
+        {
+            currentCave = null;
         }
     }
 
@@ -78,6 +87,10 @@ public class Inventory : MonoBehaviour
         {
             AmendItems(1,Collectible.CookedBunny);
             AmendItems(-1,Collectible.RawBunny);
+        }
+        if(currentCave != null)
+        {
+            currentCave.Send(transform);
         }
     }
 

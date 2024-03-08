@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 using UnityEngine.Rendering.Universal;
 
 public class Arrow : MonoBehaviour
@@ -19,6 +20,19 @@ public class Arrow : MonoBehaviour
         if(collision.collider.CompareTag("AI"))
         {
             collision.collider.GetComponent<StaticAI>().TakeDamage(damageToDeal);
+        }
+        rb.velocity = Vector2.zero;
+        rb.gravityScale = 0;
+        myCollider.enabled = false;
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(!shot){return;}
+        if(collider.CompareTag("AI"))
+        {
+            collider.GetComponent<StaticAI>().TakeDamage(damageToDeal);
         }
         rb.velocity = Vector2.zero;
         rb.gravityScale = 0;

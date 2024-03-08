@@ -185,7 +185,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2702916589834760835}
   - component: {fileID: 637982466563035350}
-  - component: {fileID: 7231340859796196432}
   - component: {fileID: 99133823845842218}
   - component: {fileID: 3492123813401728841}
   - component: {fileID: 3572284035411657106}
@@ -268,33 +267,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &7231340859796196432
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6192727114501506253}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 7
 --- !u!70 &99133823845842218
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -324,7 +296,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.33}
@@ -347,7 +319,8 @@ MonoBehaviour:
   triggerDistance: 27
   deathParticle: {fileID: 5092028960950798645, guid: 1e577aa24eddde24293a0190fd95ccf0, type: 3}
   deathParticleSpawn: {fileID: 3223043918136780257}
-  shouldSpawn: 1
+  location: 0
+  shouldSpawn: 0
   spawnTransforms:
   - {fileID: 3322858725846749546}
   - {fileID: 8802254559822159319}

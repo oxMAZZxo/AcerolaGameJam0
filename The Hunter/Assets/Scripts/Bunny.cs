@@ -120,10 +120,10 @@ public class Bunny : AI
     {
         dead = true;
         StopAllCoroutines();
+        Physics2D.IgnoreLayerCollision(3,11,false);
         rb.velocity = Vector2.zero;
         animator.SetBool("dead",true);
         rb.gravityScale = 0;
         myCollider.isTrigger = true;
-        Physics2D.IgnoreLayerCollision(3,11,false);
     }
 }

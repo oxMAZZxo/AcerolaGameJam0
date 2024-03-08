@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D))]
+[RequireComponent(typeof(CapsuleCollider2D))]
 public abstract class StaticAI : MonoBehaviour
 {
     [Header("AI")]
@@ -12,7 +12,6 @@ public abstract class StaticAI : MonoBehaviour
     [SerializeField,Range(1f,50f)]protected float triggerDistance = 1f;
     protected AIState state;
     protected float currentHealth;
-    protected Rigidbody2D rb;
     protected bool dead;
     protected Animator animator;
     [SerializeField,Tooltip("OPTIONAL")]private GameObject deathParticle;
