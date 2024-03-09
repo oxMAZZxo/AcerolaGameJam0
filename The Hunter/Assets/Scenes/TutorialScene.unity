@@ -6535,7 +6535,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToFollow: {fileID: 1360914870}
-  offset: {x: 0, y: 0.19, z: 0}
+  offset: {x: 0, y: 0, z: 0}
+  ignoreX: 0
+  ignoreY: 1
 --- !u!114 &2126923688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6640,7 +6642,7 @@ Transform:
   m_GameObject: {fileID: 2126923686}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.355751, y: 1.5, z: -10}
+  m_LocalPosition: {x: 26.355751, y: 1.25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8858,6 +8860,7 @@ MonoBehaviour:
   healthAddAmount: 5
   rawBunnies: {fileID: 7435047441067960380}
   cookedBunnies: {fileID: 7231494028589041415}
+  currentCave: {fileID: 0}
 --- !u!1 &7390630666993332528
 GameObject:
   m_ObjectHideFlags: 0
@@ -9425,7 +9428,7 @@ GameObject:
   - component: {fileID: 8896626896914262169}
   m_Layer: 8
   m_Name: Troll
-  m_TagString: Enemy
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9445,7 +9448,10 @@ MonoBehaviour:
   maxHealth: 500
   drawGizmos: 1
   triggerDistance: 24
+  deathParticle: {fileID: 1541305557723645721, guid: d1b430ddb9dbe564c90b080d6d494ed6, type: 3}
+  deathParticleSpawn: {fileID: 0}
   moveSpeed: 21
+  aliveTime: 100
   stoppingDistance: 2.12
   atackDamage: 100
   attackInterval: 1
@@ -9509,6 +9515,7 @@ MonoBehaviour:
   maxDamageDealt: 10
   damageIncrement: 35
   maxArrowGlowIntensity: 2
+  minArrowGlowIntensity: 1
   glowIntensityIncrement: 1
   healthBar: {fileID: 8058879866079776945}
   bowChargeBar: {fileID: 4719513811152650985}

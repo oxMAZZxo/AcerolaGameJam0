@@ -22,8 +22,6 @@ public class TutorialCampfire : Campfire
 
     void OnCookInput(InputAction.CallbackContext input)
     {
-        Debug.Log(TutorialManager.Instance.GetState());
-        Debug.Log(input.performed);
         if(!cooked && input.performed && TutorialManager.Instance.GetState() == TutorialState.Cook)
         {
             cooked = true;

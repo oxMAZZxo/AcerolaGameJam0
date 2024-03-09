@@ -168,6 +168,14 @@ public class PlayerCombat : MonoBehaviour
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
     }
+
+    public void SetCurrentHealth(int newValue) 
+    {
+        currentHealth = newValue;
+        healthBar.SetCurrentValue(currentHealth);
+    }
+    
+    public int GetCurrentHealth() {return currentHealth;}
     
     void OnEnable()
     {

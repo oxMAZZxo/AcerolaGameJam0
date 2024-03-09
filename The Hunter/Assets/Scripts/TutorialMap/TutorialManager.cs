@@ -158,6 +158,8 @@ public class TutorialManager : MonoBehaviour
     {
         if(state == TutorialState.GoBackToWild)
         {
+            GameData.Instance?.SetTutorialCompleted(true);
+            GameData.Instance?.SaveGame();
             SceneManager.LoadScene("MainMap");
         }else
         {

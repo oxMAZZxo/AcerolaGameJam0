@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField,Range(0,1f)]private float caveLighting;
     private bool isInOverworld = true;
     private Location playerLocation = Location.Overworld;
+    [SerializeField]private Portal[] portals;
+    private bool finishedLoading = false;
 
     void Awake()
     {
@@ -26,8 +28,22 @@ public class GameManager : MonoBehaviour
         }else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
+    }
+
+    void Start()
+    {
+        finishedLoading = false;
+        if(GameData.Instance.IsDateLoaded())
+        {
+            PlayerCombat.Instance.transform.position = new Vector3(GameData.Instance.GetLastSavedPlayerLocationX(),GameData.Instance.GetLastSavedPlayerLocationY(),0f);
+            PlayerCombat.Instance.SetCurrentHealth(GameData.Instance.GetCurrentHealth());
+            Inventory.Instance.SetRawBunnies(GameData.Instance.GetNoOfRawBunnies());
+            Inventory.Instance.SetCookedBunnies(GameData.Instance.GetNoOfCookedBunnies());
+            LoadPortals(GameData.Instance.GetPortalsDestroyed());
+        }
+        finishedLoading = true;
+
     }
 
     public void ChangePlayerLocation()
@@ -48,6 +64,21 @@ public class GameManager : MonoBehaviour
     }
 
     public Location GetPlayerLocation() {return playerLocation;}
+
+    public Portal[] GetPortals() {return portals;}
+
+    public void LoadPortals(bool[] portalsDestroyed)
+    {
+        for(int i = 0; i < portalsDestroyed.Length; i++)
+        {
+            if(portalsDestroyed[i])
+            {
+                Destroy(portals[i].gameObject);
+            }
+        }
+    }
+
+    public bool IsFinishedLoading(){return finishedLoading;}
 }
 
 public enum Location{

@@ -93,7 +93,6 @@ public class Portal : StaticAI
 
     private void Spawn(Troll troll, int amount)
     {
-        Debug.Log("Spawning " + amount + " " + troll.gameObject.name);
         for(int i = 0; i < amount; i++)
         {
             if(stopSpawning){return;}

@@ -109,6 +109,19 @@ public class Inventory : MonoBehaviour
         eatInput.action.performed -= OnEatInput;
         cookInput.action.performed -= OnCookInput;
     }
+
+    public void SetRawBunnies(int newValue) 
+    {
+        noOfRawBunnies = newValue;
+        rawBunnies.text = noOfRawBunnies.ToString();
+    }
+    public int GetNoOfRawBunnies() {return noOfRawBunnies;}
+    public void SetCookedBunnies(int newValue) 
+    {
+        noOfCookedBunnies = newValue;
+        cookedBunnies.text = noOfCookedBunnies.ToString();
+    }
+    public int GetNoOfCookedBunnies() {return noOfCookedBunnies;}
 }
 
 public enum Collectible
