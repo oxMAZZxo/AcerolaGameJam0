@@ -20,7 +20,7 @@ public class Checkpoint : MonoBehaviour
             GameData.Instance.SetCookedBunnies(Inventory.Instance.GetNoOfCookedBunnies());
             GameData.Instance.SetRawBunnies(Inventory.Instance.GetNoOfRawBunnies());
             GameData.Instance.SetInOverworld(GameManager.Instance.IsInOverworld());
-            GameData.Instance.SaveGame();
+            GameManager.Instance.GetLogText().text = GameData.Instance.SaveGame();
         }
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     
     [Header("Other")]
     [SerializeField]private GameObject transitionPanel;
+    [SerializeField]private TextMeshProUGUI log;
 
 
     void Awake()
@@ -158,6 +160,9 @@ public class GameManager : MonoBehaviour
         pause.action.Disable();
         pause.action.performed -= OnPauseInput;
     }
+
+    public TextMeshProUGUI GetLogText() { return log;}
+    public void SetLogText(string text){log.text = text;}
 }
 
 public enum Location{

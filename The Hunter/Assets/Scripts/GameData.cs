@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 
 public class GameData : MonoBehaviour
@@ -17,6 +14,8 @@ public class GameData : MonoBehaviour
     private bool[] portalsDestroyed = new bool[2];
     private bool inOverworld = true;
     private bool dataLoaded;
+    [SerializeField]private TextMeshProUGUI log;
+
 
     void Awake()
     {
@@ -36,7 +35,6 @@ public class GameData : MonoBehaviour
         string data = SaveSystem.LoadData();
         if(data != null)
         {
-            Debug.Log("Data loaded from file: " + data);
             string[] tempArray = data.Split(",");
             tutorialCompleted = Convert.ToBoolean(tempArray[0]);
             lastSavedPlayerLocationX = Convert.ToSingle(tempArray[1]);
@@ -51,15 +49,32 @@ public class GameData : MonoBehaviour
                 portalsDestroyed[i] = Convert.ToBoolean(tempPortalsDestroyed[i]);
             }
             dataLoaded = true;
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.SetLogText(data);
+            }
+            if(log != null)
+            {
+                log.text = data;
+            }
         }else
         {
             dataLoaded = false;
-        }
+            if(GameManager.Instance != null)
+            {
+                GameManager.Instance.SetLogText("No data was loaded");
+            }
+            if(log != null)
+            {
+                log.text = "no data was loaded";
+            }
+        }        
+        
     }
 
-    public void SaveGame()
+    public string SaveGame()
     {
-        SaveSystem.SaveData(DataToString());
+        return SaveSystem.SaveData(DataToString());
     }
 
     public string DataToString()
