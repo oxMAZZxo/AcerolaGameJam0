@@ -19,6 +19,7 @@ public class Checkpoint : MonoBehaviour
             GameData.Instance.SetCurrentHealth(PlayerCombat.Instance.GetCurrentHealth());
             GameData.Instance.SetCookedBunnies(Inventory.Instance.GetNoOfCookedBunnies());
             GameData.Instance.SetRawBunnies(Inventory.Instance.GetNoOfRawBunnies());
+            GameData.Instance.SetInOverworld(GameManager.Instance.IsInOverworld());
             GameData.Instance.SaveGame();
         }
     }

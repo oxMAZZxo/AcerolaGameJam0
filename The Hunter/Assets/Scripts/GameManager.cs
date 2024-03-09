@@ -2,10 +2,16 @@ using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    [Header("Pausing")]
+    [SerializeField]private InputActionReference pause;
+    [SerializeField]private GameObject pausePanel;
+    private bool isPaused;
     [Header("Camera")]
     [SerializeField]private GameObject waterRender;
     [SerializeField]private PolygonCollider2D mainAreaCameraBoundary;
@@ -15,10 +21,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]private Light2D globalLight;
     [SerializeField,Range(0,1f)]private float overworldLighting;
     [SerializeField,Range(0,1f)]private float caveLighting;
-    private bool isInOverworld = true;
+    private bool inOverworld = true;
     private Location playerLocation = Location.Overworld;
     [SerializeField]private Portal[] portals;
     private bool finishedLoading = false;
+    
+    [Header("Other")]
+    [SerializeField]private GameObject transitionPanel;
+
 
     void Awake()
     {
@@ -41,30 +51,50 @@ public class GameManager : MonoBehaviour
             Inventory.Instance.SetRawBunnies(GameData.Instance.GetNoOfRawBunnies());
             Inventory.Instance.SetCookedBunnies(GameData.Instance.GetNoOfCookedBunnies());
             LoadPortals(GameData.Instance.GetPortalsDestroyed());
+            inOverworld = GameData.Instance.IsInOverworld();
+            ChangeAesthetic();
         }
         finishedLoading = true;
-
     }
 
     public void ChangePlayerLocation()
     {
-        if(isInOverworld)
+        transitionPanel.SetActive(true);
+        if(inOverworld)
         {
             waterRender.SetActive(false);
             cameraConfiner.m_BoundingShape2D = caveAreaCameraBoundary;
-            isInOverworld = false;
+            inOverworld = false;
             globalLight.intensity = caveLighting;
         }else
         {
             waterRender.SetActive(true);
             cameraConfiner.m_BoundingShape2D = mainAreaCameraBoundary;
-            isInOverworld = true;
+            inOverworld = true;
             globalLight.intensity = overworldLighting;
         }
     }
 
-    public Location GetPlayerLocation() {return playerLocation;}
+    public void ChangeAesthetic()
+    {
+        if(inOverworld)
+        {
+            waterRender.SetActive(true);
+            cameraConfiner.m_BoundingShape2D = mainAreaCameraBoundary;
+            globalLight.intensity = overworldLighting;
+            playerLocation = Location.Overworld;
+        }else
+        {
+            waterRender.SetActive(false);
+            cameraConfiner.m_BoundingShape2D = caveAreaCameraBoundary;
+            globalLight.intensity = caveLighting;
+            playerLocation = Location.Cave;
 
+        }
+    }
+
+    public Location GetPlayerLocation() {return playerLocation;}
+    public bool IsInOverworld(){return inOverworld;}
     public Portal[] GetPortals() {return portals;}
 
     public void LoadPortals(bool[] portalsDestroyed)
@@ -77,8 +107,57 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    
     public bool IsFinishedLoading(){return finishedLoading;}
+
+    void OnPauseInput(InputAction.CallbackContext input)
+    {
+        if(isPaused)
+        {
+            Resume();
+        }else
+        {
+            Pause();
+        }
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+        PlayerCombat.Instance.enabled = false;
+        PlayerMovement.Instance.enabled = false;
+        Inventory.Instance.enabled = false;
+        pausePanel.SetActive(true);
+        isPaused = true;
+    }
+
+    public void Resume()
+    {
+        Time.timeScale = 1;
+        PlayerCombat.Instance.enabled = true;
+        PlayerMovement.Instance.enabled = true;
+        Inventory.Instance.enabled = true;
+        pausePanel.SetActive(false);
+        isPaused = false;
+    }
+
+    public void SaveAndExit()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    void OnEnable()
+    {
+        pause.action.Enable();
+        pause.action.performed += OnPauseInput;
+    }
+
+    void OnDisable()
+    {
+        pause.action.Disable();
+        pause.action.performed -= OnPauseInput;
+    }
 }
 
 public enum Location{

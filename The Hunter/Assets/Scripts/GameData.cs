@@ -15,6 +15,7 @@ public class GameData : MonoBehaviour
     private int cookedBunnies;
     private int currentHealth;
     private bool[] portalsDestroyed = new bool[2];
+    private bool inOverworld = true;
     private bool dataLoaded;
 
     void Awake()
@@ -43,7 +44,8 @@ public class GameData : MonoBehaviour
             currentHealth = Convert.ToInt32(tempArray[3]);
             rawBunnies = Convert.ToInt32(tempArray[4]);
             cookedBunnies = Convert.ToInt32(tempArray[5]);
-            string[] tempPortalsDestroyed = tempArray[6].Split("-");
+            inOverworld = Convert.ToBoolean(tempArray[6]);
+            string[] tempPortalsDestroyed = tempArray[7].Split("-");
             for(int i = 0; i < tempPortalsDestroyed.Length; i++)
             {
                 portalsDestroyed[i] = Convert.ToBoolean(tempPortalsDestroyed[i]);
@@ -63,7 +65,7 @@ public class GameData : MonoBehaviour
     public string DataToString()
     {
         string data = tutorialCompleted.ToString() + "," + lastSavedPlayerLocationX + "," + lastSavedPlayerLocationY + "," 
-        + currentHealth.ToString() + "," + rawBunnies.ToString() + "," + cookedBunnies.ToString() + ",";
+        + currentHealth.ToString() + "," + rawBunnies.ToString() + "," + cookedBunnies.ToString() + "," + inOverworld.ToString() + ",";
         
         for(int i = 0; i < portalsDestroyed.Length; i++)
         {
@@ -106,4 +108,6 @@ public class GameData : MonoBehaviour
     public void SetCookedBunnies(int newValue) {cookedBunnies = newValue;}
     public int GetNoOfCookedBunnies() {return cookedBunnies;}
     public bool IsDateLoaded(){return dataLoaded;}
+    public bool IsInOverworld(){return inOverworld;}
+    public void SetInOverworld(bool newValue){ inOverworld = newValue;}
 }
