@@ -183,7 +183,7 @@ public class TutorialManager : MonoBehaviour
         tutorialCamera.Priority = 1;
         playerHUD.SetActive(false);
         yield return new WaitForSeconds(cameraTransitionTime);
-        cameraTransitionPanel.SetActive(true);
+        //cameraTransitionPanel.SetActive(true);
         mainCamera.Priority = 1;
         tutorialCamera.Priority = 0;
     }

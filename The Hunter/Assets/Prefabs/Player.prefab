@@ -333,10 +333,10 @@ MonoBehaviour:
   firepoint: {fileID: 2570074069710803889}
   minShootForce: 400
   maxShootForce: 1500
-  forceIncrementation: 350
+  forceIncrementation: 670
   minDamageDealt: 20
   maxDamageDealt: 150
-  damageIncrement: 35
+  damageIncrement: 67
   maxArrowGlowIntensity: 2
   minArrowGlowIntensity: 0.2
   glowIntensityIncrement: 0.6
@@ -361,3 +361,4 @@ MonoBehaviour:
   healthAddAmount: 5
   rawBunnies: {fileID: 0}
   cookedBunnies: {fileID: 0}
+  currentCave: {fileID: 0}

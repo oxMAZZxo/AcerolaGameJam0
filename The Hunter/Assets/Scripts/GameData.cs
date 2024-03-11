@@ -32,7 +32,7 @@ public class GameData : MonoBehaviour
 
     public void LoadGame()
     {
-        string data = SaveSystem.LoadData();
+        string data = SaveSystem.LoadData(Application.persistentDataPath + ("/GameData.txt"));
         if(data != null)
         {
             string[] tempArray = data.Split(",");
@@ -74,7 +74,7 @@ public class GameData : MonoBehaviour
 
     public string SaveGame()
     {
-        return SaveSystem.SaveData(DataToString());
+        return SaveSystem.SaveData(DataToString(),Application.persistentDataPath + ("/GameData.txt"));
     }
 
     public string DataToString()

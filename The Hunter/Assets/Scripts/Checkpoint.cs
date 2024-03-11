@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
     {
         if(collider.CompareTag("Player") && GameManager.Instance.IsFinishedLoading())
         {
-            Debug.Log("Checkpoint Reached");
+            GameManager.Instance.EnableSaveSymbol();
             GameData.Instance.SetLastSavedPlayerLocationX(transformToSave.position.x);
             GameData.Instance.SetLastSavedPlayerLocationY(transformToSave.position.y);
             GameData.Instance.SetPortalDestroyed(GameManager.Instance.GetPortals());

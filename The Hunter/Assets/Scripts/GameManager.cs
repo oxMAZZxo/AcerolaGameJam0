@@ -5,6 +5,8 @@ using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
+using JetBrains.Annotations;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("Pausing")]
     [SerializeField]private InputActionReference pause;
     [SerializeField]private GameObject pausePanel;
+    [SerializeField]private PauseMenu pauseMenu;
     private bool isPaused;
     [Header("Camera")]
     [SerializeField]private GameObject waterRender;
@@ -26,9 +29,11 @@ public class GameManager : MonoBehaviour
     private Location playerLocation = Location.Overworld;
     [SerializeField]private Portal[] portals;
     private bool finishedLoading = false;
-    
+    [SerializeField]private Color overworldLightColour;
+    [SerializeField]private Color caveLightColour;
     [Header("Other")]
     [SerializeField]private GameObject transitionPanel;
+    [SerializeField]private GameObject savingSymbol;
     [SerializeField]private TextMeshProUGUI log;
 
 
@@ -68,12 +73,15 @@ public class GameManager : MonoBehaviour
             cameraConfiner.m_BoundingShape2D = caveAreaCameraBoundary;
             inOverworld = false;
             globalLight.intensity = caveLighting;
+            globalLight.color = caveLightColour;
         }else
         {
             waterRender.SetActive(true);
             cameraConfiner.m_BoundingShape2D = mainAreaCameraBoundary;
             inOverworld = true;
             globalLight.intensity = overworldLighting;
+            globalLight.color = overworldLightColour;
+
         }
     }
 
@@ -85,12 +93,14 @@ public class GameManager : MonoBehaviour
             cameraConfiner.m_BoundingShape2D = mainAreaCameraBoundary;
             globalLight.intensity = overworldLighting;
             playerLocation = Location.Overworld;
+            globalLight.color = overworldLightColour;
         }else
         {
             waterRender.SetActive(false);
             cameraConfiner.m_BoundingShape2D = caveAreaCameraBoundary;
             globalLight.intensity = caveLighting;
             playerLocation = Location.Cave;
+            globalLight.color = caveLightColour;
 
         }
     }
@@ -121,6 +131,7 @@ public class GameManager : MonoBehaviour
         {
             Pause();
         }
+        
     }
 
     public void Pause()
@@ -131,6 +142,7 @@ public class GameManager : MonoBehaviour
         Inventory.Instance.enabled = false;
         pausePanel.SetActive(true);
         isPaused = true;
+        pauseMenu.Pause(true);
     }
 
     public void Resume()
@@ -141,6 +153,20 @@ public class GameManager : MonoBehaviour
         Inventory.Instance.enabled = true;
         pausePanel.SetActive(false);
         isPaused = false;
+        pauseMenu.Pause(false);
+
+    }
+
+    public void EnableSaveSymbol()
+    {
+        savingSymbol.SetActive(true);
+        Debug.Log("Saving");
+    }
+
+    public void DisableSaveSymbol()
+    {
+        savingSymbol.SetActive(false);
+        Debug.Log("Finished Saving");
     }
 
     public void SaveAndExit()
@@ -153,12 +179,14 @@ public class GameManager : MonoBehaviour
     {
         pause.action.Enable();
         pause.action.performed += OnPauseInput;
+        SaveSystem.finishedSaving += DisableSaveSymbol;
     }
 
     void OnDisable()
     {
         pause.action.Disable();
         pause.action.performed -= OnPauseInput;
+        SaveSystem.finishedSaving -= DisableSaveSymbol;
     }
 
     public TextMeshProUGUI GetLogText() { return log;}

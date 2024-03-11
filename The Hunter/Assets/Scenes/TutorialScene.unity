@@ -2470,7 +2470,7 @@ MonoBehaviour:
   m_UpdateMethod: 0
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
-    m_Style: 5
+    m_Style: 0
     m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
@@ -7627,7 +7627,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  dashSpeed: 100
+  dashSpeed: 150
   movement: {fileID: 6109648249941984633, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   jump: {fileID: 4335027320697578727, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   dash: {fileID: -5582294816007813132, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
@@ -9515,7 +9515,7 @@ MonoBehaviour:
   maxDamageDealt: 10
   damageIncrement: 35
   maxArrowGlowIntensity: 2
-  minArrowGlowIntensity: 1
+  minArrowGlowIntensity: 0.5
   glowIntensityIncrement: 1
   healthBar: {fileID: 8058879866079776945}
   bowChargeBar: {fileID: 4719513811152650985}
