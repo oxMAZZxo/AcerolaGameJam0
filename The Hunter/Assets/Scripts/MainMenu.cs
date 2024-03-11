@@ -26,6 +26,11 @@ public class MainMenu : MonoBehaviour
             settings.SetFramerate(Convert.ToInt32(splitData[0]));
             settings.SetFullScreenChoice(Convert.ToInt32(splitData[1]));
             settings.ApplyChanges();
+        }else
+        {
+            settings.SetFramerate(60);
+            settings.SetFullScreenChoice(0);
+            settings.ApplyChanges();
         }
     }
 

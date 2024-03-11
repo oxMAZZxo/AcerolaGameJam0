@@ -90,7 +90,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = "";
             break;
             case TutorialState.FinishedRessurection:
-                tutorialText.text = "Kill the trol!";
+                tutorialText.text = "Kill the troll!";
                 tutorialText.color = killColour;
             break;
             case TutorialState.Cook:

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -98,6 +99,7 @@ public class Portal : StaticAI
             if(stopSpawning){return;}
             int spawnIndex = UnityEngine.Random.Range(0, spawnTransforms.Length);
             Troll currentTroll = Instantiate(troll,spawnTransforms[spawnIndex].position,quaternion.identity).GetComponent<Troll>();
+            currentTroll.SetTriggerDistance(triggerDistance);
         }
         
     }

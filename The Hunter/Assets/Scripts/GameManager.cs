@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         finishedLoading = false;
-        if(GameData.Instance.IsDateLoaded())
+        if(GameData.Instance.IsDataLoaded())
         {
             PlayerCombat.Instance.transform.position = new Vector3(GameData.Instance.GetLastSavedPlayerLocationX(),GameData.Instance.GetLastSavedPlayerLocationY(),0f);
             PlayerCombat.Instance.SetCurrentHealth(GameData.Instance.GetCurrentHealth());
@@ -160,13 +160,6 @@ public class GameManager : MonoBehaviour
     public void EnableSaveSymbol()
     {
         savingSymbol.SetActive(true);
-        Debug.Log("Saving");
-    }
-
-    public void DisableSaveSymbol()
-    {
-        savingSymbol.SetActive(false);
-        Debug.Log("Finished Saving");
     }
 
     public void SaveAndExit()
@@ -179,14 +172,12 @@ public class GameManager : MonoBehaviour
     {
         pause.action.Enable();
         pause.action.performed += OnPauseInput;
-        SaveSystem.finishedSaving += DisableSaveSymbol;
     }
 
     void OnDisable()
     {
         pause.action.Disable();
         pause.action.performed -= OnPauseInput;
-        SaveSystem.finishedSaving -= DisableSaveSymbol;
     }
 
     public TextMeshProUGUI GetLogText() { return log;}

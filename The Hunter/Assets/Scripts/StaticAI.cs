@@ -34,6 +34,8 @@ public abstract class StaticAI : MonoBehaviour
 
     protected float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
 
+    public void SetTriggerDistance(float distance) {triggerDistance = distance;}
+
     void OnDrawGizmos()
     {
         if(!drawGizmos) {return;}

@@ -15,7 +15,7 @@ public class GameData : MonoBehaviour
     private bool inOverworld = true;
     private bool dataLoaded;
     [SerializeField]private TextMeshProUGUI log;
-
+    [SerializeField]private bool loadGame;
 
     void Awake()
     {
@@ -25,7 +25,7 @@ public class GameData : MonoBehaviour
         }else
         {
             Instance = this;
-            LoadGame();
+            if(loadGame) {LoadGame();}
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -122,7 +122,7 @@ public class GameData : MonoBehaviour
     public int GetNoOfRawBunnies() {return rawBunnies;}
     public void SetCookedBunnies(int newValue) {cookedBunnies = newValue;}
     public int GetNoOfCookedBunnies() {return cookedBunnies;}
-    public bool IsDateLoaded(){return dataLoaded;}
+    public bool IsDataLoaded(){return dataLoaded;}
     public bool IsInOverworld(){return inOverworld;}
     public void SetInOverworld(bool newValue){ inOverworld = newValue;}
 }

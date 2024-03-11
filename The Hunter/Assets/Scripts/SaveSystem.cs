@@ -2,10 +2,11 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+using System.Runtime.Serialization;
 
 public static class SaveSystem
 {
-    public static Action finishedSaving;
+
     //in simple words the SaveData method will create a new file
     //in that file a binary encoded verion of the games data will be stored
     public static string SaveData(string data, string path)
@@ -15,7 +16,6 @@ public static class SaveSystem
 
         formatter.Serialize(stream, data);
         stream.Close();
-        finishedSaving.Invoke();
         return "Saved on this path: " + path + Environment.NewLine + data;
     }
 
@@ -24,13 +24,21 @@ public static class SaveSystem
     {
         if (File.Exists(path))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Open);
+            try
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                FileStream stream = new FileStream(path, FileMode.Open);
 
-            string data = formatter.Deserialize(stream) as string;
-            stream.Close();
-            Debug.Log("Data loaded from file: " + path + " = " + data);
-            return data;
+                string data = formatter.Deserialize(stream) as string;
+                stream.Close();
+                Debug.Log("Data loaded from file: " + path + " = " + data);
+                return data;
+            }catch (SerializationException ex)
+            {
+                Debug.Log("Settings file has been corrupted." + Environment.NewLine + ex.Message);
+                return null;
+            }
+            
         }else
         {
             Debug.Log("Save file was not found in " + path);
