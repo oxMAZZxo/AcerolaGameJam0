@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Farmer : MonoBehaviour
+public class Farmer : AI
 {
-    private Animator animator;
-    private Rigidbody2D rb;
     private CapsuleCollider2D myCollider;
     [SerializeField,Range(0,100)]private int minIdleChance = 1;
     [SerializeField,Range(0,100)]private int maxIdleChance = 1;
@@ -17,6 +15,7 @@ public class Farmer : MonoBehaviour
         myCollider = GetComponent<CapsuleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        currentHealth = maxHealth;
     }
 
     public void CalculateNextAnimation()
@@ -51,6 +50,25 @@ public class Farmer : MonoBehaviour
         animator.SetBool("isDead",newValue);
         animator.SetTrigger("dead");
         rb.gravityScale = 0;
+        myCollider.isTrigger = true;
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if(currentHealth < 1)
+        {
+            Die();
+        }
+    }
+
+    protected override void Die()
+    {
+        isDead = true;
+        animator.SetBool("isDead",true);
+        animator.SetTrigger("dead");
+        rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
         myCollider.isTrigger = true;
     }
 }

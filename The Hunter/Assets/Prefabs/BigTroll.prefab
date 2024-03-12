@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1708420383
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 4
   m_Sprite: {fileID: -1068051822, guid: fbe2644e310073f4eae849230aba84a2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -196,12 +196,13 @@ MonoBehaviour:
   maxHealth: 150
   drawGizmos: 1
   triggerDistance: 27
+  location: 0
   deathParticle: {fileID: 1541305557723645721, guid: d1b430ddb9dbe564c90b080d6d494ed6, type: 3}
   deathParticleSpawn: {fileID: 0}
-  moveSpeed: 23
+  moveSpeed: 21
   aliveTime: 100
   stoppingDistance: 3.64
-  atackDamage: 20
+  attackDamage: 20
   attackInterval: 1.5
   jumpForce: {x: 400, y: 450}
   pushBackForce: {x: 250, y: 300}

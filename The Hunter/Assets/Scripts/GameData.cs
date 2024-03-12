@@ -24,8 +24,9 @@ public class GameData : MonoBehaviour
             Destroy(gameObject);
         }else
         {
+            Cursor.visible = false;
             Instance = this;
-            if(loadGame) {LoadGame();}
+            if(loadGame) {LoadGame();}else{tutorialCompleted = true;}
             DontDestroyOnLoad(gameObject);
         }
     }

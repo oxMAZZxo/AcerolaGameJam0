@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]private GameObject savingSymbol;
     [SerializeField]private TextMeshProUGUI log;
 
-
     void Awake()
     {
         if(Instance != null && Instance != this)
@@ -74,6 +73,7 @@ public class GameManager : MonoBehaviour
             inOverworld = false;
             globalLight.intensity = caveLighting;
             globalLight.color = caveLightColour;
+            playerLocation = Location.Cave;
         }else
         {
             waterRender.SetActive(true);
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
             inOverworld = true;
             globalLight.intensity = overworldLighting;
             globalLight.color = overworldLightColour;
-
+            playerLocation = Location.Overworld;
         }
     }
 

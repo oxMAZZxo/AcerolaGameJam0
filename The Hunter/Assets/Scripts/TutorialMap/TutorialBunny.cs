@@ -55,6 +55,17 @@ public class TutorialBunny : Bunny
         }
     }
 
+    protected override void Track()
+    {
+        float distance = GetDistanceFromPlayer();
+        if(Mathf.Abs(distance) <= triggerDistance)
+        {
+            state = AIState.Moving;
+            StopAllCoroutines();
+            moving = false;
+        }
+    }
+
     void OnDrawGizmos()
     {
         if(!drawGizmos) {return;}

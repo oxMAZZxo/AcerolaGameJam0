@@ -6,7 +6,7 @@ using UnityEngine;
 public class AI : StaticAI
 {
     [SerializeField,Range(1f,100f)]protected float moveSpeed = 1f;
-    [SerializeField,Range(1,100)]protected int aliveTime = 1;
+    [SerializeField,Range(1,250)]protected int aliveTime = 1;
     protected CharacterController2D characterController;
         protected Rigidbody2D rb;
 
@@ -16,16 +16,6 @@ public class AI : StaticAI
         characterController = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-    }
-
-    protected bool IsPlayerOnTheRight()
-    {
-        float distance = GetDistanceFromPlayer();
-        if(distance < 0)
-        {   
-            return false;
-        }
-        return true;
     }
 }
 

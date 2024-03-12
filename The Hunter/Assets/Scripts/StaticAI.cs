@@ -7,13 +7,14 @@ using UnityEngine;
 public abstract class StaticAI : MonoBehaviour
 {
     [Header("AI")]
-    [SerializeField,Range(1f,500f)]protected int maxHealth = 1;
+    [SerializeField,Range(1f,1000f)]protected int maxHealth = 1;
     [SerializeField]protected bool drawGizmos = true;
     [SerializeField,Range(1f,50f)]protected float triggerDistance = 1f;
     protected AIState state;
     protected float currentHealth;
     protected bool dead;
     protected Animator animator;
+    [SerializeField]protected Location location;
     [SerializeField,Tooltip("OPTIONAL")]private GameObject deathParticle;
     [SerializeField,Tooltip("OPTIONAL")]protected Transform deathParticleSpawn;
     
@@ -35,6 +36,18 @@ public abstract class StaticAI : MonoBehaviour
     protected float GetDistanceFromPlayer() { return PlayerCombat.Instance.GetPosition().x - transform.position.x;}
 
     public void SetTriggerDistance(float distance) {triggerDistance = distance;}
+
+    public void SetLocation(Location newValue){location = newValue;}
+
+    protected bool IsPlayerOnTheRight()
+    {
+        float distance = GetDistanceFromPlayer();
+        if(distance < 0)
+        {   
+            return false;
+        }
+        return true;
+    }
 
     void OnDrawGizmos()
     {

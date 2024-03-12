@@ -7,7 +7,7 @@ public class Troll : AI
 {   
     [SerializeField,Range(1f,10f)]private float stoppingDistance = 1f;
     [Header("Combat")]
-    [SerializeField,Range(1f,100f)]protected int atackDamage = 1;
+    [SerializeField,Range(1f,100f)]protected int attackDamage = 1;
     [SerializeField,Range(0.1f,10f)]private float attackInterval = 1f;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 jumpForce;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
@@ -36,7 +36,7 @@ public class Troll : AI
                 animator?.SetFloat("speed", 0);
             break;
             case AIState.Moving:
-                if(MathF.Abs(GetDistanceFromPlayer()) > triggerDistance)
+                if(MathF.Abs(GetDistanceFromPlayer()) > triggerDistance )
                 {
                     state = AIState.Tracking;
                     characterController.Move(0,false,false);
@@ -64,7 +64,7 @@ public class Troll : AI
     protected override void Track()
     {
         float distance = GetDistanceFromPlayer();
-        if(Mathf.Abs(distance) <= triggerDistance)
+        if(Mathf.Abs(distance) <= triggerDistance && location == GameManager.Instance.GetPlayerLocation())
         {
             state = AIState.Moving;
         }
@@ -102,13 +102,17 @@ public class Troll : AI
     {
         if(collision.collider.CompareTag("Player"))
         {
-            PlayerCombat.Instance.TakeDamage(atackDamage);
+            PlayerCombat.Instance.TakeDamage(attackDamage);
             Vector2 pushBack = pushBackForce;
             if(IsPlayerOnTheRight())
             {
                 pushBack.x = -pushBackForce.x;
             }
             rb.AddForce(pushBack,ForceMode2D.Force);
+        }
+        if(collision.collider.CompareTag("NPC"))
+        {
+            collision.gameObject.GetComponent<AI>().TakeDamage(attackDamage);
         }
     }
 
@@ -143,5 +147,6 @@ public class Troll : AI
         Gizmos.DrawWireSphere(transform.position,triggerDistance);
         Gizmos.DrawWireSphere(transform.position,stoppingDistance);
     }
+
 }
 

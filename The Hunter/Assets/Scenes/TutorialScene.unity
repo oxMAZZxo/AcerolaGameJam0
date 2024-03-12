@@ -1358,6 +1358,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 497819118141755213, guid: 5f2693b43f39a584b997c5069860e1ae, type: 3}
   m_PrefabInstance: {fileID: 572330959}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &580349092
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 580349093}
+  m_Layer: 9
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &580349093
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580349092}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 796889555494946575}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &636871410
 GameObject:
   m_ObjectHideFlags: 0
@@ -2188,6 +2219,52 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1213470609}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1213741090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1213741092}
+  - component: {fileID: 1213741091}
+  m_Layer: 0
+  m_Name: GameData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1213741091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213741090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f23d54d077028c4b8b79102535ee783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  log: {fileID: 0}
+  loadGame: 0
+--- !u!4 &1213741092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213741090}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -3076,6 +3153,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 13070b23e5bfdc348849eba19c4917f7, type: 3}
+--- !u!1 &1909195932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1909195933}
+  m_Layer: 9
+  m_Name: CeilingCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1909195933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1909195932}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 796889555494946575}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1925645785 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 161106294614552522, guid: 13070b23e5bfdc348849eba19c4917f7, type: 3}
@@ -6818,7 +6926,9 @@ Transform:
   m_LocalPosition: {x: 36.93064, y: -1.8710797, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
-  m_Children: []
+  m_Children:
+  - {fileID: 580349093}
+  - {fileID: 1909195933}
   m_Father: {fileID: 1469539892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!222 &934071176021415574
@@ -9389,6 +9499,7 @@ GameObject:
   - component: {fileID: 6521958081883272986}
   - component: {fileID: 2697426085586273459}
   - component: {fileID: 5919799245878949885}
+  - component: {fileID: 8884977432662057252}
   - component: {fileID: 8884977432662057251}
   m_Layer: 9
   m_Name: Farmer
@@ -9409,8 +9520,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea5467827f3d55469e7f7e56791ad34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 1
+  drawGizmos: 1
+  triggerDistance: 1
+  location: 0
+  deathParticle: {fileID: 0}
+  deathParticleSpawn: {fileID: 0}
+  moveSpeed: 1
+  aliveTime: 1
   minIdleChance: 0
   maxIdleChance: 30
+--- !u!114 &8884977432662057252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8884977432662057250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48e20c36f94207e49b51fa950d23ea1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_JumpForce: 400
+  m_CrouchSpeed: 0.36
+  m_MovementSmoothing: 0.05
+  m_AirControl: 1
+  m_WhatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  m_GroundCheck: {fileID: 580349093}
+  m_CeilingCheck: {fileID: 1909195933}
+  m_CrouchDisableCollider: {fileID: 0}
+  OnLandEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCrouchEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8896626896914262168
 GameObject:
   m_ObjectHideFlags: 0
@@ -9447,13 +9594,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 500
   drawGizmos: 1
-  triggerDistance: 24
+  triggerDistance: 26.1
+  location: 0
   deathParticle: {fileID: 1541305557723645721, guid: d1b430ddb9dbe564c90b080d6d494ed6, type: 3}
   deathParticleSpawn: {fileID: 0}
   moveSpeed: 21
   aliveTime: 100
   stoppingDistance: 2.12
-  atackDamage: 100
+  attackDamage: 100
   attackInterval: 1
   jumpForce: {x: 350, y: 400}
   pushBackForce: {x: 250, y: 300}
@@ -9569,3 +9717,4 @@ SceneRoots:
   - {fileID: 381644551}
   - {fileID: 1469539892}
   - {fileID: 1333645854}
+  - {fileID: 1213741092}

@@ -10,7 +10,8 @@ public class Bunny : AI
     [SerializeField,Range(1,100)]protected int idleMovementChance = 1;
     [SerializeField,Range(1,30)]protected int waitUntilNextMovementTime = 1;
     private CapsuleCollider2D myCollider;
-    private bool moving;
+    protected bool moving;
+    
 
     void Start()
     {
@@ -23,6 +24,7 @@ public class Bunny : AI
         myCollider = GetComponent<CapsuleCollider2D>();
         Physics2D.IgnoreLayerCollision(3,11,true);
         Invoke("Die", aliveTime);
+        location = Location.Overworld;
     }
 
     void FixedUpdate()
@@ -86,7 +88,7 @@ public class Bunny : AI
     protected override void Track()
     {
         float distance = GetDistanceFromPlayer();
-        if(Mathf.Abs(distance) <= triggerDistance)
+        if(Mathf.Abs(distance) <= triggerDistance && location == GameManager.Instance.GetPlayerLocation())
         {
             state = AIState.Moving;
             StopAllCoroutines();
@@ -125,5 +127,6 @@ public class Bunny : AI
         animator.SetBool("dead",true);
         rb.gravityScale = 0;
         myCollider.isTrigger = true;
+        Destroy(gameObject,10f);
     }
 }

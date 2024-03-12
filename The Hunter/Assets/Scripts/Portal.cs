@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class Portal : StaticAI
 {
-    [SerializeField]private Location location;
     [Header("Spawning")]
     [SerializeField]private bool shouldSpawn;
     [SerializeField]private Transform[] spawnTransforms;
@@ -18,6 +17,8 @@ public class Portal : StaticAI
     [SerializeField,Range(0,0.1f)]private float spawnIntervalDecreaseRate = 0f;
     [SerializeField,Range(1,100)]private int chanceToSpawnMultiple = 1;
     [SerializeField,Range(1,100)]private int multiple = 1;
+    [SerializeField,Range(-1,100)]private int chanceOfSpawningBehindPlayer = 1;
+    [SerializeField,Range(1,50)]private int distanceBehindPlayer = 10;
     private bool stopSpawning;
     private bool spawning;
 
@@ -97,9 +98,22 @@ public class Portal : StaticAI
         for(int i = 0; i < amount; i++)
         {
             if(stopSpawning){return;}
-            int spawnIndex = UnityEngine.Random.Range(0, spawnTransforms.Length);
-            Troll currentTroll = Instantiate(troll,spawnTransforms[spawnIndex].position,quaternion.identity).GetComponent<Troll>();
+            
+            Vector3 spawnPos = spawnTransforms[UnityEngine.Random.Range(0, spawnTransforms.Length)].position;
+            if(chanceOfSpawningBehindPlayer != -1 && UnityEngine.Random.Range(0,101) > chanceOfSpawningBehindPlayer)
+            {
+                if(IsPlayerOnTheRight())
+                {
+                    spawnPos.x = PlayerCombat.Instance.transform.position.x + distanceBehindPlayer;
+                }else
+                {
+                    spawnPos.x = PlayerCombat.Instance.transform.position.x - distanceBehindPlayer;
+                }
+            }
+            Troll currentTroll = Instantiate(troll,spawnPos,quaternion.identity).GetComponent<Troll>();
             currentTroll.SetTriggerDistance(triggerDistance);
+            currentTroll.SetLocation(location);
+            
         }
         
     }

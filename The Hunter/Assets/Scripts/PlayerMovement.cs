@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController2D),typeof(Rigidbody2D))]
 public class PlayerMovement : MonoBehaviour
@@ -13,13 +14,17 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
     [SerializeField,Range(1f,1000f)]private float dashSpeed = 1f;
+    [SerializeField,Range(1f,10f)]private float dashCoolDownTime = 1f;
+    [SerializeField,Range(1f,3f)]private float imunityTime = 1f;
     [SerializeField]private InputActionReference movement;
     [SerializeField]private InputActionReference jump;
     [SerializeField]private InputActionReference dash;
+    [SerializeField]private Image dashImage;
     private bool isJumping;
     private bool inAir;
     private bool lookingRight;
     private bool isDashing;
+    private bool canDash = true;
 
     void Awake()
     {
@@ -79,10 +84,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext input)
     {
-        if(input.performed)
+        if(input.performed && GameData.Instance.isTutorialCompleted() && canDash)
         {
             isDashing = true;
             float dash = dashSpeed * 1; 
+            canDash = false;
             if(!lookingRight)
             {
                 dash = dashSpeed * -1;
@@ -90,7 +96,31 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Dash");
             characterController2D.Move(dash,false,isJumping);
             isDashing = false;
+            Color transparent = dashImage.color;
+            transparent.a = 0;
+            StartCoroutine(Imunity());
+            StartCoroutine(DashCooldown(transparent,dashImage.color,dashCoolDownTime));
         }
+    }
+
+    private IEnumerator Imunity()
+    {
+        Physics2D.IgnoreLayerCollision(3,8,true);
+        yield return new WaitForSeconds(imunityTime);
+        Physics2D.IgnoreLayerCollision(3,8,false);
+    }
+
+    private IEnumerator DashCooldown(Color start, Color end, float duration)
+    {
+        for (float t=0f;t<duration;t+=Time.deltaTime) 
+        {
+            float normalizedTime = t/duration;
+            
+            dashImage.color = Color.Lerp(start, end, normalizedTime);
+            yield return null;
+        }
+        dashImage.color = end;
+        canDash = true;
     }
 
     void OnEnable()

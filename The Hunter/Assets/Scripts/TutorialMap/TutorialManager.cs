@@ -94,7 +94,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.color = killColour;
             break;
             case TutorialState.Cook:
-                tutorialText.text = "Press Q when standing on a campfire to cook the catch.";
+                tutorialText.text = "Press Q to interact with world objects.";
                 tutorialText.color = regularColour;
             break;
             case TutorialState.Eat:
