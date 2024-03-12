@@ -1,9 +1,7 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Portal : StaticAI
 {
@@ -19,6 +17,7 @@ public class Portal : StaticAI
     [SerializeField,Range(1,100)]private int multiple = 1;
     [SerializeField,Range(-1,100)]private int chanceOfSpawningBehindPlayer = 1;
     [SerializeField,Range(1,50)]private int distanceBehindPlayer = 10;
+    public static Action onDestroy;
     private bool stopSpawning;
     private bool spawning;
 
@@ -131,7 +130,7 @@ public class Portal : StaticAI
     protected override void Die()
     {
         StopAllCoroutines();
-        GameManager.Instance.CheckPortals();
         base.Die();
+        onDestroy?.Invoke();
     }
 }

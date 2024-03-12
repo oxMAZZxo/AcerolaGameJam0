@@ -185,23 +185,31 @@ public class GameManager : MonoBehaviour
     {
         pause.action.Enable();
         pause.action.performed += OnPauseInput;
+        Portal.onDestroy += CheckEndGame;
     }
 
     void OnDisable()
     {
         pause.action.Disable();
         pause.action.performed -= OnPauseInput;
+        Portal.onDestroy -= CheckEndGame;
     }
 
     public TextMeshProUGUI GetLogText() { return log;}
     public void SetLogText(string text){log.text = text;}
 
-    public void CheckPortals()
+    private void CheckEndGame()
     {
+        StartCoroutine(CheckPortals());
+    }
+
+    public IEnumerator CheckPortals()
+    {
+        yield return new WaitForSeconds(0.5f);
         bool endGame = true;
         foreach(Portal portal in portals)
         {
-            if(portal != null){
+            if(portal != null){               
                 endGame = false;
             }
         }
