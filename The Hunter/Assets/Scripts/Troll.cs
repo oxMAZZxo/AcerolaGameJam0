@@ -5,14 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D),typeof(CapsuleCollider2D),typeof(CharacterController2D))]
 public class Troll : AI
 {   
-    [SerializeField,Range(1f,10f)]private float stoppingDistance = 1f;
+    [SerializeField,Range(1f,10f)]protected float stoppingDistance = 1f;
     [Header("Combat")]
     [SerializeField,Range(1f,100f)]protected int attackDamage = 1;
-    [SerializeField,Range(0.1f,10f)]private float attackInterval = 1f;
+    [SerializeField,Range(0.1f,10f)]protected float attackInterval = 1f;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 jumpForce;
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
-    private float attackTimer;
-    private Action attack;
+    protected float attackTimer;
+    protected Action attack;
 
     void Start()
     {
@@ -70,7 +70,7 @@ public class Troll : AI
         }
     }
 
-    private void Move()
+    protected void Move()
     {
         if(Mathf.Abs(GetDistanceFromPlayer()) <= stoppingDistance)
         {

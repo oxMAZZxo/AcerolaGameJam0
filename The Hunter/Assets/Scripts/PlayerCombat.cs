@@ -153,6 +153,7 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",true);
         PlayerMovement.Instance.enabled = false;
         enabled = false;
+        if(GameManager.Instance == null) { return;} 
         StartCoroutine(GameManager.Instance.Restart());
     }
 

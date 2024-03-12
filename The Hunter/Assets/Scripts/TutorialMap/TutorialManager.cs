@@ -60,6 +60,7 @@ public class TutorialManager : MonoBehaviour
         isInMain = true;
         state = TutorialState.NotStarted;
         cinemachineConfiner = mainCamera.gameObject.GetComponent<CinemachineConfiner2D>();
+        Physics2D.IgnoreLayerCollision(7,8,true);
     }
 
     void FixedUpdate()
@@ -71,7 +72,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.color = regularColour;
             break;
             case TutorialState.ShootBunny:
-                tutorialText.text = "Use the Left Mouse button to shoot an arrow at the bunny.";
+                tutorialText.text = "Press 'W' to shoot an arrow.";
                 tutorialText.color = regularColour;
             break;
             case TutorialState.PickUp:
@@ -98,11 +99,11 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.color = regularColour;
             break;
             case TutorialState.Eat:
-                tutorialText.text = "Press E to eat food when you need to replenish your health.";
+                tutorialText.text = "Press E to eat food when to replenish your health.";
                 tutorialText.color = regularColour;
             break;
             case TutorialState.Dash:
-                tutorialText.text = "Press the Left Shift button to Dash. " + Environment.NewLine + " Holding down the left mouse button will charge your arrow shot and do more damage";
+                tutorialText.text = "Press the Left Shift button to Dash. " + Environment.NewLine + " Holding down 'W' will charge your arrow shot and do more damage";
                 tutorialText.color = regularColour;
             break;
             case TutorialState.GoBackToWild:
@@ -113,12 +114,13 @@ public class TutorialManager : MonoBehaviour
         if(state == TutorialState.Eat && !eatShown)
         {
             eatShown = true;
-            StartCoroutine(CountDownToNextState(TutorialState.Dash,6f));
+            GameData.Instance.SetDash(true);
+            StartCoroutine(CountDownToNextState(TutorialState.Dash,3f));
         }
         if(state == TutorialState.Dash && !dashShown)
         {
             dashShown = true;
-            StartCoroutine(CountDownToNextState(TutorialState.GoBackToWild,10f));
+            StartCoroutine(CountDownToNextState(TutorialState.GoBackToWild,5f));
             treeline.Reset();
         }
     }
@@ -190,6 +192,7 @@ public class TutorialManager : MonoBehaviour
 
     public IEnumerator DisplayDivineWords()
     {
+        Physics2D.IgnoreLayerCollision(7,8,false);
         int previousCharacterValue = 0;
         for(int currentLetter = 0; currentLetter < divineWords.Length; currentLetter ++)
         {

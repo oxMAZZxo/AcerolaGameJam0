@@ -84,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDash(InputAction.CallbackContext input)
     {
-        if(input.performed && GameData.Instance.isTutorialCompleted() && canDash)
+        if(input.performed && GameData.Instance.CanDash() && canDash)
         {
             isDashing = true;
             float dash = dashSpeed * 1; 

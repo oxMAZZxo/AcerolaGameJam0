@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        if(GameData.Instance.isTutorialCompleted())
+        if(GameData.Instance.IsTutorialCompleted())
         {
             SceneManager.LoadScene("MainMap");
         }else

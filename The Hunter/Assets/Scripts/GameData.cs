@@ -5,17 +5,18 @@ using UnityEngine;
 public class GameData : MonoBehaviour
 {   
     public static GameData Instance;
-    private bool tutorialCompleted;
-    private float lastSavedPlayerLocationX;
-    private float lastSavedPlayerLocationY;
+    public bool tutorialCompleted;
+    public float lastSavedPlayerLocationX = 9.44f;
+    public float lastSavedPlayerLocationY = -1.72f;
     private int rawBunnies;
     private int cookedBunnies;
-    private int currentHealth;
+    private int currentHealth = 100;
     private bool[] portalsDestroyed = new bool[3];
     private bool inOverworld = true;
     private bool dataLoaded;
     [SerializeField]private TextMeshProUGUI log;
     [SerializeField]private bool loadGame;
+    private bool canDash = false;
 
     void Awake()
     {
@@ -45,7 +46,8 @@ public class GameData : MonoBehaviour
             rawBunnies = Convert.ToInt32(tempArray[4]);
             cookedBunnies = Convert.ToInt32(tempArray[5]);
             inOverworld = Convert.ToBoolean(tempArray[6]);
-            string[] tempPortalsDestroyed = tempArray[7].Split("-");
+            canDash = Convert.ToBoolean(tempArray[7]);
+            string[] tempPortalsDestroyed = tempArray[8].Split("-");
             for(int i = 0; i < tempPortalsDestroyed.Length; i++)
             {
                 portalsDestroyed[i] = Convert.ToBoolean(tempPortalsDestroyed[i]);
@@ -83,7 +85,7 @@ public class GameData : MonoBehaviour
     public string DataToString()
     {
         string data = tutorialCompleted.ToString() + "," + lastSavedPlayerLocationX + "," + lastSavedPlayerLocationY + "," 
-        + currentHealth.ToString() + "," + rawBunnies.ToString() + "," + cookedBunnies.ToString() + "," + inOverworld.ToString() + ",";
+        + currentHealth.ToString() + "," + rawBunnies.ToString() + "," + cookedBunnies.ToString() + "," + inOverworld.ToString() + "," + canDash.ToString() + ",";
         
         for(int i = 0; i < portalsDestroyed.Length; i++)
         {
@@ -99,7 +101,7 @@ public class GameData : MonoBehaviour
         return data;
     }
     
-    public bool isTutorialCompleted(){return tutorialCompleted;}
+    public bool IsTutorialCompleted(){return tutorialCompleted;}
     public void SetTutorialCompleted(bool newValue){tutorialCompleted = newValue;}
     public float GetLastSavedPlayerLocationX(){return lastSavedPlayerLocationX;}
     public void SetLastSavedPlayerLocationX(float newValue){lastSavedPlayerLocationX = newValue;}
@@ -128,4 +130,6 @@ public class GameData : MonoBehaviour
     public bool IsDataLoaded(){return dataLoaded;}
     public bool IsInOverworld(){return inOverworld;}
     public void SetInOverworld(bool newValue){ inOverworld = newValue;}
+    public bool CanDash(){return canDash;}
+    public void SetDash(bool newValue){ canDash = newValue;}
 }

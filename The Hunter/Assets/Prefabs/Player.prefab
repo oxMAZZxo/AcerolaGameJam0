@@ -174,7 +174,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -693515851
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -1243618810, guid: 25e30efdfe3b53d4aaf6f3950c8de33e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -283,10 +283,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
-  dashSpeed: 500
+  dashSpeed: 250
+  dashCoolDownTime: 3.07
+  imunityTime: 1
   movement: {fileID: 6109648249941984633, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   jump: {fileID: 4335027320697578727, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
   dash: {fileID: -5582294816007813132, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
+  dashImage: {fileID: 0}
 --- !u!114 &4064917588290326945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,7 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48e20c36f94207e49b51fa950d23ea1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 702
+  m_JumpForce: 800
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
   m_AirControl: 1
@@ -327,6 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea59aab07c13a1941badfff7ef2ea7fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 1
   maxHealth: 100
   arrowPrefab: {fileID: 5522817078754733996, guid: c85ea73bca350c24a8234da229c3b0a1, type: 3}
   combat: {fileID: 5429510027577463939, guid: e06562a22c4656242a4c0b509e942fae, type: 3}
@@ -335,11 +339,12 @@ MonoBehaviour:
   maxShootForce: 1500
   forceIncrementation: 670
   minDamageDealt: 20
-  maxDamageDealt: 150
+  maxDamageDealt: 80
   damageIncrement: 67
   maxArrowGlowIntensity: 2
   minArrowGlowIntensity: 0.2
   glowIntensityIncrement: 0.6
+  ressurectionExplosionRadius: 7.01
   healthBar: {fileID: 0}
   bowChargeBar: {fileID: 0}
   ressurectionParticle: {fileID: 2505938946842275602, guid: 1e80fee5cd569734cb56c394ed10b8c1, type: 3}
