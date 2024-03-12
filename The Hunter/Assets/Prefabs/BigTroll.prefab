@@ -202,7 +202,7 @@ MonoBehaviour:
   moveSpeed: 21
   aliveTime: 100
   stoppingDistance: 3.64
-  attackDamage: 20
+  attackDamage: 15
   attackInterval: 1.5
   jumpForce: {x: 400, y: 450}
   pushBackForce: {x: 250, y: 300}

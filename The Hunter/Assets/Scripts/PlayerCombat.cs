@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerCombat : MonoBehaviour
 {
+    public bool drawGizmos;
     public static PlayerCombat Instance;
     [SerializeField,Range(1f,100f)]protected int maxHealth = 1;
     [SerializeField]protected GameObject arrowPrefab;
@@ -24,6 +25,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField,Range(0,2)]private float maxArrowGlowIntensity = 1;
     [SerializeField,Range(0.01f,0.5f)]private float minArrowGlowIntensity = 1f;
     [SerializeField,Range(0.1f,2f)]private float glowIntensityIncrement = 0.1f;
+    [SerializeField,Range(1f,10f)]private float ressurectionExplosionRadius = 0.1f;
     [SerializeField]protected StatusBar healthBar;
     [SerializeField]protected StatusBar bowChargeBar;
     [SerializeField]private GameObject ressurectionParticle;
@@ -151,6 +153,7 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",true);
         PlayerMovement.Instance.enabled = false;
         enabled = false;
+        StartCoroutine(GameManager.Instance.Restart());
     }
 
     public void Ressurect(int maxHealth, int maxShootForce, int minShootForce, int maxDamageDealt, int minDamageDealt)
@@ -167,6 +170,25 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",false);
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
+    }
+    
+    public void Ressurect()
+    {
+        maxHealth = maxHealth / 2;
+        healthBar.SetMaxValue(maxHealth);
+        currentHealth = maxHealth;
+        PlayerMovement.Instance.enabled = true;
+        animator.SetBool("isDead",false);
+        Instantiate(ressurectionParticle,transform.position,quaternion.identity);
+        dead = false;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position,ressurectionExplosionRadius);
+        foreach(Collider2D collider in colliders)
+        {
+            if(collider.CompareTag("AI"))
+            {
+                collider.GetComponent<StaticAI>().TakeDamage(80);
+            }
+        }
     }
 
     public void SetCurrentHealth(int newValue) 
@@ -195,4 +217,10 @@ public class PlayerCombat : MonoBehaviour
     public Transform GetFirepoint() {return firepoint;}
 
     public bool IsDead(){return dead;}
+
+    void OnDrawGizmos()
+    {
+        if(!drawGizmos) {return;}
+        Gizmos.DrawWireSphere(transform.position,ressurectionExplosionRadius);
+    }
 }

@@ -131,6 +131,7 @@ public class Portal : StaticAI
     protected override void Die()
     {
         StopAllCoroutines();
+        GameManager.Instance.CheckPortals();
         base.Die();
     }
 }

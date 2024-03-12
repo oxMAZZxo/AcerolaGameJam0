@@ -6,6 +6,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
 using JetBrains.Annotations;
+using UnityEngine.EventSystems;
+using System.Collections.Generic;
+using System.Collections;
 
 
 public class GameManager : MonoBehaviour
@@ -31,6 +34,13 @@ public class GameManager : MonoBehaviour
     private bool finishedLoading = false;
     [SerializeField]private Color overworldLightColour;
     [SerializeField]private Color caveLightColour;
+    [Header("Restart")]
+    [SerializeField,Range(1f,5f)]private float restartWaitTime = 1f;
+    [SerializeField,]private GameObject outPanel;
+
+    [Header("End Game")]
+    [SerializeField]private GameObject endGamePanel;
+    [SerializeField]private GameObject endButtonSelected;
     [Header("Other")]
     [SerializeField]private GameObject transitionPanel;
     [SerializeField]private GameObject savingSymbol;
@@ -185,6 +195,36 @@ public class GameManager : MonoBehaviour
 
     public TextMeshProUGUI GetLogText() { return log;}
     public void SetLogText(string text){log.text = text;}
+
+    public void CheckPortals()
+    {
+        bool endGame = true;
+        foreach(Portal portal in portals)
+        {
+            if(portal != null){
+                endGame = false;
+            }
+        }
+        if(endGame)
+        {
+            PlayerCombat.Instance.enabled = false;
+            PlayerMovement.Instance.enabled = false;
+            Inventory.Instance.enabled = false;
+            endGamePanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(endButtonSelected);
+        }
+    }
+
+    public IEnumerator Restart()
+    {
+        //outPanel.SetActive(true);
+        yield return new WaitForSeconds(restartWaitTime);
+        PlayerCombat.Instance.enabled = true;
+        PlayerCombat.Instance.Ressurect();
+        //transitionPanel.SetActive(true);
+        //outPanel.SetActive(false);
+    }
 }
 
 public enum Location{
