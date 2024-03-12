@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]private GameObject transitionPanel;
     [SerializeField]private GameObject savingSymbol;
     [SerializeField]private TextMeshProUGUI log;
+    private bool endGame;
 
     void Awake()
     {
@@ -205,16 +206,17 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator CheckPortals()
     {
-        yield return new WaitForSeconds(0.5f);
-        bool endGame = true;
+        yield return new WaitForSeconds(1f);
+        bool tempEndGame = true;
         foreach(Portal portal in portals)
         {
             if(portal != null){               
-                endGame = false;
+                tempEndGame = false;
             }
         }
-        if(endGame)
+        if(tempEndGame)
         {
+            endGame = true;
             PlayerCombat.Instance.enabled = false;
             PlayerMovement.Instance.enabled = false;
             Inventory.Instance.enabled = false;
@@ -233,6 +235,8 @@ public class GameManager : MonoBehaviour
         //transitionPanel.SetActive(true);
         //outPanel.SetActive(false);
     }
+
+    public bool HasGameEnded(){return endGame;}
 }
 
 public enum Location{

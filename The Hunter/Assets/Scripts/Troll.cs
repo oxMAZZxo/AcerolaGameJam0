@@ -28,7 +28,7 @@ public class Troll : AI
 
     void FixedUpdate()
     {
-        if(PlayerCombat.Instance.IsDead()) { return;}
+        if(PlayerCombat.Instance.IsDead() || GameManager.Instance.HasGameEnded()) { return;}
         switch(state)
         {
             case AIState.Tracking:
