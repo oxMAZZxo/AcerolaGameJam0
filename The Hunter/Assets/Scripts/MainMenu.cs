@@ -17,12 +17,12 @@ public class MainMenu : MonoBehaviour
         if(data != null)
         {
             string[] splitData = data.Split(",");
-            Debug.Log("Data before conversion: ");
-            Debug.Log(splitData[0]);
-            Debug.Log(splitData[1]);
-            Debug.Log("Data after conversion: ");
-            Debug.Log(Convert.ToInt32(splitData[0]));
-            Debug.Log(Convert.ToInt32(splitData[1]));
+            // Debug.Log("Data before conversion: ");
+            // Debug.Log(splitData[0]);
+            // Debug.Log(splitData[1]);
+            // Debug.Log("Data after conversion: ");
+            // Debug.Log(Convert.ToInt32(splitData[0]));
+            // Debug.Log(Convert.ToInt32(splitData[1]));
             settings.SetFramerate(Convert.ToInt32(splitData[0]));
             settings.SetFullScreenChoice(Convert.ToInt32(splitData[1]));
             settings.ApplyChanges();

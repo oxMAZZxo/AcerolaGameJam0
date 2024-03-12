@@ -40,8 +40,6 @@ public class Settings : MonoBehaviour
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow;
             break;
         }
-        Debug.Log(Screen.fullScreenMode);
-        Debug.Log(Application.targetFrameRate);
     }
 
     public void SaveSettings()

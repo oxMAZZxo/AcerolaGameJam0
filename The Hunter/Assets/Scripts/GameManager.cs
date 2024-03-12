@@ -52,12 +52,15 @@ public class GameManager : MonoBehaviour
         finishedLoading = false;
         if(GameData.Instance.IsDataLoaded())
         {
+            Debug.ClearDeveloperConsole();
+            Debug.Log("Game manager pulling data..");
             PlayerCombat.Instance.transform.position = new Vector3(GameData.Instance.GetLastSavedPlayerLocationX(),GameData.Instance.GetLastSavedPlayerLocationY(),0f);
             PlayerCombat.Instance.SetCurrentHealth(GameData.Instance.GetCurrentHealth());
             Inventory.Instance.SetRawBunnies(GameData.Instance.GetNoOfRawBunnies());
             Inventory.Instance.SetCookedBunnies(GameData.Instance.GetNoOfCookedBunnies());
             LoadPortals(GameData.Instance.GetPortalsDestroyed());
             inOverworld = GameData.Instance.IsInOverworld();
+            Debug.Log("Gamemanager finished data pull");
             ChangeAesthetic();
         }
         finishedLoading = true;

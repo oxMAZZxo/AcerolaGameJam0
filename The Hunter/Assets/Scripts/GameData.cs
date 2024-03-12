@@ -11,7 +11,7 @@ public class GameData : MonoBehaviour
     private int rawBunnies;
     private int cookedBunnies;
     private int currentHealth;
-    private bool[] portalsDestroyed = new bool[2];
+    private bool[] portalsDestroyed = new bool[3];
     private bool inOverworld = true;
     private bool dataLoaded;
     [SerializeField]private TextMeshProUGUI log;
@@ -36,6 +36,7 @@ public class GameData : MonoBehaviour
         string data = SaveSystem.LoadData(Application.persistentDataPath + ("/GameData.txt"));
         if(data != null)
         {
+            Debug.Log("Game data loading...");
             string[] tempArray = data.Split(",");
             tutorialCompleted = Convert.ToBoolean(tempArray[0]);
             lastSavedPlayerLocationX = Convert.ToSingle(tempArray[1]);
@@ -75,6 +76,7 @@ public class GameData : MonoBehaviour
 
     public string SaveGame()
     {
+        dataLoaded = true;
         return SaveSystem.SaveData(DataToString(),Application.persistentDataPath + ("/GameData.txt"));
     }
 

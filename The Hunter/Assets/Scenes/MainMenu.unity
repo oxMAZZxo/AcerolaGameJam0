@@ -4438,7 +4438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   log: {fileID: 639209428}
-  loadGame: 0
+  loadGame: 1
 --- !u!4 &1666881027
 Transform:
   m_ObjectHideFlags: 0
