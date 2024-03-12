@@ -96,10 +96,13 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Dash");
             characterController2D.Move(dash,false,isJumping);
             isDashing = false;
-            Color transparent = dashImage.color;
-            transparent.a = 0;
-            StartCoroutine(Imunity());
-            StartCoroutine(DashCooldown(transparent,dashImage.color,dashCoolDownTime));
+            if(GameData.Instance.IsTutorialCompleted())
+            {
+                Color transparent = dashImage.color;
+                transparent.a = 0;
+                StartCoroutine(Imunity());
+                StartCoroutine(DashCooldown(transparent,dashImage.color,dashCoolDownTime));
+            }
         }
     }
 
