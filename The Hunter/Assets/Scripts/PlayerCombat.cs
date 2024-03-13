@@ -171,6 +171,7 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",false);
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
+        Ressurect();
     }
     
     public void Ressurect()
@@ -182,6 +183,11 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",false);
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
+        Ressurect();
+    }
+
+    public void Explosion()
+    {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position,ressurectionExplosionRadius);
         foreach(Collider2D collider in colliders)
         {

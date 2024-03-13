@@ -18,7 +18,7 @@ public class Inventory : MonoBehaviour
     private int noOfCookedBunnies;
     private int noOfRawBunnies;
     private bool onCampfire;
-    public Cave currentCave;
+    private Cave currentCave;
     
     void Awake()
     {

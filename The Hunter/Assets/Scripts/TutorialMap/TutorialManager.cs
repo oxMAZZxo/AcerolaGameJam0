@@ -41,6 +41,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private Trigger treeline;
     [SerializeField]private GameObject glowingArrow;
     [SerializeField]private TutorialPlayerCombat playerCombat;
+    [SerializeField]private GameObject dashingSymbol;
     bool eatShown;
     bool dashShown;
 
@@ -91,7 +92,7 @@ public class TutorialManager : MonoBehaviour
                 tutorialText.text = "";
             break;
             case TutorialState.FinishedRessurection:
-                tutorialText.text = "Kill the troll!";
+                //tutorialText.text = "Kill the troll!";
                 tutorialText.color = killColour;
             break;
             case TutorialState.Cook:
@@ -105,6 +106,7 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.Dash:
                 tutorialText.text = "Press the Left Shift button to Dash. " + Environment.NewLine + " Holding down 'W' will charge your arrow shot and do more damage";
                 tutorialText.color = regularColour;
+                dashingSymbol.SetActive(true);
             break;
             case TutorialState.GoBackToWild:
                 tutorialText.text = "Now go back to the wild to embark on a journey to KILL all trolls";
