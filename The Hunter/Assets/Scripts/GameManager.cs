@@ -1,15 +1,11 @@
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using TMPro;
-using JetBrains.Annotations;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
 using System.Collections;
-
 
 public class GameManager : MonoBehaviour
 {

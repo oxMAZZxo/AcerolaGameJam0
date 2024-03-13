@@ -110,6 +110,8 @@ GameObject:
   - component: {fileID: 4064917588290326945}
   - component: {fileID: 7086146163421763702}
   - component: {fileID: 7335211149970574237}
+  - component: {fileID: 3437251013116290008}
+  - component: {fileID: 1498020860853406880}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -366,4 +368,81 @@ MonoBehaviour:
   healthAddAmount: 5
   rawBunnies: {fileID: 0}
   cookedBunnies: {fileID: 0}
-  currentCave: {fileID: 0}
+--- !u!114 &3437251013116290008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868173083887088868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79297696834f31c4e9fecf3e9a8faa7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 0
+  sounds:
+  - name: Dash
+    clip: {fileID: 8300000, guid: cbe1f7a64e8bd2a468f82cff7737c047, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 5e34e3303fa8f3f409c8185423f4f633, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Jump
+    clip: {fileID: 8300000, guid: 4664a868d5a2a69478393a7efec483fe, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Arrow
+    clip: {fileID: 8300000, guid: 4ee672bcf94e13c4c9d37b660ad0041d, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: PickUp
+    clip: {fileID: 8300000, guid: cd03e58f1f782d1429371166df9c26a5, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Eat
+    clip: {fileID: 8300000, guid: 5baf2749bac2d7a43868b2313e917d2e, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Ressurect
+    clip: {fileID: 8300000, guid: 34f9cbd28a9740349b6cc2f5e280dda3, type: 3}
+    volume: 0.2
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: StepOnGrass
+    clip: {fileID: 8300000, guid: d84c4cc9d13b91141a46a978b21d9876, type: 3}
+    volume: 0.3
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+--- !u!81 &1498020860853406880
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868173083887088868}
+  m_Enabled: 1

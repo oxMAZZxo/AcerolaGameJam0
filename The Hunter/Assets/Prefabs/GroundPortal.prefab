@@ -188,6 +188,7 @@ GameObject:
   - component: {fileID: 99133823845842218}
   - component: {fileID: 3492123813401728841}
   - component: {fileID: 3572284035411657106}
+  - component: {fileID: -7330004183184300366}
   m_Layer: 8
   m_Name: GroundPortal
   m_TagString: AI
@@ -254,7 +255,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -164836933
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a11c71448b7127a43972f1ededa8e293, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -317,9 +318,9 @@ MonoBehaviour:
   maxHealth: 150
   drawGizmos: 1
   triggerDistance: 27
+  location: 0
   deathParticle: {fileID: 5092028960950798645, guid: 1e577aa24eddde24293a0190fd95ccf0, type: 3}
   deathParticleSpawn: {fileID: 3223043918136780257}
-  location: 0
   shouldSpawn: 0
   spawnTransforms:
   - {fileID: 3322858725846749546}
@@ -330,9 +331,10 @@ MonoBehaviour:
   bigTrollChance: 96
   spawnInterval: 2
   spawnIntervalDecreaseRate: 0.0171
-  trolls: []
   chanceToSpawnMultiple: 95
   multiple: 3
+  chanceOfSpawningBehindPlayer: 1
+  distanceBehindPlayer: 10
 --- !u!95 &3572284035411657106
 Animator:
   serializedVersion: 5
@@ -354,6 +356,34 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-7330004183184300366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6192727114501506253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79297696834f31c4e9fecf3e9a8faa7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 0
+  sounds:
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 0da50edf78ad7b64494aa2ae6556e963, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Death
+    clip: {fileID: 8300000, guid: 946ad7cc32ff644498f692d8ddb9cec4, type: 3}
+    volume: 0.796
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
 --- !u!1 &6226098458911683345
 GameObject:
   m_ObjectHideFlags: 0

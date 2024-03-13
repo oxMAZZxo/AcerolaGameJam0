@@ -55,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         if(inAir) {animator.SetFloat("speed",0); }else {animator.SetFloat("speed",Mathf.Abs(direction)); }
         animator.SetBool("inAir",inAir);
 
+        if(isJumping) {PlayerCombat.Instance.GetAudioManager().Play("Jump");}
         if(!isDashing) {characterController2D.Move(direction,false,isJumping);}
         isJumping = false;
     }
@@ -96,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("Dash");
             characterController2D.Move(dash,false,isJumping);
             isDashing = false;
+            PlayerCombat.Instance.GetAudioManager().Play("Dash");
             if(GameData.Instance.IsTutorialCompleted())
             {
                 Color transparent = dashImage.color;
@@ -151,6 +153,11 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector2(0,rb.velocity.y);
         }
+    }
+
+    public void PlayWalkSound()
+    {
+        PlayerCombat.Instance.GetAudioManager().Play("StepOnGrass");
     }
 
     public bool IsLookingRight() {return lookingRight;}

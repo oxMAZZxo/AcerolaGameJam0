@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TransitionPanel : MonoBehaviour
 { 
+    [SerializeField]private GameObject troll;
+
     public void StartDivineText()
     {
         StartCoroutine(TutorialManager.Instance.DisplayDivineWords());
@@ -27,5 +29,15 @@ public class TransitionPanel : MonoBehaviour
     public void Disable()
     {
         gameObject.SetActive(false);
+    }
+
+    public void DisableTroll()
+    {
+        troll.SetActive(false);
+    }
+
+    public void EnableTroll()
+    {
+        troll.SetActive(true);
     }
 }

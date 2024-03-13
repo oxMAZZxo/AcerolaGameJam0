@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 2956670391943606344}
   - component: {fileID: 3795637210960906045}
   - component: {fileID: 1140738391100912327}
+  - component: {fileID: -228415731590687857}
   m_Layer: 11
   m_Name: Bunny
   m_TagString: AI
@@ -109,7 +110,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 465887533
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: -1079377514, guid: 86d22633052cc1247a66f2c7b59cf8b8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -248,11 +249,35 @@ MonoBehaviour:
   maxHealth: 1
   drawGizmos: 1
   triggerDistance: 10
+  location: 0
+  deathParticle: {fileID: 0}
+  deathParticleSpawn: {fileID: 0}
   moveSpeed: 10
   aliveTime: 50
   maxDistanceToMove: 3
   idleMovementChance: 95
   waitUntilNextMovementTime: 5
+--- !u!114 &-228415731590687857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1458474852843672841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79297696834f31c4e9fecf3e9a8faa7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 0
+  sounds:
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 59c3fa6fa429259439d6edb5eda9b155, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
 --- !u!1 &3710554480389212846
 GameObject:
   m_ObjectHideFlags: 0

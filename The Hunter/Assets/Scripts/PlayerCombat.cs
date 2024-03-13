@@ -37,6 +37,7 @@ public class PlayerCombat : MonoBehaviour
     private GameObject currentArrowObj;
     private bool dead;
     private float currentIntensity;
+    protected AudioManager audioManager;
 
     void Awake()
     {
@@ -62,6 +63,7 @@ public class PlayerCombat : MonoBehaviour
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
         currentIntensity = minArrowGlowIntensity;
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<AudioManager>();
     }
 
     private IEnumerator BowCharge()
@@ -113,6 +115,7 @@ public class PlayerCombat : MonoBehaviour
         Rigidbody2D currentArrowRB = currentArrowObj.GetComponent<Rigidbody2D>();
         Arrow currentArrow = currentArrowObj.gameObject.GetComponent<Arrow>();
         currentArrow.SetDamage(currentDamageDealt);
+        audioManager.Play("Arrow");
         if(PlayerMovement.Instance.IsLookingRight())
         {
             currentArrowRB.AddForce(transform.right * currentShootForce,ForceMode2D.Force);
@@ -130,6 +133,7 @@ public class PlayerCombat : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        audioManager.Play("Hurt");
         currentHealth -= damage;
         healthBar.SetCurrentValue(currentHealth);
         animator.SetTrigger("hurt");
@@ -171,7 +175,8 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",false);
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
-        Ressurect();
+        Explosion();
+
     }
     
     public void Ressurect()
@@ -183,11 +188,12 @@ public class PlayerCombat : MonoBehaviour
         animator.SetBool("isDead",false);
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
         dead = false;
-        Ressurect();
+        Explosion();
     }
 
     public void Explosion()
     {
+        audioManager.Play("Ressurect");
         Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position,ressurectionExplosionRadius);
         foreach(Collider2D collider in colliders)
         {
@@ -224,6 +230,8 @@ public class PlayerCombat : MonoBehaviour
     public Transform GetFirepoint() {return firepoint;}
 
     public bool IsDead(){return dead;}
+
+    public AudioManager GetAudioManager(){return audioManager;}
 
     void OnDrawGizmos()
     {

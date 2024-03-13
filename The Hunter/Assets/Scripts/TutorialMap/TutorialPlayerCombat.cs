@@ -19,6 +19,7 @@ public class TutorialPlayerCombat : PlayerCombat
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
         
         animator = GetComponent<Animator>();
+        audioManager = GetComponent<AudioManager>();
     }
 
     protected override void Death()

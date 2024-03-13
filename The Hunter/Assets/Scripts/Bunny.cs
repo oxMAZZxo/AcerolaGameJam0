@@ -11,6 +11,7 @@ public class Bunny : AI
     [SerializeField,Range(1,30)]protected int waitUntilNextMovementTime = 1;
     private CapsuleCollider2D myCollider;
     protected bool moving;
+    private AudioManager audioManager;
     
 
     void Start()
@@ -25,6 +26,7 @@ public class Bunny : AI
         Physics2D.IgnoreLayerCollision(3,11,true);
         Invoke("Die", aliveTime);
         location = Location.Overworld;
+        audioManager = GetComponent<AudioManager>();
     }
 
     void FixedUpdate()
@@ -111,6 +113,7 @@ public class Bunny : AI
     
     public override void TakeDamage(float damage)
     {
+        audioManager.Play("Hurt");
         currentHealth -= damage;
         if(currentHealth < 1)
         {

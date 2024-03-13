@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ public class Troll : AI
     [SerializeField,Tooltip("This is for the directional force for when the Troll is attacking the player")]private Vector2 pushBackForce;
     protected float attackTimer;
     protected Action attack;
+    private AudioManager audioManager;
 
     void Start()
     {
@@ -23,6 +25,8 @@ public class Troll : AI
         rb = GetComponent<Rigidbody2D>();
         attackTimer = attackInterval;
         animator = GetComponent<Animator>();
+        audioManager =  GetComponent<AudioManager>();
+        StartCoroutine(PlayIdleSound());
         Invoke("Die",aliveTime);
     }
 
@@ -70,6 +74,19 @@ public class Troll : AI
         }
     }
 
+    private IEnumerator PlayIdleSound()
+    {
+        while(!dead)
+        {
+
+            if(UnityEngine.Random.Range(0,101) > 50)
+            {
+                audioManager.Play("Idle");
+            }
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
     protected void Move()
     {
         if(Mathf.Abs(GetDistanceFromPlayer()) <= stoppingDistance)
@@ -90,6 +107,7 @@ public class Troll : AI
 
     private void OnAttack()
     {
+        audioManager.Play("Attack");
         Vector2 attackDirection = jumpForce;
         if(!IsPlayerOnTheRight())
         {
@@ -119,6 +137,7 @@ public class Troll : AI
     public override void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        audioManager.Play("Hurt");
         animator.SetTrigger("hurt");
         if(currentHealth <= 0.1)
         {

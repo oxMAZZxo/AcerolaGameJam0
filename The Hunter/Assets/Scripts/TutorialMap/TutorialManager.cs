@@ -194,6 +194,7 @@ public class TutorialManager : MonoBehaviour
 
     public IEnumerator DisplayDivineWords()
     {
+        AudioManager.Instance.Play("DivineMusic");
         Physics2D.IgnoreLayerCollision(7,8,false);
         int previousCharacterValue = 0;
         for(int currentLetter = 0; currentLetter < divineWords.Length; currentLetter ++)
@@ -205,6 +206,7 @@ public class TutorialManager : MonoBehaviour
                 yield return new WaitForSeconds(0.4f);
             }else
             {
+                AudioManager.Instance.Play("DivineText");
                 yield return new WaitForSeconds(0.05f);
             }
             previousCharacterValue = characterValue;

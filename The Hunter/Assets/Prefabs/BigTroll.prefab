@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9059429189242355659}
   - component: {fileID: 834424251922176932}
   - component: {fileID: 1636010366118200824}
+  - component: {fileID: 8485678252865999616}
   m_Layer: 8
   m_Name: BigTroll
   m_TagString: AI
@@ -227,6 +228,41 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8485678252865999616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263110984584880504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79297696834f31c4e9fecf3e9a8faa7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 0
+  sounds:
+  - name: Idle
+    clip: {fileID: 8300000, guid: 0a483c07bd5f50e4caf94509fc12e9e8, type: 3}
+    volume: 0.5
+    pitch: 0.5
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 59fe96d234659354eae0f2914e4707c4, type: 3}
+    volume: 0.5
+    pitch: 0.9
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Attack
+    clip: {fileID: 8300000, guid: f661d6bcfff349847a0b815dcd757c1d, type: 3}
+    volume: 0.5
+    pitch: 0.5
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
 --- !u!1 &3386101408905485649
 GameObject:
   m_ObjectHideFlags: 0

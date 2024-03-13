@@ -39,6 +39,7 @@ public class Inventory : MonoBehaviour
         }
         if(collider.CompareTag("AI") && collider.GetComponent<Bunny>() && collider.GetComponent<Bunny>().IsDead())
         {
+            PlayerCombat.Instance.GetAudioManager().Play("PickUp");
             AmendItems(1,Collectible.RawBunny);
             Destroy(collider.gameObject); 
         }
@@ -77,6 +78,7 @@ public class Inventory : MonoBehaviour
         if(input.performed && noOfCookedBunnies != 0)
         {
             PlayerCombat.Instance.AddHealth(healthAddAmount);
+            PlayerCombat.Instance.GetAudioManager().Play("Eat");
             AmendItems(-1,Collectible.CookedBunny);
         }
     }

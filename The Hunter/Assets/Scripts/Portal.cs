@@ -20,6 +20,7 @@ public class Portal : StaticAI
     public static Action onDestroy;
     private bool stopSpawning;
     private bool spawning;
+    private AudioManager audioManager;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class Portal : StaticAI
         state = AIState.Tracking;
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+        audioManager = GetComponent<AudioManager>();
     }
 
     void FixedUpdate()
@@ -119,6 +121,7 @@ public class Portal : StaticAI
 
     public override void TakeDamage(float damage)
     {
+        audioManager.Play("Hurt");
         animator.SetTrigger("hurt");
         currentHealth -= damage;
         if(currentHealth < 1)
@@ -129,6 +132,7 @@ public class Portal : StaticAI
 
     protected override void Die()
     {
+        audioManager.Play("Death");
         StopAllCoroutines();
         base.Die();
         onDestroy?.Invoke();

@@ -77,6 +77,7 @@ GameObject:
   - component: {fileID: 3006701219604076996}
   - component: {fileID: 6061476194265617110}
   - component: {fileID: 52609604910804367}
+  - component: {fileID: -9108078521731642362}
   m_Layer: 8
   m_Name: Troll
   m_TagString: AI
@@ -289,3 +290,38 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-9108078521731642362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8896626896361973394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79297696834f31c4e9fecf3e9a8faa7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGlobal: 0
+  sounds:
+  - name: Idle
+    clip: {fileID: 8300000, guid: 0a483c07bd5f50e4caf94509fc12e9e8, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 59fe96d234659354eae0f2914e4707c4, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0
+  - name: Attack
+    clip: {fileID: 8300000, guid: f661d6bcfff349847a0b815dcd757c1d, type: 3}
+    volume: 0.5
+    pitch: 1
+    spatialBlend: 1
+    source: {fileID: 0}
+    loop: 0

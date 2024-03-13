@@ -28,7 +28,7 @@ public abstract class StaticAI : MonoBehaviour
         {
             Instantiate(deathParticle,deathParticleSpawn.position,quaternion.identity);
         }
-        Destroy(gameObject);
+        Destroy(gameObject,0.2f);
     }
 
     public virtual bool IsDead() {return dead;}

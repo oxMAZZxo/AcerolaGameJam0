@@ -9,6 +9,7 @@ public class Farmer : AI
     [SerializeField,Range(0,100)]private int minIdleChance = 1;
     [SerializeField,Range(0,100)]private int maxIdleChance = 1;
     private bool isDead;
+    private AudioManager audioManager;
 
     void Start()
     {
@@ -16,6 +17,7 @@ public class Farmer : AI
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+        audioManager = GetComponent<AudioManager>();
     }
 
     public void CalculateNextAnimation()
@@ -70,5 +72,10 @@ public class Farmer : AI
         rb.gravityScale = 0;
         rb.velocity = Vector2.zero;
         myCollider.isTrigger = true;
+    }
+
+    public void PlayFarmSound()
+    {
+        audioManager.Play("Farm");
     }
 }

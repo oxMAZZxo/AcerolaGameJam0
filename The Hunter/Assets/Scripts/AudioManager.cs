@@ -1,10 +1,10 @@
 using System;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
+    public bool isGlobal = false;
     public Sound[] sounds;
 
     void Awake()
@@ -19,8 +19,8 @@ public class AudioManager : MonoBehaviour
             sound.source.loop = sound.loop;
             sound.source.spatialBlend = sound.spatialBlend;
         }
-        
-        if(Instance != null && Instance != this)
+        if(!isGlobal) {return;}
+        if(Instance != this && Instance != null)
         {
             Destroy(gameObject);
         }else
@@ -36,6 +36,11 @@ public class AudioManager : MonoBehaviour
         if(sound == null) 
         {
             Debug.LogWarning("Sound with name '" + name + "' does not exist");
+            return;
+        }
+        if(sound.source.isPlaying && isGlobal) 
+        {
+            Debug.LogWarning("Sound is already playing");
             return;
         }
         sound.source.Play();
