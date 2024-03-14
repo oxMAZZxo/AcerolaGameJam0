@@ -42,6 +42,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField]private GameObject glowingArrow;
     [SerializeField]private TutorialPlayerCombat playerCombat;
     [SerializeField]private GameObject dashingSymbol;
+    [SerializeField]private GameObject arrowRight;
+    [SerializeField]private GameObject arrowLeft;
     bool eatShown;
     bool dashShown;
 
@@ -71,22 +73,32 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.Hunting:
                 tutorialText.text = "You need to hunt for food!";
                 tutorialText.color = regularColour;
+                arrowRight.SetActive(true);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.ShootBunny:
                 tutorialText.text = "Press 'W' to shoot an arrow.";
                 tutorialText.color = regularColour;
+                arrowRight.SetActive(true);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.PickUp:
                 tutorialText.text = "Pick up the bunny";
                 tutorialText.color = regularColour;
+                arrowRight.SetActive(false);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.GoBack:
                 tutorialText.text = "Go back to the campfire to cook the catch!";
                 tutorialText.color = regularColour;
+                arrowRight.SetActive(false);
+                arrowLeft.SetActive(true);
             break;
             case TutorialState.DefendYourself:
                 tutorialText.text = "Defend yourself";
                 tutorialText.color = killColour;
+                arrowRight.SetActive(false);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.Ressurection:
                 tutorialText.text = "";
@@ -98,19 +110,27 @@ public class TutorialManager : MonoBehaviour
             case TutorialState.Cook:
                 tutorialText.text = "Press Q to interact with world objects.";
                 tutorialText.color = regularColour;
+                arrowRight.SetActive(false);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.Eat:
                 tutorialText.text = "Press E to eat food when to replenish your health.";
                 tutorialText.color = regularColour;
+                arrowRight.SetActive(false);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.Dash:
                 tutorialText.text = "Press the Left Shift button to Dash. " + Environment.NewLine + " Holding down 'W' will charge your arrow shot and do more damage";
                 tutorialText.color = regularColour;
                 dashingSymbol.SetActive(true);
+                arrowRight.SetActive(false);
+                arrowLeft.SetActive(false);
             break;
             case TutorialState.GoBackToWild:
                 tutorialText.text = "Now go back to the wild to embark on a journey to KILL all trolls";
                 tutorialText.color = killColour;
+                arrowRight.SetActive(true);
+                arrowLeft.SetActive(false);
             break;
         }
         if(state == TutorialState.Eat && !eatShown)
