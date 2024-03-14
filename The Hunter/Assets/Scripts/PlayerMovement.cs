@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -16,10 +17,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField,Range(1f,1000f)]private float dashSpeed = 1f;
     [SerializeField,Range(1f,10f)]private float dashCoolDownTime = 1f;
     [SerializeField,Range(1f,3f)]private float imunityTime = 1f;
+    [SerializeField,Range(0.1f,2f)]private float trailEmittingTime = 1f;
     [SerializeField]private InputActionReference movement;
     [SerializeField]private InputActionReference jump;
     [SerializeField]private InputActionReference dash;
     [SerializeField]private Image dashImage;
+    private TrailRenderer dashTrail;
     private bool isJumping;
     private bool inAir;
     private bool lookingRight;
@@ -44,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         characterController2D = GetComponent<CharacterController2D>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        dashTrail = GetComponent<TrailRenderer>();
     }
 
     void FixedUpdate()
@@ -87,25 +91,45 @@ public class PlayerMovement : MonoBehaviour
     {
         if(input.performed && GameData.Instance.CanDash() && canDash)
         {
-            isDashing = true;
-            float dash = dashSpeed * 1; 
-            canDash = false;
-            if(!lookingRight)
-            {
-                dash = dashSpeed * -1;
-            }
-            animator.SetTrigger("Dash");
-            characterController2D.Move(dash,false,isJumping);
-            isDashing = false;
-            PlayerCombat.Instance.GetAudioManager().Play("Dash");
-            if(GameData.Instance.IsTutorialCompleted())
-            {
-                Color transparent = dashImage.color;
-                transparent.a = 0;
-                StartCoroutine(Imunity());
-                StartCoroutine(DashCooldown(transparent,dashImage.color,dashCoolDownTime));
-            }
+            Dash();
+            Color transparent = dashImage.color;
+            transparent.r = 0;
+            transparent.g = 0;
+            transparent.b = 0;
+            transparent.a = 0;
+            StartCoroutine(Imunity());
+            StartCoroutine(DashCooldown(transparent,dashImage.color,dashCoolDownTime));
         }
+    }
+
+    private void Dash()
+    {
+        isDashing = true;
+        int direction = 1;
+        canDash = false;
+        if(!lookingRight)
+        {
+            direction = -1;
+        }
+        float dash = dashSpeed * direction; 
+        animator.SetTrigger("Dash");
+        characterController2D.Move(direction,false,isJumping);
+        dashTrail.emitting = true;
+        PlayerCombat.Instance.GetAudioManager().Play("Dash");
+        float ogGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
+        Physics2D.IgnoreLayerCollision(3,11,true);
+        rb.velocity = new Vector2(dash, 0f);
+        Physics2D.IgnoreLayerCollision(3,11,false);
+        rb.gravityScale = ogGravity;
+        isDashing = false;
+        StartCoroutine(TrailOff());
+    }
+
+    private IEnumerator TrailOff()
+    {
+        yield return new WaitForSeconds(trailEmittingTime);
+        dashTrail.emitting = false;
     }
 
     private IEnumerator Imunity()
@@ -157,7 +181,18 @@ public class PlayerMovement : MonoBehaviour
 
     public void PlayWalkSound()
     {
-        PlayerCombat.Instance.GetAudioManager().Play("StepOnGrass");
+        if(GameManager.Instance == null)
+        {
+            PlayerCombat.Instance.GetAudioManager().Play("StepOnGrass");
+            return;
+        }
+        if(GameManager.Instance.GetPlayerLocation() == Location.Overworld)
+        {
+            PlayerCombat.Instance.GetAudioManager().Play("StepOnGrass");
+        }else
+        {
+            PlayerCombat.Instance.GetAudioManager().Play("StepOnStone");
+        }
     }
 
     public bool IsLookingRight() {return lookingRight;}

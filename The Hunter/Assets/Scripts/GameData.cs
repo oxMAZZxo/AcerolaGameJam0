@@ -8,15 +8,17 @@ public class GameData : MonoBehaviour
     public bool tutorialCompleted;
     public float lastSavedPlayerLocationX = 9.44f;
     public float lastSavedPlayerLocationY = -1.72f;
-    private int rawBunnies;
-    private int cookedBunnies;
-    private int currentHealth = 100;
-    private bool[] portalsDestroyed = new bool[3];
-    private bool inOverworld = true;
-    private bool dataLoaded;
+    public int rawBunnies = 0;
+    public int cookedBunnies = 0;
+    public int maxHealth = 100;
+    public int currentHealth = 100;
+    public bool[] portalsDestroyed = new bool[3];
+    public bool inOverworld = true;
+    public bool dataLoaded;
+    public int resurectionLeft;
     [SerializeField]private TextMeshProUGUI log;
     [SerializeField]private bool loadGame;
-    private bool canDash = false;
+    [SerializeField]private bool canDash = false;
 
     void Awake()
     {
@@ -27,7 +29,7 @@ public class GameData : MonoBehaviour
         {
             Cursor.visible = false;
             Instance = this;
-            if(loadGame) {LoadGame();}else{tutorialCompleted = true;}
+            if(loadGame) {LoadGame();}else{tutorialCompleted = true; canDash = true;}
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -47,7 +49,9 @@ public class GameData : MonoBehaviour
             cookedBunnies = Convert.ToInt32(tempArray[5]);
             inOverworld = Convert.ToBoolean(tempArray[6]);
             canDash = Convert.ToBoolean(tempArray[7]);
-            string[] tempPortalsDestroyed = tempArray[8].Split("-");
+            maxHealth = Convert.ToInt32(tempArray[8]);
+            resurectionLeft = Convert.ToInt32(tempArray[9]);
+            string[] tempPortalsDestroyed = tempArray[10].Split("-");
             for(int i = 0; i < tempPortalsDestroyed.Length; i++)
             {
                 portalsDestroyed[i] = Convert.ToBoolean(tempPortalsDestroyed[i]);
@@ -85,7 +89,8 @@ public class GameData : MonoBehaviour
     public string DataToString()
     {
         string data = tutorialCompleted.ToString() + "," + lastSavedPlayerLocationX + "," + lastSavedPlayerLocationY + "," 
-        + currentHealth.ToString() + "," + rawBunnies.ToString() + "," + cookedBunnies.ToString() + "," + inOverworld.ToString() + "," + canDash.ToString() + ",";
+        + currentHealth.ToString() + "," + rawBunnies.ToString() + "," + cookedBunnies.ToString() + "," + inOverworld.ToString() + "," 
+        + canDash.ToString() + "," + maxHealth + "," + resurectionLeft + ",";
         
         for(int i = 0; i < portalsDestroyed.Length; i++)
         {
@@ -132,4 +137,8 @@ public class GameData : MonoBehaviour
     public void SetInOverworld(bool newValue){ inOverworld = newValue;}
     public bool CanDash(){return canDash;}
     public void SetDash(bool newValue){ canDash = newValue;}
+    public void SetResurectionsLeft(int newValue) {resurectionLeft = newValue;}
+    public int GetResurectionsLeft(){return resurectionLeft;}
+    public void SetMaxHealth(int newValue) {maxHealth = newValue;}
+    public int GetMaxHealth() {return maxHealth;}
 }

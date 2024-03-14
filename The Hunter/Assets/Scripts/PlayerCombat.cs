@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using TMPro;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -38,6 +39,7 @@ public class PlayerCombat : MonoBehaviour
     private bool dead;
     private float currentIntensity;
     protected AudioManager audioManager;
+    
 
     void Awake()
     {
@@ -137,7 +139,7 @@ public class PlayerCombat : MonoBehaviour
         currentHealth -= damage;
         healthBar.SetCurrentValue(currentHealth);
         animator.SetTrigger("hurt");
-        if(currentHealth <= 0)
+        if(currentHealth <= 0 && !dead)
         {
             Death();
         }
@@ -187,8 +189,8 @@ public class PlayerCombat : MonoBehaviour
         PlayerMovement.Instance.enabled = true;
         animator.SetBool("isDead",false);
         Instantiate(ressurectionParticle,transform.position,quaternion.identity);
-        dead = false;
         Explosion();
+        dead = false;
     }
 
     public void Explosion()
@@ -232,6 +234,14 @@ public class PlayerCombat : MonoBehaviour
     public bool IsDead(){return dead;}
 
     public AudioManager GetAudioManager(){return audioManager;}
+
+    public int GetMaxHealth(){return maxHealth;}
+
+    public void SetMaxHealth(int newValue)
+    {
+        maxHealth = newValue;
+        healthBar.SetMaxValue(maxHealth);
+    }
 
     void OnDrawGizmos()
     {

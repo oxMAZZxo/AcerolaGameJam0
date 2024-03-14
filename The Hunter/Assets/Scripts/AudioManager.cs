@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
+    public static AudioManager Global;
     public bool isGlobal = false;
     public Sound[] sounds;
 
@@ -20,12 +20,12 @@ public class AudioManager : MonoBehaviour
             sound.source.spatialBlend = sound.spatialBlend;
         }
         if(!isGlobal) {return;}
-        if(Instance != this && Instance != null)
+        if(Global != this && Global != null)
         {
             Destroy(gameObject);
         }else
         {
-            Instance = this;
+            Global = this;
             DontDestroyOnLoad(gameObject);
         }
     }
@@ -38,7 +38,7 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Sound with name '" + name + "' does not exist");
             return;
         }
-        if(sound.source.isPlaying && isGlobal) 
+        if(sound.source.isPlaying && !isGlobal) 
         {
             Debug.LogWarning("Sound is already playing");
             return;
@@ -61,5 +61,26 @@ public class AudioManager : MonoBehaviour
         {
             Debug.LogWarning("Sound with name '" + name + "' is not playing");
         }
+    }
+
+    public bool IsSoundPlaying()
+    {
+        foreach(Sound sound in sounds)
+        {
+            if(sound.source.isPlaying) {return true;}
+        }
+        return false;
+    }
+
+    public bool IsSoundPlaying(string name)
+    {
+        Sound sound = Array.Find(sounds, sound => sound.name == name);
+        if(sound == null)
+        {
+            Debug.LogWarning("Sound with name '" + name + "' does not exist");
+            return false;
+        }
+        if(sound.source.isPlaying) {return true;}
+        return false;
     }
 }

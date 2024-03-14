@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.EventSystems;
 using System.Collections;
+using System;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,17 +32,21 @@ public class GameManager : MonoBehaviour
     [SerializeField]private Color overworldLightColour;
     [SerializeField]private Color caveLightColour;
     [Header("Restart")]
+    [SerializeField,Range(1,5)]private int maxResurrections = 1;
+    [SerializeField]private GameObject ressurectionPanel;
+    [SerializeField]private TextMeshProUGUI ressurectionText;
     [SerializeField,Range(1f,5f)]private float restartWaitTime = 1f;
-    [SerializeField,]private GameObject outPanel;
+    [SerializeField]private GameObject deathPanel;
 
     [Header("End Game")]
     [SerializeField]private GameObject endGamePanel;
     [SerializeField]private GameObject endButtonSelected;
     [Header("Other")]
-    [SerializeField]private GameObject transitionPanel;
+    [SerializeField]private GameObject inPanel;
     [SerializeField]private GameObject savingSymbol;
     [SerializeField]private TextMeshProUGUI log;
     private bool endGame;
+    public int resurectionsLeft;
 
     void Awake()
     {
@@ -56,26 +61,34 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Loading();
+    }
+
+    void Loading()
+    {
         finishedLoading = false;
         if(GameData.Instance.IsDataLoaded())
         {
-            Debug.ClearDeveloperConsole();
-            Debug.Log("Game manager pulling data..");
-            PlayerCombat.Instance.transform.position = new Vector3(GameData.Instance.GetLastSavedPlayerLocationX(),GameData.Instance.GetLastSavedPlayerLocationY(),0f);
-            PlayerCombat.Instance.SetCurrentHealth(GameData.Instance.GetCurrentHealth());
-            Inventory.Instance.SetRawBunnies(GameData.Instance.GetNoOfRawBunnies());
-            Inventory.Instance.SetCookedBunnies(GameData.Instance.GetNoOfCookedBunnies());
-            LoadPortals(GameData.Instance.GetPortalsDestroyed());
-            inOverworld = GameData.Instance.IsInOverworld();
-            Debug.Log("Gamemanager finished data pull");
-            ChangeAesthetic();
+            Load();
+        }else
+        {
+            resurectionsLeft = maxResurrections;
         }
         finishedLoading = true;
     }
 
+    void FixedUpdate()
+    {
+        if(!AudioManager.Global.IsSoundPlaying())
+        {
+            int musicIndex = UnityEngine.Random.Range(1,6);
+            AudioManager.Global.Play("Music" + musicIndex);
+        }
+    }
+
     public void ChangePlayerLocation()
     {
-        transitionPanel.SetActive(true);
+        inPanel.SetActive(true);
         if(inOverworld)
         {
             waterRender.SetActive(false);
@@ -219,20 +232,62 @@ public class GameManager : MonoBehaviour
             endGamePanel.SetActive(true);
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(endButtonSelected);
+            Save(PlayerCombat.Instance.transform.position);
         }
     }
 
     public IEnumerator Restart()
     {
-        //outPanel.SetActive(true);
-        yield return new WaitForSeconds(restartWaitTime);
-        PlayerCombat.Instance.enabled = true;
-        PlayerCombat.Instance.Ressurect();
-        //transitionPanel.SetActive(true);
-        //outPanel.SetActive(false);
+        if(resurectionsLeft >= 0)
+        {
+            resurectionsLeft -=1;
+            ressurectionPanel.SetActive(true);
+            ressurectionText.text = "You have " + resurectionsLeft + " resurections left!";
+            yield return new WaitForSeconds(restartWaitTime);
+            PlayerCombat.Instance.enabled = true;
+            PlayerCombat.Instance.Ressurect();
+        }else
+        {
+            deathPanel.SetActive(true);
+        }
+        
     }
 
     public bool HasGameEnded(){return endGame;}
+
+    public int GetResurectionsLeft(){return resurectionsLeft;}
+
+    public void Save(Vector2 position)
+    {
+        EnableSaveSymbol();
+        GameData.Instance.SetLastSavedPlayerLocationX(position.x);
+        GameData.Instance.SetLastSavedPlayerLocationY(position.y);
+        GameData.Instance.SetPortalDestroyed(GetPortals());
+        GameData.Instance.SetCurrentHealth(PlayerCombat.Instance.GetCurrentHealth());
+        GameData.Instance.SetCookedBunnies(Inventory.Instance.GetNoOfCookedBunnies());
+        GameData.Instance.SetRawBunnies(Inventory.Instance.GetNoOfRawBunnies());
+        GameData.Instance.SetInOverworld(IsInOverworld());
+        GameData.Instance.SetMaxHealth(PlayerCombat.Instance.GetMaxHealth());
+        GameData.Instance.SetResurectionsLeft(GetResurectionsLeft());
+        log.text = GameData.Instance.SaveGame();
+    }
+
+    public void Load()
+    {
+        Debug.ClearDeveloperConsole();
+        Debug.Log("Game manager pulling data..");
+        PlayerCombat.Instance.transform.position = new Vector3(GameData.Instance.GetLastSavedPlayerLocationX(),GameData.Instance.GetLastSavedPlayerLocationY(),0f);
+        PlayerCombat.Instance.SetMaxHealth(GameData.Instance.GetMaxHealth());
+        PlayerCombat.Instance.SetCurrentHealth(GameData.Instance.GetCurrentHealth());
+        Inventory.Instance.SetRawBunnies(GameData.Instance.GetNoOfRawBunnies());
+        Inventory.Instance.SetCookedBunnies(GameData.Instance.GetNoOfCookedBunnies());
+        resurectionsLeft = GameData.Instance.GetResurectionsLeft();
+        LoadPortals(GameData.Instance.GetPortalsDestroyed());
+        inOverworld = GameData.Instance.IsInOverworld();
+        Debug.Log("Gamemanager finished data pull");
+        ChangeAesthetic();
+        inPanel.SetActive(true);
+    }
 }
 
 public enum Location{

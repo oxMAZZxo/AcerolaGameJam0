@@ -79,7 +79,7 @@ public class Troll : AI
         while(!dead)
         {
 
-            if(UnityEngine.Random.Range(0,101) > 50)
+            if(UnityEngine.Random.Range(0,101) > 70 && !audioManager.IsSoundPlaying("Idle"))
             {
                 audioManager.Play("Idle");
             }

@@ -55,4 +55,9 @@ public class MainMenu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         EventSystem.current.SetSelectedGameObject(DefaultButton);
     }
+
+    public void PlayClickSound()
+    {
+        AudioManager.Global.Play("ButtonClick");
+    }
 }
