@@ -4587,12 +4587,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f23d54d077028c4b8b79102535ee783, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialCompleted: 0
+  tutorialCompleted: 1
   lastSavedPlayerLocationX: 9.44
   lastSavedPlayerLocationY: -1.72
+  rawBunnies: 0
+  cookedBunnies: 0
+  maxHealth: 100
+  currentHealth: 100
+  portalsDestroyed: 000000
+  inOverworld: 1
+  dataLoaded: 0
+  resurectionLeft: 3
   log: {fileID: 639209428}
   loadGame: 1
-  canDash: 0
+  canDash: 1
 --- !u!4 &1666881027
 Transform:
   m_ObjectHideFlags: 0

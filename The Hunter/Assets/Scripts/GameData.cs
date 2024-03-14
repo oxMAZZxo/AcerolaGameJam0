@@ -15,7 +15,7 @@ public class GameData : MonoBehaviour
     public bool[] portalsDestroyed = new bool[3];
     public bool inOverworld = true;
     public bool dataLoaded;
-    public int resurectionLeft;
+    public int resurectionLeft = 3;
     [SerializeField]private TextMeshProUGUI log;
     [SerializeField]private bool loadGame;
     [SerializeField]private bool canDash = false;

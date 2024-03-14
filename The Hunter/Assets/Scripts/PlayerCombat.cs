@@ -17,6 +17,7 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField]protected GameObject arrowPrefab;
     [SerializeField]private InputActionReference combat;
     [SerializeField]private Transform firepoint;
+    [SerializeField,Range(0.1f,1f)]protected float antiSpamShootInterval = 1;
     [SerializeField,Range(1f,1000f)]protected float minShootForce = 100f;
     [SerializeField,Range(40f,10000f)]protected float maxShootForce = 1000f;
     [SerializeField,Range(1f,1000f)]private float forceIncrementation = 100f;
@@ -39,7 +40,7 @@ public class PlayerCombat : MonoBehaviour
     private bool dead;
     private float currentIntensity;
     protected AudioManager audioManager;
-    
+    private bool canShoot = true;  
 
     void Awake()
     {
@@ -95,21 +96,35 @@ public class PlayerCombat : MonoBehaviour
 
     void OnCombatHold(InputAction.CallbackContext input)
     {
-        PlayerMovement.Instance.enabled = false;
-        combatHold = true;
-        currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
-        currentArrowObj.GetComponent<Rigidbody2D>().gravityScale = 0;
-        currentArrowObj.GetComponent<Arrow>().Shoot(false);
-        StartCoroutine(BowCharge());
-        animator.SetBool("chargeBow",true);
+        if(canShoot)
+        {
+            canShoot = false;
+            PlayerMovement.Instance.enabled = false;
+            combatHold = true;
+            currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
+            currentArrowObj.GetComponent<Rigidbody2D>().gravityScale = 0;
+            currentArrowObj.GetComponent<Arrow>().Shoot(false);
+            StartCoroutine(BowCharge());
+            animator.SetBool("chargeBow",true);
+            StartCoroutine(ShootCoolDown());
+        }
+    }
+
+    private IEnumerator ShootCoolDown()
+    {
+        yield return new WaitForSeconds(antiSpamShootInterval);
+        canShoot = true;
     }
 
     void OnCombatRelease(InputAction.CallbackContext input)
     {
-        PlayerMovement.Instance.enabled = true;   
-        combatHold = false;
-        animator.SetBool("chargeBow",false);
-        Shoot();
+        if(combatHold)
+        {
+            PlayerMovement.Instance.enabled = true;   
+            combatHold = false;
+            animator.SetBool("chargeBow",false);
+            Shoot();
+        }
     }
 
     void Shoot()
