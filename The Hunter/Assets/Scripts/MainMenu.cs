@@ -7,8 +7,10 @@ using System;
 
 public class MainMenu : MonoBehaviour
 {
-    public GameObject DefaultButton;
+    public GameObject mainMenuDefaultButton;
+    public GameObject playPanelDefaultButton;
     public GameObject settingsDefaultButton;
+    public GameObject playPanel;
     public Settings settings;
 
     void Start()
@@ -36,6 +38,19 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        if(GameData.Instance.IsDataLoaded())
+        {
+            playPanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(playPanelDefaultButton);
+        }else{
+            LoadMap();
+        }
+        
+    }
+
+    public void LoadMap()
+    {
         if(GameData.Instance.IsTutorialCompleted())
         {
             SceneManager.LoadScene("MainMap");
@@ -43,6 +58,12 @@ public class MainMenu : MonoBehaviour
         {
             SceneManager.LoadScene("TutorialScene");
         }
+    }
+
+    public void StartNew()
+    {
+        GameData.Instance.LoadDefaultValues();
+        LoadMap();
     }
 
     public void Exit()
@@ -53,7 +74,7 @@ public class MainMenu : MonoBehaviour
     void OnEnable()
     {
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(DefaultButton);
+        EventSystem.current.SetSelectedGameObject(mainMenuDefaultButton);
     }
 
     public void PlayClickSound()

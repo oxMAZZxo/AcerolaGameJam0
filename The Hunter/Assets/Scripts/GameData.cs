@@ -141,4 +141,18 @@ public class GameData : MonoBehaviour
     public int GetResurectionsLeft(){return resurectionLeft;}
     public void SetMaxHealth(int newValue) {maxHealth = newValue;}
     public int GetMaxHealth() {return maxHealth;}
+
+    public void LoadDefaultValues()
+    {
+        tutorialCompleted = false;
+        lastSavedPlayerLocationX = 9.44f;
+        lastSavedPlayerLocationY = -1.72f;
+        rawBunnies = 0;
+        cookedBunnies = 0;
+        maxHealth = 100;
+        currentHealth = 100;
+        portalsDestroyed = new bool[3];
+        inOverworld = true;
+        resurectionLeft = 3;
+    }
 }
