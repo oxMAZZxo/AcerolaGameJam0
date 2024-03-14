@@ -201,6 +201,16 @@ public class PlayerCombat : MonoBehaviour
         {
             if(collider.CompareTag("AI"))
             {
+                if(collider.GetComponent<Rigidbody2D>())
+                {
+                    int direction = 1;
+                    if(collider.transform.position.x < transform.position.x)
+                    {
+                        direction = -1;
+                    }
+                    Vector2 pushForce = new Vector2(200,150) * direction;
+                    collider.GetComponent<Rigidbody2D>().AddForce(pushForce,ForceMode2D.Force);
+                }
                 collider.GetComponent<StaticAI>().TakeDamage(80);
             }
         }

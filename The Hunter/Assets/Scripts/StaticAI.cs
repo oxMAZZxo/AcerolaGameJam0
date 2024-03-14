@@ -24,6 +24,7 @@ public abstract class StaticAI : MonoBehaviour
 
     protected virtual void Die()
     {
+        dead = true;
         if(deathParticle != null)
         {
             Instantiate(deathParticle,deathParticleSpawn.position,quaternion.identity);

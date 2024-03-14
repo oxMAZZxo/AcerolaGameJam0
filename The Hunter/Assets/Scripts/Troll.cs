@@ -118,7 +118,7 @@ public class Troll : AI
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag("Player"))
+        if(collision.collider.CompareTag("Player") && !dead)
         {
             PlayerCombat.Instance.TakeDamage(attackDamage);
             Vector2 pushBack = pushBackForce;

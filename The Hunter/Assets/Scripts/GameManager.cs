@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]private TextMeshProUGUI ressurectionText;
     [SerializeField,Range(1f,5f)]private float restartWaitTime = 1f;
     [SerializeField]private GameObject deathPanel;
+    [SerializeField]private GameObject deathPanelFirstButton;
 
     [Header("End Game")]
     [SerializeField]private GameObject endGamePanel;
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
     {
         for(int i = 0; i < portalsDestroyed.Length; i++)
         {
-            if(portalsDestroyed[i])
+            if(portalsDestroyed[i] && portals[i] != null)
             {
                 Destroy(portals[i].gameObject);
             }
@@ -238,7 +239,7 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator Restart()
     {
-        if(resurectionsLeft >= 0)
+        if(resurectionsLeft > 0)
         {
             resurectionsLeft -=1;
             ressurectionPanel.SetActive(true);
@@ -249,6 +250,8 @@ public class GameManager : MonoBehaviour
         }else
         {
             deathPanel.SetActive(true);
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(deathPanelFirstButton);
         }
         
     }
@@ -287,6 +290,11 @@ public class GameManager : MonoBehaviour
         Debug.Log("Gamemanager finished data pull");
         ChangeAesthetic();
         inPanel.SetActive(true);
+    }
+
+    public void RestartMap()
+    {
+        SceneManager.LoadScene("MainMap");
     }
 }
 
