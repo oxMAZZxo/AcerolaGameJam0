@@ -154,5 +154,7 @@ public class GameData : MonoBehaviour
         portalsDestroyed = new bool[3];
         inOverworld = true;
         resurectionLeft = 3;
+        canDash = false;
+        SaveGame();
     }
 }
