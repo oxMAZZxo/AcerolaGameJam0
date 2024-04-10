@@ -27,8 +27,8 @@ TagManager:
   - Bunny
   - Checkpoint
   - TileBackground
-  - 
-  - 
+  - WaterPostProcessing
+  - Obstructors
   - 
   - 
   - 
@@ -64,14 +64,14 @@ TagManager:
   - name: NPC
     uniqueID: 465887533
     locked: 0
-  - name: Arrow
-    uniqueID: 1320449657
-    locked: 0
   - name: Enemies
     uniqueID: 1708420383
     locked: 0
   - name: Player
     uniqueID: 3601451445
+    locked: 0
+  - name: Arrow
+    uniqueID: 1320449657
     locked: 0
   - name: ParticleEffect
     uniqueID: 2934768807

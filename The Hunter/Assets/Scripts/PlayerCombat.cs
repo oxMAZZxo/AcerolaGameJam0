@@ -69,51 +69,47 @@ public class PlayerCombat : MonoBehaviour
         audioManager = GetComponent<AudioManager>();
     }
 
-    private IEnumerator BowCharge()
-    {
-        while(combatHold)
-        {
-            currentShootForce += forceIncrementation * Time.deltaTime;
-            currentDamageDealt += damageIncrement * Time.deltaTime;
-            currentIntensity += glowIntensityIncrement * Time.deltaTime;
-            if(currentShootForce >= maxShootForce)
-            {
-                currentShootForce = maxShootForce;
-            }
-            if(currentDamageDealt >= maxDamageDealt)
-            {
-                currentDamageDealt = maxDamageDealt;
-            }
-            if(currentIntensity >= maxArrowGlowIntensity)
-            {
-                currentIntensity = maxArrowGlowIntensity;
-            }
-            currentArrowObj.GetComponent<Arrow>().SetLightIntensity(currentIntensity);
-            bowChargeBar.SetCurrentValue(Convert.ToInt32(currentShootForce));
-            yield return new WaitForSeconds(0);
-        }
-    }
+    // private IEnumerator BowCharge()
+    // {
+    //     while(combatHold)
+    //     {
+    //         currentShootForce += forceIncrementation * Time.deltaTime;
+    //         currentDamageDealt += damageIncrement * Time.deltaTime;
+    //         currentIntensity += glowIntensityIncrement * Time.deltaTime;
+    //         if(currentShootForce >= maxShootForce)
+    //         {
+    //             currentShootForce = maxShootForce;
+    //         }
+    //         if(currentDamageDealt >= maxDamageDealt)
+    //         {
+    //             currentDamageDealt = maxDamageDealt;
+    //         }
+    //         if(currentIntensity >= maxArrowGlowIntensity)
+    //         {
+    //             currentIntensity = maxArrowGlowIntensity;
+    //         }
+    //         //currentArrowObj.GetComponent<Arrow>().SetLightIntensity(currentIntensity);
+    //         bowChargeBar.SetCurrentValue(Convert.ToInt32(currentShootForce));
+    //         yield return new WaitForSeconds(0);
+    //     }
+    // }
 
     void OnCombatHold(InputAction.CallbackContext input)
     {
-        if(canShoot)
-        {
-            canShoot = false;
-            PlayerMovement.Instance.enabled = false;
-            combatHold = true;
-            currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
-            currentArrowObj.GetComponent<Rigidbody2D>().gravityScale = 0;
-            currentArrowObj.GetComponent<Arrow>().Shoot(false);
-            StartCoroutine(BowCharge());
-            animator.SetBool("chargeBow",true);
-            StartCoroutine(ShootCoolDown());
-        }
+        PlayerMovement.Instance.enabled = false;
+        combatHold = true;
+        // currentArrowObj.GetComponent<Rigidbody2D>().gravityScale = 0;
+        // currentArrowObj.GetComponent<Arrow>().Shoot(false);
+        //StartCoroutine(BowCharge());
+        animator.SetBool("chargeBow",true);
     }
 
-    private IEnumerator ShootCoolDown()
+    public void BowCharge()
     {
-        yield return new WaitForSeconds(antiSpamShootInterval);
-        canShoot = true;
+        currentShootForce += 250;
+        currentDamageDealt += 12;
+        if(currentShootForce > maxShootForce){currentShootForce = maxShootForce;}
+        if(currentDamageDealt > maxDamageDealt){currentDamageDealt = maxDamageDealt;}
     }
 
     void OnCombatRelease(InputAction.CallbackContext input)
@@ -129,6 +125,7 @@ public class PlayerCombat : MonoBehaviour
 
     void Shoot()
     {
+        currentArrowObj = Instantiate(arrowPrefab,firepoint.position,quaternion.identity);
         Rigidbody2D currentArrowRB = currentArrowObj.GetComponent<Rigidbody2D>();
         Arrow currentArrow = currentArrowObj.gameObject.GetComponent<Arrow>();
         currentArrow.SetDamage(currentDamageDealt);
@@ -140,8 +137,6 @@ public class PlayerCombat : MonoBehaviour
         {
             currentArrowRB.AddForce(-transform.right * currentShootForce,ForceMode2D.Force);
         }
-        currentArrowObj.GetComponent<Arrow>().Shoot(true);
-        currentArrowRB.gravityScale = 0.7f;
         currentDamageDealt = minDamageDealt;
         currentShootForce = minShootForce;
         bowChargeBar.SetCurrentValue(Convert.ToInt32(minShootForce));
@@ -252,6 +247,7 @@ public class PlayerCombat : MonoBehaviour
         combat.action.performed -= OnCombatHold;
         combat.action.canceled -= OnCombatRelease;
     }
+
     public Vector2 GetPosition(){return transform.position;}
 
     public Transform GetFirepoint() {return firepoint;}

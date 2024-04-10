@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField,Range(1f,100f)]private float moveSpeed = 1f;
     [SerializeField,Range(1f,1000f)]private float dashSpeed = 1f;
-    [SerializeField,Range(1f,10f)]private float dashCoolDownTime = 1f;
+    [SerializeField,Range(0.05f,1f)]private float dashCoolDownTime = 1f;
     [SerializeField,Range(1f,3f)]private float imunityTime = 1f;
     [SerializeField,Range(0.1f,2f)]private float trailEmittingTime = 1f;
     [SerializeField]private InputActionReference movement;
@@ -92,13 +92,7 @@ public class PlayerMovement : MonoBehaviour
         if(input.performed && GameData.Instance.CanDash() && canDash)
         {
             Dash();
-            Color transparent = dashImage.color;
-            transparent.r = 0;
-            transparent.g = 0;
-            transparent.b = 0;
-            transparent.a = 0;
-            StartCoroutine(Imunity());
-            StartCoroutine(DashCooldown(transparent,dashImage.color,dashCoolDownTime));
+            StartCoroutine(DashCooldown());
         }
     }
 
@@ -132,23 +126,9 @@ public class PlayerMovement : MonoBehaviour
         dashTrail.emitting = false;
     }
 
-    private IEnumerator Imunity()
+    private IEnumerator DashCooldown()
     {
-        Physics2D.IgnoreLayerCollision(3,8,true);
-        yield return new WaitForSeconds(imunityTime);
-        Physics2D.IgnoreLayerCollision(3,8,false);
-    }
-
-    private IEnumerator DashCooldown(Color start, Color end, float duration)
-    {
-        for (float t=0f;t<duration;t+=Time.deltaTime) 
-        {
-            float normalizedTime = t/duration;
-            
-            dashImage.color = Color.Lerp(start, end, normalizedTime);
-            yield return null;
-        }
-        dashImage.color = end;
+        yield return new WaitForSeconds(dashCoolDownTime);
         canDash = true;
     }
 
