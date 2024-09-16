@@ -15,7 +15,6 @@ public class Troll : AI
     protected float attackTimer;
     protected Action attack;
     private AudioManager audioManager;
-    private bool jump;
 
     void Start()
     {
@@ -33,8 +32,7 @@ public class Troll : AI
 
     void FixedUpdate()
     {
-        if(PlayerCombat.Instance.IsDead()) { return;}
-        if(GameManager.Instance != null && GameManager.Instance.HasGameEnded()) {return;}
+        if(PlayerCombat.Instance.IsDead() || GameManager.Instance.HasGameEnded()) { return;}
         switch(state)
         {
             case AIState.Tracking:
@@ -58,11 +56,11 @@ public class Troll : AI
                 } 
                 animator?.SetFloat("speed", 0);
                 attackTimer += Time.fixedDeltaTime;
-                if(attackTimer >= attackInterval && jump == false)
+                if(attackTimer >= attackInterval)
                 {
                     attack.Invoke();
                     attackTimer = 0;
-                } 
+                }
             break;
         } 
     }
@@ -70,7 +68,7 @@ public class Troll : AI
     protected override void Track()
     {
         float distance = GetDistanceFromPlayer();
-        if(Mathf.Abs(distance) <= triggerDistance)
+        if(Mathf.Abs(distance) <= triggerDistance && location == GameManager.Instance.GetPlayerLocation())
         {
             state = AIState.Moving;
         }
@@ -110,30 +108,18 @@ public class Troll : AI
     private void OnAttack()
     {
         audioManager.Play("Attack");
-        animator.SetTrigger("jump");
-        animator.SetBool("isGrounded",false);
         Vector2 attackDirection = jumpForce;
         if(!IsPlayerOnTheRight())
         {
             attackDirection.x = -jumpForce.x;
         }
         rb.AddForce(attackDirection,ForceMode2D.Force);
-        jump = true;
-    }
-
-    public void SetGrounded()
-    {
-        animator.SetBool("isGrounded",true);
-        jump = false;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.collider.CompareTag("Player") && !dead)
         {
-            animator.SetBool("attack",true);
-            jump = false;
-            Debug.Log("Playing attack animation");
             PlayerCombat.Instance.TakeDamage(attackDamage);
             Vector2 pushBack = pushBackForce;
             if(IsPlayerOnTheRight())
@@ -142,7 +128,6 @@ public class Troll : AI
             }
             rb.AddForce(pushBack,ForceMode2D.Force);
         }
-
         if(collision.collider.CompareTag("NPC"))
         {
             collision.gameObject.GetComponent<AI>().TakeDamage(attackDamage);
@@ -158,11 +143,6 @@ public class Troll : AI
         {
             Die();
         }
-    }
-
-    public void AttackOff()
-    {
-        animator.SetBool("attack",false);
     }
 
     protected override void Die()

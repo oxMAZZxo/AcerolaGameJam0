@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour
         }
         if(sound.source.isPlaying && !isGlobal) 
         {
-            //Debug.LogWarning("Sound is already playing");
+            Debug.LogWarning("Sound is already playing");
             return;
         }
         sound.source.Play();
@@ -59,7 +59,7 @@ public class AudioManager : MonoBehaviour
             sound.source.Stop();
         }else
         {
-            //Debug.LogWarning("Sound with name '" + name + "' is not playing");
+            Debug.LogWarning("Sound with name '" + name + "' is not playing");
         }
     }
 

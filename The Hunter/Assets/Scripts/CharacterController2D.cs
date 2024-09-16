@@ -132,7 +132,6 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public bool IsGrounded(){return m_Grounded;}
 
 	private void Flip()
 	{

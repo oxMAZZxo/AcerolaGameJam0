@@ -33,7 +33,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 92.91, y: -2.269, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3497779611672286328}
@@ -173,7 +173,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.06}
-  m_Size: {x: 0.38, y: 0.17}
+  m_Size: {x: 0.5, y: 0.32}
   m_Direction: 1
 --- !u!114 &7734236567120565983
 MonoBehaviour:
@@ -239,7 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79297696834f31c4e9fecf3e9a8faa7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGlobal: 0
   sounds:
   - name: Hurt
     clip: {fileID: 8300000, guid: 59c3fa6fa429259439d6edb5eda9b155, type: 3}

@@ -63,7 +63,7 @@ public class TutorialManager : MonoBehaviour
         isInMain = true;
         state = TutorialState.NotStarted;
         cinemachineConfiner = mainCamera.gameObject.GetComponent<CinemachineConfiner2D>();
-        Physics2D.IgnoreLayerCollision(7,8,false);
+        Physics2D.IgnoreLayerCollision(7,8,true);
     }
 
     void FixedUpdate()
